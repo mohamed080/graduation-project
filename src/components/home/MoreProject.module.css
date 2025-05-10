@@ -3,7 +3,6 @@
 }
 
 .moreProjectsContainer {
-    max-width: 1200px;
     padding: 4rem 8rem;
     margin-inline: auto;
 }
@@ -146,4 +145,10 @@
     line-height: 16px;
     color: #999999;
     text-wrap: nowrap;
+}
+
+@media (max-width: 1385px) {
+    .moreProjectsContainer {
+        padding: 4rem 0rem;
+    }
 }

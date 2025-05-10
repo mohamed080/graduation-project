@@ -102,6 +102,7 @@ nav li:not(:last-child):hover::after {
     padding: 0.1rem 1.4rem;
     border-radius: 1rem;
     font-size: 1.8rem;
+    text-align: center;
 }
 
 .btn a {
@@ -134,21 +135,27 @@ nav ul li a {
 
 /* -------- media query ------- */
 
-@media (max-width: 1000px) {
-    nav .logo {
-        width: 140px;
-    }
-
+@media (max-width: 1155px) {
     nav ul li {
-        margin: 10px 15px;
+        margin: 5px 15px;
+    }
+    .searchContainer {
+        max-width: 285px;
+    }
+}
+@media (max-width: 992px) {
+    .header  {
+        padding-inline: 30px;
+    }
+    nav ul li {
+        margin: 5px 10px;
+    }
+    .searchContainer {
+        max-width: 250px;
     }
 }
 
-@media (max-width: 990px) {
-    nav ul li {
-        margin: 10px 10px;
-    }
-}
+
 
 @media (max-width: 860px) {
     nav ul {
@@ -164,8 +171,10 @@ nav ul li a {
     }
 
     nav ul li {
-        display: block;
-        margin: 25px 40px;
+        margin: 15px 40px;
+    }
+    .btn {
+        width: 50px;
     }
 
     .menuIcon {
@@ -177,4 +186,17 @@ nav ul li a {
     nav ul.hideMobileMenu {
         right: -230px;
       }
+}@media (max-width: 559px) {
+    .header {
+        padding-inline: 0px;
+    }
+    .menuIcon {
+        margin-right: 20px;
+    }
+    nav ul  {
+        width: 160px;
+    }
+    nav ul li {
+        margin: 15px  20px;
+    }
 }

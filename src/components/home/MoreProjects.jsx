@@ -109,9 +109,9 @@ const MoreProjects = () => {
                         pagination={{ clickable: true }}
                         autoplay={{ delay: 5000 }}
                         breakpoints={{
-                            320: { slidesPerView: 1 },
-                            480: { slidesPerView: 2 },
-                            768: { slidesPerView: 3 },
+                            480: { slidesPerView: 1 },
+                            768: { slidesPerView: 2 },
+                            1024: { slidesPerView: 3 },
                             1536: { slidesPerView: 3 },
                         }}
                         onSwiper={(swiperInstance) => {
@@ -130,7 +130,7 @@ const MoreProjects = () => {
                                     </div>
                                     <h3>{project.title}</h3>
                                     <div className={styles.projectDetails}>
-                                        <svg width="100%" height="2" fill="none" xmlns="http://www.w3.org/2000/svg"><line x1="0.5" y1="0.5" x2="100%" y2="0.5" stroke="#999999" stroke-linecap="round" stroke-dasharray="0.5 8"></line></svg>
+                                        <svg width="100%" height="2" fill="none" xmlns="http://www.w3.org/2000/svg"><line x1="0.5" y1="0.5" x2="100%" y2="0.5" stroke="#999999" strokeLinecap="round" strokeDasharray="0.5 8"></line></svg>
                                         <div className='d-flex justify-content-between mt-3'>
                                             <div className='d-flex flex-column gap-0'>
                                                 <h4>{project.raised}</h4>

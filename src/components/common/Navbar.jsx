@@ -22,7 +22,7 @@ const Navbar = () => {
     return (
         <header className={`${styles.header} ${sticky ? styles.fixed : ''}`}>
             <nav>
-                <div className='d-flex align-items-center gap-5'>
+                <div className='d-flex align-items-center gap-2 gap-lg-5'>
                     <img src={logo} alt="logo image for platform" className={styles.logo} />
                     {/* input for search Explore  Investment */}
                     <div className={`${styles.searchContainer} input-group`}>
