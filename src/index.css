@@ -1,0 +1,48 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
+
+:root {
+  --primary-color: #2B8BD7;
+  --black-color: #292D32;
+  --test-color: #2b303a;
+}
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: initial;
+}
+
+html {
+  font-size: 62.5%;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+
+/* Scroll to Top */
+.scroll-to-top-btn {
+  position: fixed;
+  bottom: 33px;
+  right: 33px;
+  z-index: 999;
+  background-color: var(--primary-color);
+  color: #fff;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, background-color 0.3s;
+  font-size: 1.6rem;
+}
+
+.scroll-to-top-btn:hover {
+  background-color:  #4A2563;
+  transform: scale(1.1); /* Slightly enlarge the button */
+  box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.2); /* Enhanced shadow */
+  color: #fff;
+}

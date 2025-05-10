@@ -1,0 +1,149 @@
+.moreProjects {
+    background: #EBEBE9;
+}
+
+.moreProjectsContainer {
+    max-width: 1200px;
+    padding: 4rem 8rem;
+    margin-inline: auto;
+}
+
+.moreProjects .moreProjectsTitle h4 {
+    margin: 0px;
+    font-weight: 500;
+    font-size: 32px;
+    line-height: 36px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: #2b303a;
+}
+
+.moreProjects .moreProjectsTitle p {
+    font-weight: 500;
+    font-size: 16px;
+    letter-spacing: 0.05px;
+    color: #565656;
+    margin-bottom: 2.5rem;
+}
+
+.navButtons {
+    display: flex;
+    justify-content: space-between;
+    gap: 1.5rem;
+
+}
+
+.navButtons button {
+    background: #F4F4F4;
+    border: none;
+    width: 36px;
+    height: 36px;
+    cursor: pointer;
+    font-size: 15px;
+    border-radius: 50%;
+    transition: background 0.3s ease-in;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: anchor-center;
+    color: #000;
+}
+
+.navButtons button:not(:disabled):hover {
+    background: var(--primary-color);
+    color: #fff;
+}
+
+.navButtons button:global(.swiper-button-disabled) {
+    background: transparent;
+    opacity: 0.5;
+    cursor: not-allowed
+}
+
+.moreProjects .moreProjectsBtn {
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+    padding: 0.2rem 1rem;
+    border-radius: 1rem;
+    font-size: 1.8rem;
+    transition: all 0.3s ease-in;
+}
+
+.moreProjects .moreProjectsBtn:hover {
+    background: var(--primary-color);
+    color: #fff;
+}
+
+.swiper {
+    cursor: grab !important;
+}
+
+.swiper:active {
+    cursor: grabbing !important;
+}
+
+.moreProjects .navButtons button:disabled {
+    background: transparent;
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+
+.moreProjects .moreInvestBtn {
+    border: none;
+    background: var(--primary-color);
+    color: #fff;
+    padding: 0.1rem 1rem;
+    border-radius: 1rem;
+    font-size: 1.8rem;
+    font-weight: 600;
+    width: 36%;
+    margin: auto;
+    min-width: 64px;
+    margin-block-start: 2rem;
+    height: 48px;
+    transition: background 0.3s ease;
+}
+
+.moreProjects .moreInvestBtn:hover {
+    background: hsl(204, 67%, 60%);
+}
+
+.moreProjects .projectImg {
+    width: 100%;
+    border-radius: 16px 16px 16px 0px;
+    object-fit: cover;
+    height: 220px;
+}
+
+.moreProjects .projectCard h3 {
+    color: #000e0b;
+    margin-block: 17px;
+    font-weight: 600;
+    font-size: 1.9rem;
+    line-height: 24px;
+    letter-spacing: 0.05px;
+}
+
+.moreProjects .projectCard .projectDetails {
+    width: 90%;
+    margin-top: 3rem;
+}
+
+.moreProjects .projectCard .projectDetails h4 {
+    font-size: 1.7rem;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: 0.05px;
+    color: var(--primary-color);
+    margin-bottom: 0;
+}
+
+.moreProjects .projectCard .projectDetails p {
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+    color: #999999;
+    text-wrap: nowrap;
+}
