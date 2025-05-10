@@ -7,7 +7,7 @@
     margin-inline: auto;
 }
 
-.moreProjects .moreProjectsTitle h4 {
+.moreProjects .moreProjectsTitle h2 {
     margin: 0px;
     font-weight: 500;
     font-size: 32px;
@@ -150,5 +150,105 @@
 @media (max-width: 1385px) {
     .moreProjectsContainer {
         padding: 4rem 0rem;
+    }
+}
+@media (max-width: 992px) {
+    .moreProjects .moreProjectsTitle h2 {
+        font-size: 28px;
+        line-height: 32px;
+    }
+    .moreProjects .moreProjectsTitle p{
+        max-width: 350px;
+    }
+    .moreProjects .moreProjectsBtn  {
+        padding: 0.2rem 0.9rem;
+        font-size: 1.6rem;
+    }
+    .moreProjects .moreInvestBtn {
+        padding: 0;
+        width: 34%;
+        height: 41px;
+        font-size: 1.7rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .moreProjects .moreInvestBtn {
+        width: 44%;
+    }
+    .moreProjects .moreProjectsTitle h2 {
+        font-size: 24px;
+        line-height: 27px;
+    }
+}
+@media (max-width: 600px) {
+    .moreProjectsContainer {
+        width: 90%;
+    }
+    .moreProjects .moreProjectsTitle p{
+        max-width: 280px;
+        font-size: 14px;
+        margin-bottom: 1rem;
+    }
+}
+
+@media (max-width: 520px) {
+    .moreProjects .moreProjectsTitle p{
+        max-width: 200px;
+    }
+    .moreProjects .moreProjectsTitle h2 {
+        letter-spacing: 0;
+        font-size: 20px;
+        line-height: 24px;
+    }
+    .navButtons {
+        gap: 3px;
+    }
+    .moreProjects .moreInvestBtn { 
+        width: 220px;
+        font-size: 1.6rem;
+    }
+}
+@media (max-width: 480px) {
+    .moreProjectsContainer {
+        padding-inline: 10px;
+    }
+}
+@media (max-width: 410px) {
+    .moreProjects .moreProjectsTitle p{
+        max-width: 170px;
+        font-size: 13px;
+        line-height: 1.7rem;
+    }
+    .moreProjects .moreProjectsTitle h2 {
+        font-size: 18px;
+    }
+    .moreProjects .moreProjectsBtn  {
+        padding: 0.2rem 0.9rem;
+        font-size: 1.4rem;
+    }
+    .navButtonsContainer {
+        flex-direction: column;
+        gap: 5px;
+    }
+    .navButtons button{
+        width: 30px;
+        height: 30px;
+        font-size: 13px;
+    }
+    .moreProjects .projectCard h3 {
+        font-size: 1.6rem;
+        margin-block: 12px;
+    }
+    .moreProjects .projectCard .projectDetails{
+        margin-top: 2rem;
+    }
+    .moreProjects .projectCard .projectDetails h4 {
+        font-size: 1.5rem;
+    }
+    .moreProjects .moreInvestBtn { 
+        width: 190px;
+        font-size: 1.4rem;
+        height: 36px;
     }
 }

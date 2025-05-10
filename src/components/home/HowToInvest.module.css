@@ -1,0 +1,94 @@
+.howToInvest {
+    background: #EBEBE9;
+    padding-block: 8rem;
+}
+
+.howToInvest h1 {
+    font-size: 56px;
+    font-weight: 400;
+    line-height: 56px;
+    color: var(--darkPrimary-color);
+    line-height: 56px;
+    max-width: 80%;
+    letter-spacing: 0.06em;
+}
+
+.howToInvest .timelineContainer {
+    margin-top: 4rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); /* 4 equal columns */
+}
+
+.howToInvest .timelineHeader {
+    display: flex;
+    align-items: flex-end;
+}
+
+.howToInvest .timelineHeader h6 {
+    margin: 0;
+    font-size: 2rem;
+    font-weight: 400;
+    line-height: 20.8px;
+    color: var(--darkPrimary-color);
+    letter-spacing: 2px;
+    margin-block-end: 3px;
+}
+
+.timelineContainer h5 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 31px;
+    letter-spacing: 0.05px;
+    color: var(--darkPrimary-color);
+    letter-spacing: 2px;
+}
+
+.timelineContainer p {
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 22px;
+    max-width: 76%;
+    color: #999;
+}
+
+@media (max-width: 900px) {
+    .howToInvest h1 {
+        font-size: 42px;
+        line-height: 42px;
+    }
+    .timelineContainer h5  {
+        font-size: 18px;
+        line-height: 24px;
+        max-width: 70%;
+    }
+    .timelineContainer p{
+        display: block;
+        font-size: 12px;
+        line-height: 16px;
+        max-width: 76%;
+    }
+}
+
+@media (max-width: 767px) {
+    .howToInvest .timelineContainer {
+        gap: 2rem;
+    }
+    .timelineContainer h5  {
+        font-size: 20px;
+    }
+    .timelineContainer p{
+        font-size: 15px;
+        line-height: 22px;
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .howToInvest h1 {
+        padding: 0 10px;
+    }
+    .timelineItem {
+        padding: 0 10px;
+    }
+}

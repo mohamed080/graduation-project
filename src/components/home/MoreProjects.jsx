@@ -5,7 +5,7 @@ import { Autoplay, Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import { FaArrowLeft, FaArrowRight, FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import project1 from '../../assets/project1.png'
 import project2 from '../../assets/project2.png'
 import project3 from '../../assets/project3.png'
@@ -85,10 +85,10 @@ const MoreProjects = () => {
                 <div className="row">
                     <div className='d-flex justify-content-between align-items-center'>
                         <div className={styles.moreProjectsTitle}>
-                            <h4>EXCLUSIVE PRIVATE</h4>
+                            <h2>EXCLUSIVE PRIVATE</h2>
                             <p>Gain exposure to venture-backed businesses - accredited investors only</p>
                         </div>
-                        <div className='d-flex align-items-center gap-4'>
+                        <div className={`d-flex align-items-center gap-2 gap-md-4 ${styles.navButtonsContainer}`}>
                             <button className={styles.moreProjectsBtn}>See All</button>
                             <div className={styles.navButtons}>
                                 <button className="nav-prev" disabled={isFirstSlide}>
@@ -111,6 +111,7 @@ const MoreProjects = () => {
                         breakpoints={{
                             480: { slidesPerView: 1 },
                             768: { slidesPerView: 2 },
+                            992: { slidesPerView: 2 },
                             1024: { slidesPerView: 3 },
                             1536: { slidesPerView: 3 },
                         }}

@@ -1,0 +1,126 @@
+.questions {
+    background: #F4F4F4;
+    padding-block: 8rem;
+}
+
+.questions .questionImg {
+    aspect-ratio: auto;
+    height: 565px !important;
+    width: auto !important;
+}
+
+.questionImgContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.questionContent {
+    width: 85%;
+}
+
+.questionContent h1 {
+    font-size: 56px;
+    line-height: 74px;
+    color: #2B303A;
+    font-weight: 500;
+    line-height: 56px;
+    letter-spacing: 0.06em;
+    padding: 0 16px;
+}
+
+.questionContent p {
+    font-weight: 400;
+    color: #999999;
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 31px;
+    letter-spacing: 0.05px;
+    margin-top: 8px;
+    padding: 0 16px;
+}
+
+/* accordion */
+.accordion button {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 40px;
+    letter-spacing: 0.05px;
+    color: #000E0B !important;
+    background-color: transparent !important;
+}
+
+.accordionButton:focus {
+    box-shadow: none;
+    outline: none;
+}
+
+.accordionItem svg {
+    padding-left: 15px;
+}
+
+.accordionItem .accordionBody {
+    padding: 8px 16px 16px;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 22px;
+    letter-spacing: 0.05px;
+    color: #545454;
+}
+
+.accordionButton::after {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23000E0B'%3E%3Cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
+    width: 24px;
+    height: 24px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin-left: auto !important;
+}
+@media (max-width: 992px) {
+    .questionContent {
+        width: 100%;
+    }
+    .questions .questionImg {
+        aspect-ratio: auto;
+        width: 95% !important;
+    }
+    .questionContent h1 {
+        font-size: 40px;
+        line-height: 48px;
+    }
+    .questionContent p {
+        font-size: 20px;
+        line-height: 28px;
+    }
+}
+
+@media  (max-width: 767px) {
+    .questions .questionImg {
+        aspect-ratio: auto;
+        height: auto !important;
+        width: 65% !important;
+        margin-bottom: 3rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .questions .questionImg {
+        width: 80% !important;
+    }
+    .questionContent h1 {
+        font-size: 32px;
+        line-height: 40px;
+    }
+    .questionContent p {
+        font-size: 16px;
+        line-height: 24px;
+    }
+    .accordionButton::after {
+        width: 19px;
+        height: 29px;
+    }
+    .accordion button {
+        line-height: 30px;
+    }
+}
