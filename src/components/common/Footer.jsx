@@ -17,8 +17,12 @@ const Footer = () => {
               <img src={logo} alt="logo image for platform" className={styles.logo} />
             </Link>
             <p className={styles.copyright}>@ {new Date().getFullYear()} All Rights Reserved</p>
-            <img src={app_store} alt="apple Store badge" className='mb-3'/>
-            <img src={google_play} alt="google play badge" />
+            <Link to="#">
+              <img src={app_store} alt="apple Store badge" className='mb-3' />
+            </Link>
+            <Link to="#">
+              <img src={google_play} alt="google play badge" />
+            </Link>
           </div>
           <div className="col-12 col-sm-4 col-md-3  mb-4 mb-md-0">
             <h4>Get To Know Us</h4>
@@ -41,12 +45,12 @@ const Footer = () => {
         </div>
         <div className="row mt-4 justify-content-center">
           <div className="col-12 col-md-3">
-          <div className={styles.socialIcons}>
+            <div className={styles.socialIcons}>
               <Link to="#"><FaFacebook /></Link>
               <Link to="#"><FaXTwitter /></Link>
               <Link to="#"><FaLinkedin /></Link>
               <Link to="#"><FaInstagram /></Link>
-          </div>
+            </div>
           </div>
           <div className="col-12 col-md-9">
             <div className={styles.policy}>

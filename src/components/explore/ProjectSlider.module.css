@@ -1,0 +1,205 @@
+.moreProjects {
+    background: transparent;
+    margin-block-start: 4rem;
+    margin-block-end: 6rem;
+}
+
+.moreProjects .moreProjectsTitle h2 {
+    margin: 0px;
+    font-weight: 500;
+    font-size: 32px;
+    line-height: 36px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: #2b303a;
+}
+
+.moreProjects .moreProjectsTitle p {
+    font-weight: 500;
+    font-size: 16px;
+    letter-spacing: 0.05px;
+    color: #565656;
+    margin-bottom: 2.5rem;
+}
+
+.navButtons {
+    display: flex;
+    justify-content: space-between;
+    gap: 1.5rem;
+
+}
+
+.navButtons button {
+    background: #F4F4F4;
+    border: none;
+    width: 36px;
+    height: 36px;
+    cursor: pointer;
+    font-size: 15px;
+    border-radius: 50%;
+    transition: background 0.3s ease-in;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: anchor-center;
+    color: #000;
+}
+
+.navButtons button:not(:disabled):hover {
+    background: var(--primary-color);
+    color: #fff;
+}
+
+.navButtons button:global(.swiper-button-disabled) {
+    background: transparent;
+    opacity: 0.5;
+    cursor: not-allowed
+}
+
+.moreProjects .moreProjectsBtn {
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+    padding: 0.2rem 1rem;
+    border-radius: 1rem;
+    font-size: 1.8rem;
+    transition: all 0.3s ease-in;
+    background: transparent;
+}
+
+.moreProjects .moreProjectsBtn:hover {
+    background: var(--primary-color);
+    color: #fff;
+}
+
+.swiper {
+    cursor: grab !important;
+}
+
+.swiper:active {
+    cursor: grabbing !important;
+}
+
+.moreProjects .navButtons button:disabled {
+    background: transparent;
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.moreProjects .projectImg {
+    width: 100%;
+    border-radius: 16px 16px 16px 0px;
+    object-fit: cover;
+    height: 220px;
+}
+
+.moreProjects .projectCard h3 {
+    color: #000e0b;
+    margin-block: 17px;
+    font-weight: 600;
+    font-size: 1.9rem;
+    line-height: 24px;
+    letter-spacing: 0.05px;
+}
+
+.moreProjects .projectCard .projectDetails {
+    width: 90%;
+    margin-top: 3rem;
+}
+
+.moreProjects .projectCard .projectDetails h4 {
+    font-size: 1.7rem;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: 0.05px;
+    color: var(--primary-color);
+    margin-bottom: 0;
+}
+
+.moreProjects .projectCard .projectDetails p {
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+    color: #999999;
+    text-wrap: nowrap;
+}
+
+@media (max-width: 992px) {
+    .moreProjects .moreProjectsTitle h2 {
+        font-size: 28px;
+        line-height: 32px;
+    }
+    .moreProjects .moreProjectsTitle p{
+        max-width: 350px;
+    }
+    .moreProjects .moreProjectsBtn  {
+        padding: 0.2rem 0.9rem;
+        font-size: 1.6rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .moreProjects .moreProjectsTitle h2 {
+        font-size: 24px;
+        line-height: 27px;
+    }
+}
+@media (max-width: 600px) {
+    .moreProjects .moreProjectsTitle p{
+        max-width: 280px;
+        font-size: 14px;
+        margin-bottom: 1rem;
+    }
+}
+
+@media (max-width: 520px) {
+    .moreProjects .moreProjectsTitle p{
+        max-width: 200px;
+    }
+    .moreProjects .moreProjectsTitle h2 {
+        letter-spacing: 0;
+        font-size: 20px;
+        line-height: 24px;
+    }
+    .navButtons {
+        gap: 3px;
+    }
+}
+@media (max-width: 410px) {
+    .moreProjects .moreProjectsTitle p{
+        max-width: 170px;
+        font-size: 13px;
+        line-height: 1.7rem;
+    }
+    .moreProjects .moreProjectsTitle h2 {
+        font-size: 18px;
+    }
+    .moreProjects .moreProjectsBtn  {
+        padding: 0.2rem 0.9rem;
+        font-size: 1.4rem;
+    }
+    .navButtonsContainer {
+        flex-direction: column;
+        gap: 5px;
+    }
+    .navButtons button{
+        width: 30px;
+        height: 30px;
+        font-size: 13px;
+    }
+    .moreProjects .projectCard h3 {
+        font-size: 1.6rem;
+        margin-block: 12px;
+    }
+    .moreProjects .projectCard .projectDetails{
+        margin-top: 2rem;
+    }
+    .moreProjects .projectCard .projectDetails h4 {
+        font-size: 1.5rem;
+    }
+    .moreProjects .moreInvestBtn { 
+        width: 190px;
+        font-size: 1.4rem;
+        height: 36px;
+    }
+}

@@ -29,9 +29,11 @@
     padding: 0.9rem 2.5rem;
     border-radius: 1.2rem;
     font-size: 1.8rem;
+    font-weight: 500;
     border: none;
     margin-top: 2rem;
     transition: all 0.3s ease-in-out;
+    min-width: 327px;
 }
 .hero .heroBtn:hover {
     background: var(--darkPrimary-color);
@@ -125,5 +127,8 @@
     .hero p {
         margin-top: 1rem;
         max-width: 95%;
+    }
+    .hero .heroBtn {
+        min-width: 200px;
     }
 }

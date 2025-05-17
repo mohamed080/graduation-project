@@ -42,6 +42,7 @@ const Navbar = () => {
                 </div>
                 <ul className={`${!mobileMenu ? styles.hideMobileMenu : ""}`}>
                 <li><NavLink to='/'>Home</NavLink></li>
+                <li><NavLink to='/explore'>Start Investing</NavLink></li>
                     <li><NavLink to='saved'>Saved</NavLink></li>
                     <li><NavLink to='investment'>My Investment</NavLink></li>
                     <li><NavLink to='cards'>Cards</NavLink></li>
