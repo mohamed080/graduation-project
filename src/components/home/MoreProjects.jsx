@@ -11,6 +11,7 @@ import project2 from '../../assets/project2.png'
 import project3 from '../../assets/project3.png'
 import project4 from '../../assets/project4.jpeg'
 import project5 from '../../assets/project5.jpeg'
+import { useNavigate } from 'react-router-dom';
 
 const projects = [
     {
@@ -59,6 +60,7 @@ const MoreProjects = () => {
     const [swiper, setSwiper] = useState(null);
     const [isFirstSlide, setIsFirstSlide] = useState(true);
     const [isLastSlide, setIsLastSlide] = useState(false);
+    const navigate = useNavigate();
     useEffect(() => {
         if (swiper) {
             // Ensure Swiper detects the correct navigation buttons
@@ -148,7 +150,7 @@ const MoreProjects = () => {
                         ))}
                     </Swiper>
 
-                    <button className={styles.moreInvestBtn}>Explore More Investments</button>
+                    <button className={styles.moreInvestBtn}  onClick={() => navigate('/explore')}>Explore More Investments</button>
                 </div>
             </div>
         </div>

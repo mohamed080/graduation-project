@@ -1,0 +1,358 @@
+.login {
+    min-height: 100vh;
+}
+
+.loginImg {
+    background: url('../../assets/bg.jpg') no-repeat center center/cover;
+    min-height: 100vh;
+}
+
+.loginLogo {
+    padding: 35px 0 0 25px;
+}
+
+.loginText {
+    padding-top: 40px;
+    max-width: 300px;
+    color: #fff;
+    font-size: 2.9rem;
+    font-weight: 500;
+    padding-left: 25px;
+    line-height: 3.5rem;
+}
+
+.login .loginForm {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 100vh;
+    max-width: 80%;
+    margin-inline: auto;
+}
+
+.login h2 {
+    font-size: 3.3rem;
+    font-weight: 700;
+    color: #0E184C;
+}
+
+.login p {
+    color: #8C9292;
+    font-size: 1.8rem;
+    font-weight: 400;
+}
+
+.login p a {
+    color: var(--primary-color);
+    text-decoration: none;
+    padding-left: 6px;
+}
+
+.login form label {
+    font-size: 1.6rem;
+    font-weight: 400;
+}
+
+form {
+    width: 90%;
+}
+
+.login form input,
+.login form select {
+    width: 100%;
+    padding: 1rem .7rem;
+    margin: 0.5rem 0;
+    border-radius: 0.5rem;
+    border: 1px solid #8C9292;
+    font-size: 1.6rem;
+}
+
+.login form input:focus,
+.login form select:focus {
+    outline: none;
+    box-shadow: none;
+    border: 1px solid var(--primary-color);
+}
+
+input:focus::placeholder {
+    color: var(--primary-color);
+}
+
+.inputGroupText {
+    cursor: pointer;
+    position: absolute;
+    right: 10px;
+    top: 18px;
+    cursor: pointer;
+}
+
+.inputGroupText svg {
+    color: var(--primary-color);
+    font-size: 14px;
+}
+
+.error {
+    color: #dc3545;
+    font-size: 1.4rem;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.lineth {
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+
+.lineth::before,
+.lineth::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid #8C9292;
+    margin: 0 15px;
+}
+
+.login .loginBtn {
+    background: var(--primary-color);
+    color: #fff;
+    width: 100%;
+    height: 48px;
+    border-radius: 8px;
+    font-weight: 400;
+    font-size: 18px;
+    border: none;
+    margin-top: 5px;
+    transition: all 0.3s ease-in;
+    outline: none;
+}
+
+.login .loginBtn:hover {
+    background: var(--darkPrimary-color);
+}
+
+.login .loginBtn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.login .socialBtn {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    font-size: 1.6rem;
+    text-decoration: none;
+    gap: 90px;
+    padding: .7rem 2rem;
+    border: 2px solid #8C9292;
+    border-radius: 8px;
+    width: 100%;
+    color: #8C9292;
+    transition: all 0.3s ease-in;
+}
+
+.login .socialBtn:hover {
+    border-color: var(--primary-color);
+    color: #fff;
+    background: var(--primary-color);
+}
+
+.login .socialBtn img {
+    width: 30px;
+}
+
+.countryCode {
+    max-width: 70px;
+}
+
+.loginImg {
+    height: 100%;
+}
+
+.login h4 a {
+    color: var(--primary-color);
+}
+
+.checkbox {
+    padding-left: 0;
+}
+
+.checkbox label {
+    color: #8C9292;
+    padding-left: 0.4em;
+}
+
+.checkbox .formCheckInput {
+    width: auto !important;
+    border: 2px solid var(--primary-color) !important;
+    cursor: pointer;
+}
+
+/* Register */
+.categorySelection {
+    max-width: 80%;
+}
+.categorySelection .categoryBtns {
+    display: flex;
+    justify-content: space-between;
+    gap: 80px;
+    margin-block: 6rem;
+}
+.categoryBtns .categoryBtn {
+    display: flex;
+    flex-direction: column;
+    background: none;
+    width: 200px;
+    height: 120px;
+    justify-content: center;
+    border: none;
+    box-shadow: 0px 0px 5px 0px #2B8BD780;
+    border-radius: 15px;
+    font-size: 2rem;
+    font-weight: 600;
+    color: #092E0D;
+    transition: all 0.3s ease-in;
+    outline: none;
+}
+.categoryBtns .categoryBtn.active {
+    background: var(--primary-color);
+    color: #fff;
+}
+.categoryBtns .categoryBtn:hover {
+    box-shadow: 0px 0px 5px 0px #2B8BD7;
+    transform: translateY(-5px);
+}
+.categoryBtns .categoryBtn img {
+    width: 65px;
+    height: 65px;
+    margin-inline: auto;
+}
+.categorySelection .continueBtn {
+    width: 55%;
+}
+.otp {
+    border: 2px solid var(--primary-color) !important;
+    color: var(--primary-color) !important;
+}
+
+@media (max-width: 991px) {
+    .login .socialBtn {
+        gap: 0;
+    }
+
+    .login .socialBtn img {
+        margin-inline-end: auto;
+    }
+
+    .loginText {
+        font-size: 2.6rem;
+        max-width: 270px;
+    }
+}
+
+@media (max-width: 767px) {
+    .loginLogo {
+        padding: 30px 0 0;
+        width: 66px;
+    }
+
+    .loginText {
+        padding-left: 0;
+        font-size: 2.3rem;
+    }
+
+    .login .loginForm {
+        max-width: 95%;
+    }
+
+    .login h2 {
+        font-size: 3rem;
+    }
+
+    .login .loginBtn {
+        height: 40px;
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 576px) {
+    .loginText {
+        font-size: 1.8rem;
+        line-height: 2.6rem;
+    }
+
+    .login h2 {
+        font-size: 2.7rem;
+    }
+
+    .login .loginForm {
+        max-width: 100%;
+        margin-inline-start: 5px;
+    }
+
+    .login form label {
+        font-size: 1.5rem;
+        margin-bottom: .2rem;
+    }
+
+    .login form input:not([type="checkbox"]) {
+        height: 40px;
+        margin: 0.1rem 0;
+        font-size: 1.5rem;
+    }
+
+    .login p {
+        font-size: 1.4rem;
+    }
+
+    .inputGroupText {
+        top: 12px;
+    }
+
+    form {
+        width: 95%;
+    }
+}
+
+@media (max-width: 480px) {
+    .socialIcons {
+        flex-wrap: wrap;
+    }
+
+    .login .loginForm {
+        margin: 0;
+    }
+
+    .login h2 {
+        font-size: 1.9rem;
+    }
+
+    .loginImg {
+        padding-inline-start: 5px;
+    }
+
+    .loginLogo {
+        width: 55px;
+    }
+
+    .loginText {
+        font-size: 1.5rem;
+        line-height: 2rem;
+    }
+
+    form {
+        width: 100%;
+    }
+
+    .login form label {
+        font-size: 1.3rem
+    }
+
+    .login .socialBtn {
+        height: 40px;
+        font-size: 14px;
+    }
+
+    .login .socialBtn img {
+        width: 25px;
+    }
+}

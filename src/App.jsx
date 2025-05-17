@@ -3,6 +3,8 @@ import Layout from './layout/Layout'
 import './App.css'
 import Home from './pages/Home';
 import Explore from './pages/Explore';
+import Login from './pages/Login';
+import Register from './pages/Register';
 
 function App() {
 
@@ -16,6 +18,8 @@ function App() {
         </Route>
         <Route>
         </Route>
+        <Route path='/login' element={<Login />} />
+        <Route path='/register' element={<Register />} />
       </Routes>
     </Router>
   )
