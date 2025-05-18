@@ -61,7 +61,7 @@ const AuthLogin = () => {
                         </Link>
                         <h4 className={styles.loginText}>We help our users to make the right financial decisions</h4>
                     </div>
-                    <div className="col-8">
+                    <div className="col-8 ms-auto">
                         <div className={styles.loginForm}>
                             <h2>WELCOME TO FundX!</h2>
                             <p>New user?<Link to='/register'>Sign up</Link></p>

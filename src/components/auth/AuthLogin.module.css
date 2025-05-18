@@ -5,6 +5,7 @@
 .loginImg {
     background: url('../../assets/bg.jpg') no-repeat center center/cover;
     min-height: 100vh;
+    position: fixed;
 }
 
 .loginLogo {
@@ -191,12 +192,14 @@ input:focus::placeholder {
 .categorySelection {
     max-width: 80%;
 }
+
 .categorySelection .categoryBtns {
     display: flex;
     justify-content: space-between;
     gap: 80px;
     margin-block: 6rem;
 }
+
 .categoryBtns .categoryBtn {
     display: flex;
     flex-direction: column;
@@ -213,25 +216,97 @@ input:focus::placeholder {
     transition: all 0.3s ease-in;
     outline: none;
 }
+
 .categoryBtns .categoryBtn.active {
     background: var(--primary-color);
     color: #fff;
 }
+
 .categoryBtns .categoryBtn:hover {
     box-shadow: 0px 0px 5px 0px #2B8BD7;
     transform: translateY(-5px);
 }
+
 .categoryBtns .categoryBtn img {
     width: 65px;
     height: 65px;
     margin-inline: auto;
 }
+
 .categorySelection .continueBtn {
     width: 55%;
 }
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.modalContent {
+    background: white;
+    width: 480px;
+    padding: 4rem;
+    height: auto;
+    display: flex;
+    text-align: center;
+    flex-direction: column;
+    border-radius: 10px;
+    overflow: hidden;
+    transform: translateY(100%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform, opacity;
+}
+.modalContent h3 {
+    font-weight: 700;
+    font-size: 2.2rem;
+    color: #0E184C;
+}
+.continueModalBtn {
+    width: 140px !important;
+    border-radius: 40px !important;
+    transition: all 0.3s ease-in-out !important;
+}
+
+.overlay.open {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.overlay.open .modalContent {
+    transform: translateY(0);
+}
+.modalIcon {
+    position: relative;
+    text-align: center;
+    margin-block-end: 1rem;
+}
+.correct {
+    position: absolute;
+    bottom: -10%;
+    left: 53%;
+    width: 40px;
+    height: 40px;
+}
+.person {
+    width: 80px;
+    height: 80px;
+}
+
 .otp {
     border: 2px solid var(--primary-color) !important;
     color: var(--primary-color) !important;
+    text-align: center;
 }
 
 @media (max-width: 991px) {
@@ -246,6 +321,15 @@ input:focus::placeholder {
     .loginText {
         font-size: 2.6rem;
         max-width: 270px;
+    }
+
+    /* regester */
+    .categorySelection {
+        max-width: 100%;
+    }
+    .modalContent {
+        width: 450px;
+        padding: 3rem;
     }
 }
 
@@ -271,6 +355,12 @@ input:focus::placeholder {
     .login .loginBtn {
         height: 40px;
         font-size: 16px;
+    }
+
+    /* register */
+    .categorySelection .categoryBtns {
+        gap: 40px;
+        margin-block: 5rem;
     }
 }
 
@@ -310,6 +400,37 @@ input:focus::placeholder {
 
     form {
         width: 95%;
+    }
+
+    /* register */
+    .categorySelection .categoryBtns {
+        gap: 20px;
+        margin-block: 3rem;
+    }
+
+    .categoryBtns .categoryBtn {
+        width: 150px;
+        height: 100px;
+        font-size: 1.8rem;
+    }
+
+    .categoryBtns .categoryBtn img {
+        width: 55px;
+        height: 55px;
+    }
+    .modalContent {
+        width: 380px;
+    }
+    .person {
+        width: 70px;
+        height: 70px;
+    }
+    .correct {
+        width: 30px;
+        height: 30px;
+    }
+    .modalContent h3 {
+        font-size: 2rem;
     }
 }
 
@@ -355,4 +476,23 @@ input:focus::placeholder {
     .login .socialBtn img {
         width: 25px;
     }
+
+    /* register */
+    .categoryBtns .categoryBtn img {
+        width: 45px;
+        height: 45px;
+    }
+
+    .categoryBtns .categoryBtn {
+        width: 120px;
+        height: 80px;
+        font-size: 1.6rem;
+    }
+        .modalContent {
+            width: 300px;
+            padding: 2rem 1.7rem;
+        }
+        .modalContent h3 {
+            font-size: 1.8rem;
+        }
 }

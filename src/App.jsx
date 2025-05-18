@@ -5,7 +5,9 @@ import Home from './pages/Home';
 import Explore from './pages/Explore';
 import Login from './pages/Login';
 import Register from './pages/Register';
-
+import ForgetPassword from './pages/ForgetPassword';
+import VerificationCode from './pages/VerificationCode';
+import ResetPassword from './pages/ResetPassword';
 function App() {
 
 
@@ -20,6 +22,9 @@ function App() {
         </Route>
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
+        <Route path='/forget-password' element={<ForgetPassword />} />
+        <Route path="/verification-code" element={<VerificationCode />} />
+        <Route path='/reset-password' element={<ResetPassword />} />
       </Routes>
     </Router>
   )
