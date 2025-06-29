@@ -17,7 +17,7 @@ const Navbar = () => {
     const handleLogout = () => {
         localStorage.removeItem('isLoggedIn');
         setIsLoggedIn(false);
-        navigate('/login');
+        setMobileMenu(false);
     };
     const toggleMenu = () => {
         setMobileMenu((prev) => !prev);
@@ -31,7 +31,7 @@ const Navbar = () => {
         <header className={`${styles.header} ${sticky ? styles.fixed : ''}`}>
             <nav>
                 <div className='d-flex align-items-center gap-2 gap-lg-5'>
-                    <img src={logo} alt="logo image for platform" className={styles.logo} />
+                    <img src={logo} alt="logo image for platform" className={styles.logo} onClick={() => navigate('/')}/>
                     {/* input for search Explore  Investment */}
                     <div className={`${styles.searchContainer} input-group`}>
                         <input
@@ -64,21 +64,21 @@ const Navbar = () => {
                                     <svg width="100%" height="2" fill="none" xmlns="http://www.w3.org/2000/svg"><line x1="0.5" y1="0.5" x2="100%" y2="0.5" stroke="#999999" strokeLinecap="round" strokeDasharray="0.5 8"></line></svg>
                                     <ul>
                                         <li><Link to='/settings'><IoSettingsOutline /> Settings</Link></li>
-                                        <li><Link onClick={handleLogout}><RiLogoutCircleLine /> Logout</Link> </li>
-                                </ul>
-                            </div>
-                    </>
-                    ): (
-                    <Link to='login'>Login</Link>
+                                        <li><Link to='/login' onClick={handleLogout}><RiLogoutCircleLine /> Logout</Link> </li>
+                                    </ul>
+                                </div>
+                            </>
+                        ) : (
+                            <Link to='/login'>Login</Link>
                         )}
-                </li>
-            </ul>
-            {mobileMenu ? (
-                <MdMenuOpen onClick={toggleMenu} className={styles.menuIcon} aria-label='Open menu' />
-            ) : (
-                <IoMenuSharp onClick={toggleMenu} className={styles.menuIcon} aria-label='Close menu' />
-            )}
-        </nav>
+                    </li>
+                </ul>
+                {mobileMenu ? (
+                    <MdMenuOpen onClick={toggleMenu} className={styles.menuIcon} aria-label='Open menu' />
+                ) : (
+                    <IoMenuSharp onClick={toggleMenu} className={styles.menuIcon} aria-label='Close menu' />
+                )}
+            </nav>
         </header >
     )
 }

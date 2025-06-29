@@ -8,6 +8,9 @@ import Register from './pages/Register';
 import ForgetPassword from './pages/ForgetPassword';
 import VerificationCode from './pages/VerificationCode';
 import ResetPassword from './pages/ResetPassword';
+import Settings from './pages/Settings';
+import PersonalInfo from './pages/PersonalInfo';
+import Notifications from './pages/Notifications';
 function App() {
 
 
@@ -25,6 +28,9 @@ function App() {
         <Route path='/forget-password' element={<ForgetPassword />} />
         <Route path="/verification-code" element={<VerificationCode />} />
         <Route path='/reset-password' element={<ResetPassword />} />
+        <Route path="/settings" element={<Settings />} />
+      <Route path="/settings/personal-info" element={<PersonalInfo />} />
+      <Route path="/settings/notifications" element={<Notifications />} />
       </Routes>
     </Router>
   )
