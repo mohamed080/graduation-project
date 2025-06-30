@@ -6,61 +6,16 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
-import project1 from '../../assets/project1.png'
-import project2 from '../../assets/project2.png'
-import project3 from '../../assets/project3.png'
-import project4 from '../../assets/project4.jpeg'
-import project5 from '../../assets/project5.jpeg'
-import { useNavigate } from 'react-router-dom';
-
-const projects = [
-    {
-        id: 1,
-        title: "Series spaceX-2",
-        img: project1,
-        raised: '$6.10M',
-        minInvestment: '$75,2K',
-        link: '#',
-    },
-    {
-        id: 2,
-        title: "Series OpenAI",
-        img: project2,
-        raised: '$4.75M',
-        minInvestment: '$17,2K',
-        link: '#',
-    },
-    {
-        id: 3,
-        title: "Series spaceX-2",
-        img: project3,
-        raised: '$6.10M',
-        minInvestment: '$20,2K',
-        link: '#',
-    },
-    {
-        id: 4,
-        title: "Series Ripple",
-        img: project4,
-        raised: '$1M',
-        minInvestment: '$15K',
-        link: '#',
-    },
-    {
-        id: 5,
-        title: "A.I Disruptors Fund",
-        img: project5,
-        raised: '$2.31M',
-        minInvestment: '$25,2K',
-        link: '#',
-    }
-];
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { projects } from '../../data/startups';
+import { slugify } from '../../utils/slugify';
 
 const MoreProjects = () => {
     const [swiper, setSwiper] = useState(null);
     const [isFirstSlide, setIsFirstSlide] = useState(true);
     const [isLastSlide, setIsLastSlide] = useState(false);
     const navigate = useNavigate();
+    const { search } = useLocation();
     useEffect(() => {
         if (swiper) {
             // Ensure Swiper detects the correct navigation buttons
@@ -91,7 +46,10 @@ const MoreProjects = () => {
                             <p>Gain exposure to venture-backed businesses - accredited investors only</p>
                         </div>
                         <div className={`d-flex align-items-center gap-2 gap-md-4 ${styles.navButtonsContainer}`}>
-                            <button className={styles.moreProjectsBtn}>See All</button>
+                            <button
+                                onClick={() => navigate('/explore?startups=all')}
+                                className={styles.moreProjectsBtn}
+                            >See All</button>
                             <div className={styles.navButtons}>
                                 <button className="nav-prev" disabled={isFirstSlide}>
                                     <FaArrowLeft />
@@ -123,7 +81,12 @@ const MoreProjects = () => {
                     >
                         {projects.map((project) => (
                             <SwiperSlide key={project.id}>
-                                <div className={styles.projectCard}>
+                                <Link className={styles.projectCard}
+                                    to={{
+                                        pathname: `/offering/${slugify(project.title)}`, // or project.slug
+                                        search,                                         // keeps ?startups=all
+                                    }}
+                                >
                                     <div className="img-container">
                                         <img
                                             src={project.img}
@@ -145,12 +108,12 @@ const MoreProjects = () => {
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </Link>
                             </SwiperSlide>
                         ))}
                     </Swiper>
 
-                    <button className={styles.moreInvestBtn}  onClick={() => navigate('/explore')}>Explore More Investments</button>
+                    <button className={styles.moreInvestBtn} onClick={() => navigate('/explore')}>Explore More Investments</button>
                 </div>
             </div>
         </div>

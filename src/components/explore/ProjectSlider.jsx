@@ -7,6 +7,8 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { projects } from '../../data/startups';
+import { Link, useSearchParams } from 'react-router-dom';
+import { slugify } from '../../utils/slugify';
 
 
 
@@ -14,6 +16,7 @@ const ProjectSlider = () => {
     const [swiper, setSwiper] = useState(null);
     const [isFirstSlide, setIsFirstSlide] = useState(true);
     const [isLastSlide, setIsLastSlide] = useState(false);
+    const [searchParams] = useSearchParams();
 
     useEffect(() => {
         if (swiper) {
@@ -70,7 +73,12 @@ const ProjectSlider = () => {
             >
                 {projects.map((project) => (
                     <SwiperSlide key={project.id}>
-                        <div className={styles.projectCard}>
+                        <Link
+                            to={{
+                                pathname: `/offering/${slugify(project.title)}`,
+                                search: searchParams.toString(), // keeps ?startups=all
+                            }}
+                            className={styles.projectCard}>
                             <div className="img-container">
                                 <img
                                     src={project.img}
@@ -92,7 +100,7 @@ const ProjectSlider = () => {
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </Link>
                     </SwiperSlide>
                 ))}
             </Swiper>

@@ -1,19 +1,39 @@
 import React, { useEffect, useState } from 'react'
 import styles from './Navbar.module.css'
 import logo from '../../assets/logo1.png'
-import { Link, NavLink, useNavigate } from 'react-router-dom'
+import { Link, NavLink, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { CiSearch } from "react-icons/ci";
 import { IoMenuSharp, IoSettingsOutline } from 'react-icons/io5'
 import { MdKeyboardArrowDown, MdMenuOpen } from 'react-icons/md';
 import { FaRegUser } from 'react-icons/fa';
 import { RiLogoutCircleLine } from 'react-icons/ri';
+import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 const Navbar = () => {
     const [mobileMenu, setMobileMenu] = useState(false)
     const [isSearchFocused, setIsSearchFocused] = useState(false);
     const [sticky, setSticky] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('isLoggedIn'));
+    const { slug } = useParams();                      // works even in navbar
+    const [inWatchlist, setInWatchlist] = useState(() => {
+        const list = JSON.parse(localStorage.getItem('watchList') || '[]');
+        return list.includes(slug);
+    });
     const navigate = useNavigate();
+    const location = useLocation();                     // current URL
+    const isOfferingPage = /^\/offering\/[^/]+$/.test(location.pathname);
+    const toggleWatchlist = () => {
+        const list = JSON.parse(localStorage.getItem('watchList') || '[]');
+        let updated;
 
+        if (inWatchlist) {
+            updated = list.filter(item => item !== slug);  // remove
+        } else {
+            updated = [...list, slug];                     // add
+        }
+
+        localStorage.setItem('watchList', JSON.stringify(updated));
+        setInWatchlist(!inWatchlist);
+    };
     const handleLogout = () => {
         localStorage.removeItem('isLoggedIn');
         setIsLoggedIn(false);
@@ -31,9 +51,9 @@ const Navbar = () => {
         <header className={`${styles.header} ${sticky ? styles.fixed : ''}`}>
             <nav>
                 <div className='d-flex align-items-center gap-2 gap-lg-5'>
-                    <img src={logo} alt="logo image for platform" className={styles.logo} onClick={() => navigate('/')}/>
+                    <img src={logo} alt="logo image for platform" className={styles.logo} onClick={() => navigate('/')} />
                     {/* input for search Explore  Investment */}
-                    <div className={`${styles.searchContainer} input-group`}>
+                    {!isOfferingPage && <div className={`${styles.searchContainer} input-group`}>
                         <input
                             type="text"
                             className={`form-control ${styles.searchInput}`}
@@ -45,13 +65,23 @@ const Navbar = () => {
                         {isSearchFocused && (
                             <CiSearch className={styles.searchIcon} />
                         )}
-                    </div>
+                    </div>}
                 </div>
                 <ul className={`${styles.navLinks} ${!mobileMenu ? styles.hideMobileMenu : ""}`}>
-                    <li><NavLink to='/'>Home</NavLink></li>
-                    <li><NavLink to='/explore'>Start Investing</NavLink></li>
-                    <li><NavLink to='saved'>Saved</NavLink></li>
-                    <li><NavLink to='investment'>My Investment</NavLink></li>
+                    {isOfferingPage && isLoggedIn ?
+                      <div className={styles.watchDesktopOnly}>
+                        <button
+                            className={`${styles.watchBtn} ${inWatchlist ? styles.active : ''}`}      /* add CSS below */
+                            onClick={toggleWatchlist}
+                            aria-pressed={inWatchlist}
+                        >
+                            {inWatchlist ? <><AiFillHeart size={18} />Add to Watch List</> : <><AiOutlineHeart size={18} />WatchList</>}
+                        </button>
+                        </div>
+                        : <> <li><NavLink to='/'>Home</NavLink></li>
+                            <li><NavLink to='/explore'>Start Investing</NavLink></li>
+                            <li><NavLink to='saved'>Saved</NavLink></li>
+                            <li><NavLink to='investment'>My Investment</NavLink></li> </>}
                     <li className={isLoggedIn ? styles.userMenuItem : styles.btn}>
                         {isLoggedIn ? (
                             <>
@@ -73,11 +103,22 @@ const Navbar = () => {
                         )}
                     </li>
                 </ul>
-                {mobileMenu ? (
-                    <MdMenuOpen onClick={toggleMenu} className={styles.menuIcon} aria-label='Open menu' />
-                ) : (
-                    <IoMenuSharp onClick={toggleMenu} className={styles.menuIcon} aria-label='Close menu' />
-                )}
+                <div className='d-flex align-items-center gap-2 gap-lg-5'>
+                    { isOfferingPage && isLoggedIn &&
+                       <button
+                           className={`${styles.watchBtn} ${styles.heartBehind} ${inWatchlist ? styles.active : ''}`}      /* add CSS below */
+                           onClick={toggleWatchlist}
+                           aria-pressed={inWatchlist}
+                       >
+                           {inWatchlist ? <><AiFillHeart size={18} />Add to Watch List</> : <><AiOutlineHeart size={18} />WatchList</>}
+                       </button>
+}
+                    {mobileMenu ? (
+                        <MdMenuOpen onClick={toggleMenu} className={styles.menuIcon} aria-label='Open menu' />
+                    ) : (
+                        <IoMenuSharp onClick={toggleMenu} className={styles.menuIcon} aria-label='Close menu' />
+                    )}
+                </div>
             </nav>
         </header >
     )

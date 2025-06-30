@@ -3,6 +3,7 @@ import styles from './Hero.module.css'
 import { Link, useSearchParams } from 'react-router-dom'
 import ProjectSlider from './ProjectSlider';
 import { projects } from '../../data/startups';
+import { slugify } from '../../utils/slugify';
 
 
 const Hero = () => {
@@ -46,7 +47,11 @@ const Hero = () => {
                         <h3 className={styles.heroTitle}>{projects.length} Currently Raising</h3>
                         {projects.map((project) => (
                             <div className="col-12 col-sm-6 col-md-4 mb-5" key={project.id}>
-                                <div className={styles.projectCard}>
+                                <Link to={{
+                                    pathname: `/offering/${slugify(project.title)}`,
+                                    search: searchParams.toString(), // keeps ?startups=all
+                                }}
+                                 className={styles.projectCard}>
                                     <div className="img-container">
                                         <img
                                             src={project.img}
@@ -68,7 +73,7 @@ const Hero = () => {
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </Link>
                             </div>
                         ))}
                     </div>
@@ -144,7 +149,12 @@ const Hero = () => {
                                         {filteredProjects.length > 0 ? (
                                             filteredProjects.map((project) => (
                                                 <div className="col-12 col-sm-6 col-md-4 mb-5" key={project.id}>
-                                                    <div className={styles.projectCard}>
+                                                    <Link className={styles.projectCard} 
+                                                    to={{
+                                                        pathname: `/offering/${slugify(project.title)}`,
+                                                        search: searchParams.toString(),     // keeps ?startups=all
+                                                    }}
+                                                    >
                                                         <div className="img-container">
                                                             <img
                                                                 src={project.img}
@@ -168,7 +178,7 @@ const Hero = () => {
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
+                                                    </Link>
                                                 </div>
                                             ))
                                         ) : (

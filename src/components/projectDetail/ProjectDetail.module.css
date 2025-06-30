@@ -1,0 +1,517 @@
+.projectDetail {
+    background: #FDFDFB;
+    min-height: 96vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.projectLeft {
+    background: #ffe0e9;
+    margin: 0;
+    display: inline-block;
+    border-radius: 8px;
+}
+
+.projectLeft p {
+    margin: 0px;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 22px;
+    letter-spacing: 0.05px;
+    color: rgb(168, 26, 69);
+    padding: 6px 10px;
+    text-align: center;
+}
+
+.projectSubTitle {
+    margin: 3px 0;
+    line-height: 1.5;
+    color: var(--primary-color);
+    font-size: 16px;
+    font-weight: 400;
+    letter-spacing: 2px;
+}
+
+.projectTitle {
+    font-size: 34px;
+    font-weight: 700;
+    line-height: 40px;
+    letter-spacing: 0.05px;
+    color: var(--primary-color);
+}
+
+.projectDesc p,
+.teamDesc {
+    color: rgb(0, 14, 11);
+    margin: 0px;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 20px;
+    letter-spacing: 0.05px;
+    transition: all 0.3s ease-in-out;
+}
+
+.showMore {
+    margin: 0px;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 20px;
+    letter-spacing: 0.05px;
+    color: var(--primary-color);
+    cursor: pointer;
+    transition: color 0.2s ease-in-out;
+}
+
+.showMore:hover {
+    color: darken(var(--primary-color), 10%);
+    /* Adjust if using a CSS preprocessor, or use a hex/rgb value */
+}
+
+.projectBtn {
+    display: inline-block;
+    background: var(--primary-color);
+    color: #FDFDFB;
+    padding: .9rem 2rem;
+    border-radius: 1.2rem;
+    font-size: 1.8rem;
+    font-weight: 500;
+    border: none;
+    margin-top: 2rem;
+    transition: all 0.3s ease-in-out;
+    max-width: 327px;
+    min-width: 120px;
+    text-decoration: none;
+    width: 50%;
+    text-align: center;
+}
+
+.projectBtn:hover {
+    background: var(--darkPrimary-color);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.logoContainer {
+max-width: 488px;
+    max-height: 296px;
+    width: 488px;
+    height: 296px;
+    border-radius: 24px;
+    padding: 12px;
+    background: #fff;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.logoContainer img {
+    color: transparent;
+    width: 100%;
+    height: 100%;
+    border-radius: 12px;
+    object-fit: cover;
+    aspect-ratio: auto 458 / 266;
+}
+
+/* overview */
+.heroBtns {
+    margin-top: 2rem;
+    /* border-bottom: 2px solid #DDDDDD; */
+    position: relative;
+    margin-bottom: 3rem;
+}
+
+.heroBtns .tabBtn {
+    padding: 0px 20px 16px 20px;
+    border: none;
+    font-size: 1.5rem;
+    font-weight: 500;
+    max-width: 360px;
+    min-width: 90px;
+    min-height: 48px;
+    background: none;
+    color: #82827d;
+    position: relative;
+    border-bottom: 2px solid #ddd;
+}
+
+.tabBtn.active {
+    color: var(--primary-color, #1F6BA8);
+}
+
+.tabBtn.active::after {
+    content: '';
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    border-radius: 3px;
+    background: var(--primary-color, #1F6BA8);
+    z-index: 1;
+}
+
+/* meeting */
+.boxContainer {
+    margin-top: -51px;
+    position: sticky !important;
+    top: 160px !important;
+    z-index: 999 !important;
+    width: 360px !important;
+    padding-right: 1px !important;
+    display: inline-block !important;
+}
+
+.boxMeeting {
+    margin: 21px 0px 0px;
+    max-width: 100%;
+    border-radius: 16px;
+    border: 1px solid rgb(240, 234, 224);
+    background: linear-gradient(267deg, rgb(239, 233, 224) 14.5%, rgb(249, 245, 240) 70.58%);
+    box-shadow: rgba(0, 0, 0, 0) 0px 58px 16px 0px, rgba(0, 0, 0, 0.01) 0px 37px 15px 0px, rgba(0, 0, 0, 0.02) 0px 21px 12px 0px, rgba(0, 0, 0, 0.04) 0px 9px 9px 0px, rgba(0, 0, 0, 0.05) 0px 2px 5px 0px;
+    backdrop-filter: blur(2px);
+    padding: 6px 8px;
+    position: relative;
+    z-index: 5;
+}
+
+.iconContainer {
+    overflow: hidden;
+    background: none;
+    position: relative;
+    max-width: 100%;
+}
+
+.iconContainer .icon {
+    width: 35px;
+    height: 36px;
+    color: var(--primary-color);
+    margin-right: 10px;
+    border: 3px solid #fff;
+    padding: 5px;
+    border-radius: 50%;
+}
+
+.textContainer .title {
+    margin: 0px;
+    color: rgb(86, 86, 86);
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+}
+
+.bookMeeting,
+.teamName,
+.investingWorkText {
+    margin: 0px;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 22px;
+    letter-spacing: 0.05px;
+    color: var(--primary-color);
+    /* text-align: center; */
+}
+
+.time {
+    margin: 0px;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 17px;
+    letter-spacing: 0.05px;
+    color: #565656;
+}
+
+.reasonsTitle {
+    margin: 50px 0;
+    font-size: 32px;
+    font-weight: 500;
+    line-height: 36px;
+    letter-spacing: 1.5px;
+    text-transform: capitalize;
+}
+
+.reasonsTitle h6 {
+    font-weight: 400;
+    line-height: 20.8px;
+    color: rgb(153, 153, 153);
+    font-size: 15px;
+    padding-block: 10PX;
+}
+
+.teamSection {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    transition: all 0.3s ease-in-out;
+}
+
+.team {
+    display: flex;
+    justify-content: space-between;
+    max-width: 800px !important;
+    gap: 20px;
+    opacity: 1;
+    transform: translateY(0);
+    max-height: 200px;
+    overflow: hidden;
+    transition: all 0.3s ease-in-out;
+    /* Smooth appearance/disappearance */
+}
+
+/* Hide team members beyond the first 3 when not expanded */
+.team.hidden {
+    opacity: 0;
+    transform: translateY(20px);
+    /* Slide up/down effect */
+    max-height: 0;
+    margin: 0;
+    padding: 0;
+}
+
+.team .imgContain {
+    flex: 0 0 154px;
+    width: 154px;
+    height: 154px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px;
+}
+
+.teamImg {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    inset: 0px;
+    object-fit: cover;
+    color: transparent;
+    border-radius: 8px;
+    border: 1px solid rgb(238, 238, 238) !important;
+}
+
+.teamDesc {
+    color: rgb(0, 14, 11);
+    margin: 0px;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 20px;
+    letter-spacing: 0.05px;
+    max-height: 200px;
+    /* Adjust based on your design */
+    overflow: hidden;
+    transition: max-height 0.3s ease-in-out;
+    /* Smooth height transition for bio */
+}
+
+/* Expanded state for bio */
+.teamDesc.expanded {
+    max-height: 1000px;
+    /* Large enough to accommodate full bio */
+}
+
+.teamInfo {
+    flex: 1 1 0;
+}
+
+.showMoreTeam {
+    display: block;
+    background: transparent;
+    color: var(--primary-color);
+    padding: .9rem 2rem;
+    border-radius: 1.2rem;
+    font-size: 1.8rem;
+    font-weight: 500;
+    margin: 2rem auto;
+    transition: all 0.3s ease-in-out;
+    max-width: 327px;
+    min-width: 120px;
+    text-decoration: none;
+    width: 50%;
+    text-align: center;
+    border: 1px solid rgba(43, 139, 215, 0.5);
+}
+
+.showMoreTeam:hover {
+    border: 1px solid var(--primary-color);
+    background: rgba(43, 139, 215, 0.04);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.overview {
+    font-size: 20px;
+    color: var(--primary-color);
+    font-weight: 600;
+    line-height: 24px;
+}
+
+.valuation {
+    font-size: 1.6rem;
+    font-weight: 400;
+    line-height: 20.8px;
+    letter-spacing: 0.125rem;
+    color: rgb(153, 153, 153);
+}
+
+.fullTime {
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 24px;
+    letter-spacing: 0.05px;
+    margin-bottom: 3rem;
+}
+
+.disccussionContainer {
+    margin-top: 40px;
+    margin-bottom: 10px;
+    display: flex;
+    flex-flow: wrap;
+    width: 100%;
+    gap: 0 15px;
+}
+
+.avatar {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    line-height: 1;
+    border-radius: 50%;
+    overflow: hidden;
+    user-select: none;
+    color: rgb(255, 255, 255);
+    background-color: rgb(189, 189, 189);
+    font-size: 18px;
+    height: 54.19px;
+    width: 54.19px;
+}
+
+.disccussion {
+    min-height: 100px;
+    background-color: rgb(244, 244, 244);
+    height: 100%;
+    border-radius: 16px;
+    font-size: 18px;
+    padding: 15px;
+    flex: 1 1 0;
+}
+
+.disccussion textarea {
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 24px;
+    letter-spacing: 0.05px;
+    width: 100%;
+    height: 100%;
+    border: none;
+    outline: none;
+    resize: none;
+    background-color: rgb(244, 244, 244);
+    height: 132px;
+    color: rgb(0, 14, 11);
+}
+
+.counter {
+    margin: 0px;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 17px;
+    letter-spacing: 0.05px;
+    color: rgb(86, 86, 86);
+}
+
+.postBtn {
+    margin-block: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    cursor: pointer;
+    min-width: 64px;
+    height: 48px;
+    width: 171px;
+    box-shadow: none;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 23px;
+    color: rgb(253, 253, 251) !important;
+    background: rgb(189, 189, 189);
+    outline: 0px;
+    border: none;
+    padding: 6px 16px;
+    transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1), box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1), border-color 250ms cubic-bezier(0.4, 0, 0.2, 1), color 250ms cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 16px;
+}
+
+.postBtn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    box-shadow: none;
+    background-color: rgba(0, 0, 0, 0.12);
+}
+
+.postBtn:hover {
+    background-color: var(--primary-color);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* investing work */
+.timelineContainer {
+    margin-top: 62px;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.whyFundx{
+    padding: 32px 24px;
+    margin-bottom: 92px;
+    margin-top: 40px;
+    background-color: rgb(43, 48, 58);
+    border-radius: 16px;
+}
+.whyFundxText {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0 15px;
+    margin-bottom: 16px;
+}
+
+.whyFundx h6 {
+    margin: 0px;
+    font-size: 1.6rem;
+    font-weight: 400;
+    line-height: 20.8px;
+    color: var(--primary-color);
+    letter-spacing: 2px;
+}
+
+.whyFundx p {
+        margin: 0px;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 20px;
+    letter-spacing: 0.05px;
+    color: rgb(244, 244, 244);
+    max-width: 100%;
+}
+
+.whyFundx svg {
+    color: var(--primary-color);
+    width: 42px;
+    height: 40px;
+    padding: 6px;
+    background: #222930;
+    border-radius: 50%;
+}
+
+/* FAQ */
+.faqTitle {
+    margin: 0px 0px 32px 16px;
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 31px;
+    letter-spacing: 0.05px;
+}
+
+.marginBottom_80{
+    margin-bottom: 80px;
+}

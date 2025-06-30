@@ -11,6 +11,9 @@ import ResetPassword from './pages/ResetPassword';
 import Settings from './pages/Settings';
 import PersonalInfo from './pages/PersonalInfo';
 import Notifications from './pages/Notifications';
+import ProjectDetails from './pages/ProjectDetails';
+
+
 function App() {
 
 
@@ -20,6 +23,7 @@ function App() {
         <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
           <Route path="/explore" element={<Explore />} />
+            <Route path="/offering/:slug" element={<ProjectDetails />} />
         </Route>
         <Route>
         </Route>
@@ -29,8 +33,8 @@ function App() {
         <Route path="/verification-code" element={<VerificationCode />} />
         <Route path='/reset-password' element={<ResetPassword />} />
         <Route path="/settings" element={<Settings />} />
-      <Route path="/settings/personal-info" element={<PersonalInfo />} />
-      <Route path="/settings/notifications" element={<Notifications />} />
+        <Route path="/settings/personal-info" element={<PersonalInfo />} />
+        <Route path="/settings/notifications" element={<Notifications />} />
       </Routes>
     </Router>
   )
