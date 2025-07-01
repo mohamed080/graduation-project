@@ -58,7 +58,7 @@ const ProjectDetail = () => {
                                     {expanded ? 'Show less' : 'Show more'}
                                 </p>
                             )}
-                            <Link role="button" className={styles.projectBtn}>
+                            <Link role="button" to={`/${slug}/equity`} className={styles.projectBtn} aria-label="Negotiate equity for this project">
                                 Get Equity
                             </Link>
                         </div>

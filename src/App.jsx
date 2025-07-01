@@ -12,6 +12,7 @@ import Settings from './pages/Settings';
 import PersonalInfo from './pages/PersonalInfo';
 import Notifications from './pages/Notifications';
 import ProjectDetails from './pages/ProjectDetails';
+import EquityNeg from './pages/EquityNeg';
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/explore" element={<Explore />} />
             <Route path="/offering/:slug" element={<ProjectDetails />} />
+            <Route path='/:slug/equity' element={<EquityNeg />} />
         </Route>
         <Route>
         </Route>

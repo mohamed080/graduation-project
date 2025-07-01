@@ -1,7 +1,10 @@
 import React from 'react'
 import styles from './Hero.module.css'
 import heroimg from '../../assets/hero1.png'
+import { useNavigate } from 'react-router-dom'
 const Hero = () => {
+  const navigate = useNavigate();
+  
   return (
     <div className={styles.hero}>
       <div className="container">
@@ -11,7 +14,7 @@ const Hero = () => {
               <h1>Invest in the FundX<br /> Fund Promising <br />Projects with<br /> Confidence.</h1>
               <p>A Platform that connects you with top investment
                 opportunities and offers the potential for attactive returns.</p>
-              <button className={styles.heroBtn}>Start Funding Now</button>
+              <button className={styles.heroBtn} onClick={() => navigate('/explore')}>Start Funding Now</button>
             </div>
           </div>
           <div className="col-12 col-md-5 ms-auto">
