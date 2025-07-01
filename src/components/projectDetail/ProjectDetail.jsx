@@ -62,7 +62,7 @@ const ProjectDetail = () => {
                                 Get Equity
                             </Link>
                         </div>
-                        <div className="col-12 col-md-4">
+                        <div className="col-12 col-md-6 order-first order-md-last mb-5 mb-md-0">
                             <div className={styles.logoContainer}>
                                 <img src={project.img} alt={project.title} />
                             </div>
@@ -70,10 +70,10 @@ const ProjectDetail = () => {
                     </div>
                 </div>
             </div>
-            <div className={styles.projectTabs}>
+                        <div className={styles.projectTabs}>
                 <div className="container">
                     <div className="row">
-                        <div className="col-12 col-md-6">
+                        <div className="col-12 col-md-7">
                             <div className={styles.heroBtns}>
                                 <button
                                     className={`${styles.tabBtn} ${activeTab === 'overview' ? styles.active : ''}`}
@@ -185,7 +185,7 @@ const ProjectDetail = () => {
                                     ma
                                 </div>
                                 <div className={styles.disccussion}>
-                                    <textarea name="comments" id="comment" value={text} onChange={(e) => setText(e.target.value)} maxLength={2500} cols="30" rows="10" placeholder='what&#39;s on your mind'></textarea>
+                                    <textarea name="comments" id="comment" value={text} onChange={(e) => setText(e.target.value)} maxLength={2500} cols="30" rows="10" placeholder='what&#39;s on your mind' aria-label='Enter your comment'></textarea>
                                 </div>
                                 <div className='d-flex justify-content-end w-100'>
                                     <p className={styles.counter} aria-live='polite'>{text.length}/2500</p>
@@ -199,7 +199,7 @@ const ProjectDetail = () => {
 
                             <InvestingWork />
                         </div>
-                        <div className="col-12 col-md-4 offset-md-1">
+                        <div className="col-12 col-md-4 offset-md-1 text-md-end order-first order-md-last">
                             <div className={styles.boxContainer}>
                                 <div className={styles.boxMeeting}>
                                     <div className="d-flex flex-wrap w-100 align-items-center">

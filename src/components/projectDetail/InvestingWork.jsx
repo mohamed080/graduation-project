@@ -1,6 +1,7 @@
 import React from 'react'
 import styles from './ProjectDetail.module.css';
 import timeline from '../../assets/faq-timeline.svg';
+import verticalTimeLine from '../../assets/faq-timeline-vertical.svg';
 import { FiLoader } from 'react-icons/fi';
 import { HiOutlineLockClosed } from 'react-icons/hi';
 import { VscSettings } from 'react-icons/vsc';
@@ -37,10 +38,23 @@ const InvestingWork = () => {
     return (
         <div className={styles.investingWork}>
             <h4 className={`mb-0 ${styles.reasonsTitle}`}>HOW INVESTING WORKS</h4>
-            <p className={styles.investingWorkText}>Cancel anytime before 48 hours before a rolling close or the offering end date.</p>
+            <p className={`fw-normal ${styles.investingWorkText}`}>Cancel anytime before 48 hours before a rolling close or the offering end date.</p>
 
             <div class={styles.timelineContainer}>
-                <img alt="FAQ Timeline" loading="lazy" width="772" height="112" decoding="async" data-nimg="1" src={timeline} className={styles.timelineImage} />
+                <picture>
+                    <source media="(max-width: 576px)" srcSet={verticalTimeLine} />
+                    <img 
+                        alt="FAQ Timeline" 
+                        loading="lazy" 
+                        width="772" 
+                        height="112" 
+                        decoding="async" 
+                        data-nimg="1" 
+                        src={timeline} 
+                        className={styles.timelineImage} 
+                    />
+
+                </picture>
             </div>
             <svg width="100%" height="2" fill="none" xmlns="http://www.w3.org/2000/svg"><line x1="0.5" y1="0.5" x2="100%" y2="0.5" stroke="#999999" strokeLinecap="round" strokeDasharray="0.5 8"></line></svg>
             <div className={styles.whyFundx}>
