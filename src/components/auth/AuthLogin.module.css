@@ -85,6 +85,7 @@ input:focus::placeholder {
     right: 10px;
     top: 18px;
     cursor: pointer;
+    z-index: 5;
 }
 
 .inputGroupText svg {
@@ -113,7 +114,7 @@ input:focus::placeholder {
     margin: 0 15px;
 }
 
-.login .loginBtn {
+.loginBtn {
     background: var(--primary-color);
     color: #fff;
     width: 100%;
@@ -127,11 +128,11 @@ input:focus::placeholder {
     outline: none;
 }
 
-.login .loginBtn:hover {
+ .loginBtn:hover {
     background: var(--darkPrimary-color);
 }
 
-.login .loginBtn:disabled {
+ .loginBtn:disabled {
     opacity: 0.5;
     cursor: not-allowed;
 }
@@ -272,12 +273,29 @@ input:focus::placeholder {
     font-size: 2.2rem;
     color: #0E184C;
 }
-.continueModalBtn {
+.continueModalBtn, .canselModalBtn {
     width: 140px !important;
-    border-radius: 40px !important;
+    height: 40px !important;
+    border-radius: 20px !important;
     transition: all 0.3s ease-in-out !important;
+    font-size: 16px !important;
+    cursor: pointer;
 }
 
+.continueModalBtn {
+    box-shadow: 0px 4px 16px 0px #B3C0E7;
+
+}
+
+.canselModalBtn {
+    background: transparent;
+    box-shadow: 0px 4px 16px 0px #B3C0E7;
+    color: #000;
+}
+.canselModalBtn:hover {
+    background: #dc3545;
+    color: #fff;
+}
 .overlay.open {
     opacity: 1;
     pointer-events: auto;
@@ -352,7 +370,7 @@ input:focus::placeholder {
         font-size: 3rem;
     }
 
-    .login .loginBtn {
+ .loginBtn {
         height: 40px;
         font-size: 16px;
     }

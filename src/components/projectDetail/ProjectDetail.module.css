@@ -110,6 +110,11 @@
     border-radius: 12px;
     object-fit: cover;
     aspect-ratio: auto 458 / 266;
+    transition: all 0.3s ease-in-out;
+}
+
+.logoContainer img:hover {
+    transform: scale(1.03);
 }
 
 /* overview */
@@ -245,7 +250,7 @@
     text-transform: capitalize;
 }
 
-.reasonsTitle h6 {
+.headquarters {
     font-weight: 400;
     line-height: 20.8px;
     color: rgb(153, 153, 153);

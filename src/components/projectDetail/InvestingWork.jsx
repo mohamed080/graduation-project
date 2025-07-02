@@ -40,7 +40,7 @@ const InvestingWork = () => {
             <h4 className={`mb-0 ${styles.reasonsTitle}`}>HOW INVESTING WORKS</h4>
             <p className={`fw-normal ${styles.investingWorkText}`}>Cancel anytime before 48 hours before a rolling close or the offering end date.</p>
 
-            <div class={styles.timelineContainer}>
+            <div className={styles.timelineContainer}>
                 <picture>
                     <source media="(max-width: 576px)" srcSet={verticalTimeLine} />
                     <img 

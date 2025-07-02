@@ -9,6 +9,7 @@ import investorImg from '../../assets/investorImg.png'
 import ownerImg from '../../assets/ownerImg.png'
 import person from '../../assets/person.png'
 import correct from '../../assets/correct.png'
+import axiosInstance from '../../utils/axiosInstance';
 
 
 const AuthRegister = () => {
@@ -33,7 +34,7 @@ const AuthRegister = () => {
         return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     };
     const handleSubmit = useCallback(
-        (e) => {
+        async (e) => {
             e.preventDefault();
             setError('');
             setIsLoading(true);
@@ -56,24 +57,41 @@ const AuthRegister = () => {
                 setIsLoading(false);
                 return;
             }
-            // Simulate API call
-            setTimeout(() => {
-                console.log('Category:', category);
-                console.log('First Name:', firstName);
-                console.log('Last Name:', lastName);
-                console.log('Email:', email);
-                console.log('Password:', password);
-                console.log('Gender:', gender);
-                console.log('Phone:', phone);
-                console.log('Country:', country);
-                localStorage.setItem('isLoggedIn', 'true');
-                setIsLoading(false);
+
+            const payload = {
+                name: `${firstName.trim()} ${lastName.trim()}`,
+                email,
+                password,
+                country,
+                birth_date: '2004-01-12',
+                type: category,
+                gender,
+                phone
+            }
+            try {
+                await axiosInstance.post('/register', payload);
                 setShowModal(true);
-            }, 1000); // Replace with actual API call
-        },
-        [email, password, navigate, firstName, lastName, category, country, confirmPassword]
+                localStorage.setItem('isLoggedIn', 'true');
+            } catch (err) {
+                const data = err.response?.data;
+
+                if (data && typeof data === 'object') {
+                    const allMessages = Object.values(data).flat().join(' ');
+                    console.log(allMessages); // optional
+                    setError(allMessages);
+                } else {
+                    setError('Registration failed, please try again');
+                }
+            } finally {
+                setIsLoading(false);
+            }
+
+        }
+        ,
+        [email, password, firstName, lastName, category, country, confirmPassword, gender, phone]
     );
 
+    console.log(category)
     const handleSocialLogin = (provider) => {
         // Implement OAuth logic here (e.g., Google, Facebook)
         console.log(`Login with ${provider}`);
@@ -98,15 +116,15 @@ const AuthRegister = () => {
                                     <p>Explore our knowledge base and see everything we have to offer.</p>
                                     <div className={styles.categoryBtns}>
                                         <button
-                                            className={`${styles.categoryBtn} ${category === 'Owner' ? styles.active : ''}`}
-                                            onClick={() => setCategory('Owner')}
+                                            className={`${styles.categoryBtn} ${category === 'owner' ? styles.active : ''}`}
+                                            onClick={() => setCategory('owner')}
                                         >
                                             <img src={ownerImg} alt="owner image" className='img-fluid' />
                                             Owner
                                         </button>
                                         <button
-                                            className={`${styles.categoryBtn} ${category === 'Investor' ? styles.active : ''}`}
-                                            onClick={() => setCategory('Investor')}
+                                            className={`${styles.categoryBtn} ${category === 'investor' ? styles.active : ''}`}
+                                            onClick={() => setCategory('investor')}
                                         >
                                             <img src={investorImg} alt="investor image" className='img-fluid' />
                                             Investor
@@ -194,10 +212,10 @@ const AuthRegister = () => {
                                                 />
                                                 <span
                                                     className={styles.inputGroupText}
-                                                    onClick={() => setShowPassword(!showPassword)}
                                                     role='button'
-                                                    aria-label={showPassword ? "Hide password" : "Show password"}
                                                     tabIndex={0}
+                                                    aria-label={showPassword ? "Hide password" : "Show password"}
+                                                    onClick={() => setShowPassword(!showPassword)}
                                                     onKeyDown={(e) => e.key === 'Enter' && setShowPassword(!showPassword)}                                        >
                                                     {showPassword ? <FaEyeSlash /> : <FaEye />}
                                                 </span>

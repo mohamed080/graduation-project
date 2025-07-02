@@ -70,7 +70,7 @@ const ProjectDetail = () => {
                     </div>
                 </div>
             </div>
-                        <div className={styles.projectTabs}>
+            <div className={styles.projectTabs}>
                 <div className="container">
                     <div className="row">
                         <div className="col-12 col-md-7">
@@ -159,9 +159,8 @@ const ProjectDetail = () => {
                                     {showAllTeam ? 'Show Less' : 'Show More'}
                                 </button>
                             )}
-                            <h4 className={styles.reasonsTitle}>ABOUT
-                                <h6>HEADQUARTERS</h6>
-                            </h4>
+                            <h4 className={styles.reasonsTitle}>ABOUT </h4>
+                                <h6 className={styles.headquarters}>HEADQUARTERS</h6>
                             <svg width="100%" height="2" fill="none" xmlns="http://www.w3.org/2000/svg"><line x1="0.5" y1="0.5" x2="100%" y2="0.5" stroke="#999999" strokeLinecap="round" strokeDasharray="0.5 8"></line></svg>
                             <h4 className={`mb-4 ${styles.reasonsTitle}`}>TERMS</h4>
                             <p className={styles.overview}>Overview</p>

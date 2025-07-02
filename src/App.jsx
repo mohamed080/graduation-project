@@ -17,7 +17,6 @@ import EquityNeg from './pages/EquityNeg';
 
 function App() {
 
-
   return (
     <Router>
       <Routes>
