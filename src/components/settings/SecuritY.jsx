@@ -9,7 +9,8 @@ const SecuritY = () => {
     return (
         <div className={styles.settingsContainer}>
             {/* back button */}
-            <div className='d-flex align-items-center gap-4'
+            <div 
+                className={`d-flex align-items-center gap-4 ${styles.backButton}`}
                 onClick={() => navigate('/settings')}
                 role="button"
                 tabIndex={0}

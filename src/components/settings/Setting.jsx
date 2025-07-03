@@ -94,7 +94,7 @@ const Setting = () => {
             <TiLockClosedOutline size={20} className={styles.icon} />
             <div>
               <p className='fw-bold'>Security</p>
-              <p className='text-muted'>Password & 2FA <span style={{ color: 'rgb(224, 96, 4)'}}>. 2FA Available</span></p>
+              <p className='text-muted'>Password & 2FA <span style={{ color: 'rgb(224, 96, 4)' }}>. 2FA Available</span></p>
             </div>
           </div>
           <div className={styles.arrowIcon}>
@@ -186,7 +186,7 @@ const Setting = () => {
             </div>
 
             <div className={styles.modalFooter}>
-            <div className={styles.saveButtonContainer}>
+              <div className={styles.saveButtonContainer}>
                 <button
                   className={styles.saveButton}
                   onClick={handleSavePreferences}
@@ -194,7 +194,7 @@ const Setting = () => {
                 >
                   {loading ? 'Saving...' : 'update and see Offering'}
                 </button>
-            </div>
+              </div>
             </div>
           </div>
         </div>

@@ -69,18 +69,19 @@ const PersonalInf = () => {
     closeEditor();
   };
 
-const handleSavecitizenshipCountry = () => {
-  const ok = draft.citizenshipCountry;
-  if (!ok) { setErrors({ ...errors, citizenshipCountry: 'Please enter a valid citizenship country' }); return; }
-  setProfile(draft);
-  closeEditor();
-};
+  const handleSavecitizenshipCountry = () => {
+    const ok = draft.citizenshipCountry;
+    if (!ok) { setErrors({ ...errors, citizenshipCountry: 'Please enter a valid citizenship country' }); return; }
+    setProfile(draft);
+    closeEditor();
+  };
 
 
   return (
     <div className={styles.settingsContainer}>
       {/* back button */}
-      <div className='d-flex align-items-center gap-4'
+      <div
+        className={`d-flex align-items-center gap-4 ${styles.backButton}`}
         onClick={() => navigate('/settings')}
         role="button"
         tabIndex={0}
@@ -203,15 +204,15 @@ const handleSavecitizenshipCountry = () => {
             <p className='text-muted'>{profile.city}, {profile.governorat}, {profile.country}</p>
             <p className='text-muted'>{profile.postalcode}</p>
           </div>
-            <div className={styles.arrowIcon} role='button' onClick={() =>
+          <div className={styles.arrowIcon} role='button' onClick={() =>
             editingField === 'address' ? closeEditor() : openEditor('address')
           }>
             {editingField === 'address' ? <IoClose size={20} /> : <CiEdit size={20} strokeWidth={1} />}
           </div>
         </div>
-         {editingField === 'address' && (
+        {editingField === 'address' && (
           <div className={styles.editInput}>
-             <input type="text" placeholder='Enter Country' value={draft.country} onChange={handleChange('country')} />
+            <input type="text" placeholder='Enter Country' value={draft.country} onChange={handleChange('country')} />
             <input type="text" placeholder='Enter Address' value={draft.address} onChange={handleChange('address')} />
             <input type="text" placeholder='Enter City' value={draft.city} onChange={handleChange('city')} />
             <input type="text" placeholder='Enter Governorat' value={draft.governorat} onChange={handleChange('governorat')} />
@@ -232,7 +233,7 @@ const handleSavecitizenshipCountry = () => {
             {editingField === 'citizenshipCountry' ? <IoClose size={20} /> : <CiEdit size={20} strokeWidth={1} />}
           </div>
         </div>
-         {editingField === 'citizenshipCountry' && (
+        {editingField === 'citizenshipCountry' && (
           <div className={styles.editInput}>
             <input type="text"
               value={draft.citizenshipCountry}
