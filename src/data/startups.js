@@ -53,6 +53,7 @@ export const projects = [
         ],
         equityOffered: 10,
         amountRequested: 100000,
+        ownerID: 3,
     },
     {
         id: 2,

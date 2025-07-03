@@ -51,6 +51,7 @@
     justify-content: space-between;
     align-items: center;
     cursor: pointer;
+    transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1), color 250ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .arrowIcon {
@@ -62,18 +63,27 @@
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    transition: all 0.3s ease-in-out;
 }
+
+.settingsItem:hover .arrowIcon {
+    background-color: var(--primary-color);
+    color: #F4F4F4;
+}
+
 .arrowIcon svg {
     font-size: 1.4rem;
 }
 
-.settingsItem p {
+.settingsItem p,
+span {
     font-size: 1.4rem;
     line-height: 1.6rem;
 }
 
 /* Personal info  */
-.back {
+.back,
+.updatePass {
     font-size: 2rem;
     font-weight: 600;
     margin-bottom: 0;
@@ -125,18 +135,366 @@
     max-width: 120px;
     width: 100%;
 }
+
 .editInput .inputError {
     border: 1px solid;
-  border-color: #dc3545;
+    border-color: #dc3545;
 }
 
 .editInput.errorText {
-  color: #dc3545;
-  font-size: 12px;
-  margin: 5px 0 0;
+    color: #dc3545;
+    font-size: 12px;
+    margin: 5px 0 0;
 }
+
 .saveButton:hover {
     background: var(--darkPrimary-color);
+}
+
+.icon {
+    color: var(--primary-color);
+}
+
+/* Preferance modal */
+/* Modal Styles */
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modalContent {
+    background: rgb(253, 253, 251);
+    border-radius: 20px;
+    width: 90%;
+    max-width: 620px;
+    max-height: 80vh;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+}
+
+.closeButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: rgba(0, 0, 0, 0.64);
+    font-size: 1.5rem;
+    padding: 6px;
+    border-radius: 50%;
+    margin: 6px 6px 0;
+    transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1);
+    display: block;
+    margin-inline-start: auto;
+}
+
+.closeButton:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.modalBody {
+    max-height: calc(80vh - 20px);
+    padding-left: 30px;
+    padding-right: 30px;
+    height: 513px;
+    padding-bottom: 30px;
+    overflow-y: auto;
+    scrollbar-width: none;
+}
+
+.modalBody .modalTitle {
+    line-height: 1.5;
+    font-size: 30px;
+    font-weight: 600;
+    margin: 0;
+}
+
+.modalDescription {
+    font-weight: 400;
+    font-size: 1.2rem;
+    line-height: 1.5;
+    color: rgb(86, 86, 86);
+}
+
+.preferencesGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 12px;
+    margin-top: 40px;
+}
+
+.preferenceButton {
+    position: relative;
+    padding: 8px 16px;
+    width: 100%;
+    border: none;
+    border-radius: 8px;
+    background: rgb(253, 253, 251);
+    box-shadow: rgba(68, 48, 21, 0.07) 0px 0px 0px 0px, rgba(68, 48, 21, 0.07) 0px 2px 4px 0px, rgba(68, 48, 21, 0.06) 0px 7px 7px 0px, rgba(68, 48, 21, 0.04) 0px 16px 10px 0px, rgba(68, 48, 21, 0.01) 0px 28px 11px 0px, rgba(68, 48, 21, 0) 0px 44px 12px 0px;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.2s ease;
+    font-weight: 500;
+    overflow: hidden;
+    font-size: 1.5rem;
+    line-height: 1.5;
+    color: var(--primary-color);
+}
+
+.preferenceButton:hover {
+    border-color: #007bff;
+    background-color: #f0f8ff;
+}
+
+.preferenceButton.selected {
+    border-color: #007bff;
+    background-color: #e6f2ff;
+    color: #007bff;
+}
+
+.selectedIndicator {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    width: 24px;
+    height: 24px;
+    background: #007bff;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.modalFooter {
+    display: flex;
+    flex-flow: wrap;
+    width: 100%;
+    position: sticky;
+    bottom: 0px;
+    left: 0px;
+    z-index: 1000;
+    background-color: rgb(253, 253, 251);
+}
+
+.saveButtonContainer {
+    display: flex;
+    flex-flow: wrap;
+    width: 100%;
+    justify-content: center;
+    padding: 20px 24px;
+    border-top: 1px solid rgb(238, 238, 238);
+    border-radius: 0px 0px 32px 32px;
+    position: sticky;
+}
+
+.saveButtonContainer .saveButton,
+.updateButton {
+    background: var(--primary-color);
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+    width: 100%;
+    font-size: 16px;
+    height: 45px;
+    color: rgb(253, 253, 251);
+    outline: none;
+    padding: 6px 16px;
+    border-radius: 16px;
+    margin: 0;
+    transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1), box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1), border-color 250ms cubic-bezier(0.4, 0, 0.2, 1), color 250ms cubic-bezier(0.4, 0, 0.2, 1);
+    max-width: 80%;
+    text-transform: capitalize;
+}
+
+.saveButtonContainer .saveButton:hover,
+.updateButton {
+    background: var(--darkPrimary-color);
+}
+
+.saveButtonContainer .saveButton:disabled {
+    background: #b3d7ff;
+    cursor: not-allowed;
+}
+
+.updateButton:disabled {
+    background: rgb(204, 204, 204);
+}
+
+.loadingMessage {
+    text-align: center;
+    padding: 20px;
+    color: #666;
+}
+
+.errorMessage,
+.saveErrorMessage {
+    color: #dc3545;
+    padding: 10px;
+    background: #fff5f5;
+    border-radius: 6px;
+    margin-top: 15px;
+    text-align: center;
+}
+
+.retryButton {
+    margin-top: 10px;
+    padding: 8px 15px;
+    background: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* end of modal */
+
+/* password */
+.settingsContent form label {
+    font-size: 1.6rem;
+    font-weight: 400;
+    margin-bottom: 0;
+}
+
+form {
+    width: 90%;
+}
+
+.settingsContent form input {
+    width: 100%;
+    padding: 1.3rem 1.5rem;
+    margin: 0.5rem 0;
+    font-size: 1.6rem;
+    border-radius: 1rem !important;
+    background-color: rgb(244, 244, 244);
+    border: none;
+    caret-color: var(--primary-color);
+}
+
+.settingsContent form input:focus {
+    outline: none;
+    box-shadow: none;
+    background: rgb(244, 244, 244);
+}
+
+input:focus::placeholder {
+    background: rgb(244, 244, 244);
+    color: var(--primary-color);
+}
+
+.inputGroupText {
+    cursor: pointer;
+    position: absolute;
+    right: 10px;
+    top: 20px;
+    cursor: pointer;
+    z-index: 5;
+}
+
+.inputGroupText svg {
+    color: var(--primary-color);
+    font-size: 14px;
+}
+
+.passwordRequirements {
+    margin: 0px;
+    font-weight: 400;
+    font-size: 1rem;
+    line-height: 1.66;
+    padding-left: 8px;
+    color: rgb(86, 86, 86);
+    display: block;
+}
+
+/* Password Strength Meter */
+.strengthMeter {
+    display: flex;
+    gap: 4px;
+    height: 6px;
+    margin-top: 8px;
+}
+
+.strengthBar {
+    flex: 1;
+    background-color: #e9ecef;
+    border-radius: 3px;
+}
+
+.strengthBar.active {
+    background-color: #6c757d;
+}
+
+.strengthBar.weak {
+    background-color: #dc3545;
+}
+
+.strengthBar.medium {
+    background-color: #ffc107;
+}
+
+.strengthBar.strong {
+    background-color: #198754;
+}
+
+/* Requirements List */
+.requirementsTitle {
+    font-size: 0.875rem;
+    margin-bottom: 0.25rem;
+    color: #6c757d;
+}
+
+.requirementsList {
+    padding-left: 1.5rem;
+    margin-bottom: 0;
+    font-size: 0.875rem;
+    color: #6c757d;
+}
+
+.requirementsList li {
+    margin-bottom: 0.25rem;
+    display: flex;
+    align-items: center;
+}
+
+.requirementsList .valid {
+    color: #198754;
+}
+
+.bullet {
+    display: inline-block;
+    width: 16px;
+    margin-right: 8px;
+    text-align: center;
+}
+
+/* Alert Messages */
+.alert {
+    margin-top: 1.5rem;
+    padding: 0.75rem 1.25rem;
+}
+
+/* Back Button */
+.backButton:focus {
+    outline: 2px solid #0d6efd;
+    outline-offset: 2px;
+}
+
+/* Loading Spinner */
+.spinner-border {
+    vertical-align: middle;
+}
+
+/* Visible password indicator */
+.inputGroupText.visible {
+    color: #0d6efd;
 }
 
 /* responsive */
@@ -150,6 +508,7 @@
     .settingsContainer h4 {
         font-size: 3rem;
     }
+
     .PersonalInfContainer {
         max-width: 90%;
     }
@@ -163,10 +522,13 @@
     .settingsContainer h4 {
         font-size: 2.8rem;
     }
-        .PersonalInfContainer {
+
+    .PersonalInfContainer {
         max-width: 100%;
     }
-    .back {
+
+    .back,
+    .updatePass {
         font-size: 1.8rem;
     }
 }
@@ -176,8 +538,19 @@
         flex-direction: column;
         align-items: flex-start;
     }
+
     .personinfoText {
         font-size: 1.4rem;
         line-height: 2rem;
+    }
+}
+
+@media (max-width: 413px) {
+    .modalBody {
+        max-height: calc(65vh - 20px);
+    }
+
+    .saveButtonContainer .saveButton {
+        font-size: 14px;
     }
 }

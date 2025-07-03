@@ -4,27 +4,47 @@ import { Link, useSearchParams } from 'react-router-dom'
 import ProjectSlider from './ProjectSlider';
 import { projects } from '../../data/startups';
 import { slugify } from '../../utils/slugify';
+import axiosInstance from '../../utils/axiosInstance';
 
 
 const Hero = () => {
     const [activeTab, setActiveTab] = useState('overview');
     const [category, setCategory] = useState('all');
     const [status, setStatus] = useState('all');
+    const [categories, setCategories] = useState([{ value: 'all', label: 'All Categories' }]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
     const [searchParams] = useSearchParams();
     const showAllStartups = searchParams.get('startups') === 'all';
     const handleTabClick = (tab) => {
         setActiveTab(tab);
     };
+
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                setLoading(true);
+                const response = await axiosInstance.get('/categories');
+                const formatted = response.data.map(cat => ({
+                    value: cat.slug,
+                    label: cat.name
+                }));
+                console.log(formatted);
+                setCategories([{ value: 'all', label: 'All Categories' }, ...formatted]);
+            } catch (error) {
+                console.error('Failed to fetch categories:', error);
+                  setError(error.message || 'Failed to load');
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchCategories();
+    }, []);
+
     useEffect(() => {
         window.scrollTo(0, 0);
     }, [showAllStartups]);
-    const categories = [
-        { value: 'all', label: 'All Categories' },
-        { value: 'technology', label: 'Technology' },
-        { value: 'healthcare', label: 'Healthcare' },
-        { value: 'finance', label: 'Finance' },
-        { value: 'education', label: 'Education' },
-    ];
 
     const statuses = [
         { value: 'all', label: 'All Statuses' },
@@ -51,7 +71,7 @@ const Hero = () => {
                                     pathname: `/offering/${slugify(project.title)}`,
                                     search: searchParams.toString(), // keeps ?startups=all
                                 }}
-                                 className={styles.projectCard}>
+                                    className={styles.projectCard}>
                                     <div className="img-container">
                                         <img
                                             src={project.img}
@@ -109,11 +129,17 @@ const Hero = () => {
                                         className={styles.dropdown}
                                         aria-label="Select Category"
                                     >
-                                        {categories.map((cat) => (
-                                            <option key={cat.value} value={cat.value}>
-                                                {cat.label}
-                                            </option>
-                                        ))}
+                                        {loading ? (
+                                            <option>Loading categories...</option>
+                                        ) : error ? (
+                                            <option>Error: {error}</option>
+                                        ) : 
+                                            categories.map((cat) => (
+                                                <option key={cat.value} value={cat.value}>
+                                                    {cat.label}
+                                                </option>
+                                            ))
+                                        }
                                     </select>
                                     <select
                                         value={status}
@@ -149,11 +175,11 @@ const Hero = () => {
                                         {filteredProjects.length > 0 ? (
                                             filteredProjects.map((project) => (
                                                 <div className="col-12 col-sm-6 col-md-4 mb-5" key={project.id}>
-                                                    <Link className={styles.projectCard} 
-                                                    to={{
-                                                        pathname: `/offering/${slugify(project.title)}`,
-                                                        search: searchParams.toString(),     // keeps ?startups=all
-                                                    }}
+                                                    <Link className={styles.projectCard}
+                                                        to={{
+                                                            pathname: `/offering/${slugify(project.title)}`,
+                                                            search: searchParams.toString(),     // keeps ?startups=all
+                                                        }}
                                                     >
                                                         <div className="img-container">
                                                             <img

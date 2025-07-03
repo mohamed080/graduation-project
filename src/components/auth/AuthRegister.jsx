@@ -77,7 +77,7 @@ const AuthRegister = () => {
 
                 if (data && typeof data === 'object') {
                     const allMessages = Object.values(data).flat().join(' ');
-                    console.log(allMessages); // optional
+                    // console.log(allMessages); // optional
                     setError(allMessages);
                 } else {
                     setError('Registration failed, please try again');
@@ -91,7 +91,6 @@ const AuthRegister = () => {
         [email, password, firstName, lastName, category, country, confirmPassword, gender, phone]
     );
 
-    console.log(category)
     const handleSocialLogin = (provider) => {
         // Implement OAuth logic here (e.g., Google, Facebook)
         console.log(`Login with ${provider}`);
