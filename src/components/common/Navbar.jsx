@@ -100,7 +100,7 @@ const Navbar = () => {
                         </div>
                         : <> <li><NavLink to='/'>Home</NavLink></li>
                             <li><NavLink to='/explore'>Start Investing</NavLink></li>
-                            <li><NavLink to='saved'>Saved</NavLink></li>
+                            <li><NavLink to='/blog'>Learn</NavLink></li>
                             <li><NavLink to='investment'>My Investment</NavLink></li> </>}
                     <li className={isLoggedIn ? styles.userMenuItem : styles.btn}>
                         {isLoggedIn ? (

@@ -83,7 +83,8 @@ input:focus::placeholder {
     cursor: pointer;
     position: absolute;
     right: 10px;
-    top: 18px;
+    top: 50%;
+    transform: translateY(-50%);
     cursor: pointer;
     z-index: 5;
 }
@@ -410,10 +411,6 @@ input:focus::placeholder {
 
     .login p {
         font-size: 1.4rem;
-    }
-
-    .inputGroupText {
-        top: 12px;
     }
 
     form {

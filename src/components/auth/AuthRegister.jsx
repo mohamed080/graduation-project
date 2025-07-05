@@ -161,7 +161,7 @@ const AuthRegister = () => {
                                             <div className="col-6">
                                                 <label htmlFor="email" className="form-label">Email</label>
                                                 <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="form-control" id="email" placeholder="Email" aria-describedby="emailHelp"
-                                                    required />
+                                                    required  autoComplete="email"/>
                                             </div>
                                             {/* Country */}
                                             <div className="col-6">
@@ -208,6 +208,7 @@ const AuthRegister = () => {
                                                     value={password}
                                                     onChange={(e) => setPassword(e.target.value)}
                                                     required
+                                                    autoComplete="new-password"
                                                 />
                                                 <span
                                                     className={styles.inputGroupText}
@@ -232,6 +233,7 @@ const AuthRegister = () => {
                                                     value={confirmPassword}
                                                     onChange={(e) => setConfirmPassword(e.target.value)}
                                                     required
+                                                    autoComplete="new-password"
                                                 />
                                                 <span
                                                     className={styles.inputGroupText}

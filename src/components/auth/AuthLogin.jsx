@@ -79,7 +79,7 @@ return (
                             <div className="mb-2">
                                 <label htmlFor="email" className="form-label">Email</label>
                                 <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="form-control" id="email" placeholder="Email" aria-describedby="emailHelp"
-                                    required />
+                                    required  autoComplete="email" />
                             </div>
                             {/* Password */}
                             <div className="mb-2 position-relative">
@@ -93,6 +93,7 @@ return (
                                         value={password}
                                         onChange={(e) => setPassword(e.target.value)}
                                         required
+                                        autoComplete="current-password" 
                                     />
                                     <span
                                         className={styles.inputGroupText}

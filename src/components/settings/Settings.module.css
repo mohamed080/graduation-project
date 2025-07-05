@@ -72,6 +72,20 @@
     color: #F4F4F4;
 }
 
+.PersonalInfContainer .settingsItem {
+    cursor: default;
+}
+.PersonalInfContainer .settingsItem:hover .arrowIcon{
+    color: inherit;
+    background: #f7f7f7;
+}
+
+.PersonalInfContainer  .arrowIcon:hover {
+    background-color: var(--primary-color)  !important;
+    color: #F4F4F4 !important;
+
+}
+
 .arrowIcon svg {
     font-size: 1.4rem;
 }
@@ -104,7 +118,9 @@ span {
     margin-bottom: 100px;
 }
 
-.editInput input {
+.editInput input,
+.editInput textarea,
+.editInput select {
     font-size: 1.4rem;
     line-height: 1.6rem;
     font-weight: 400;
@@ -112,11 +128,16 @@ span {
     outline: none;
     padding: 12px 10px;
     width: 100%;
-    background: #F4F4F4;
+    background-color: #F4F4F4;
     border: none;
     border-radius: 8px;
     box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
     margin-bottom: 10px;
+}
+.editInput select:focus {
+    border-color: n;
+    outline: 0;
+    box-shadow: none;
 }
 
 .saveButton {
@@ -154,6 +175,85 @@ span {
 
 .icon {
     color: var(--primary-color);
+}
+
+.bioTextarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  resize: vertical;
+  min-height: 100px;
+  outline: none;
+  font-size: 1.4rem;
+}
+
+/* Success and error alerts */
+.successAlert, .errorAlert {
+  padding: 10px 15px;
+  border-radius: 4px;
+  margin-bottom: 15px;
+}
+
+.successAlert {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.errorAlert {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+/* File Upload Styles */
+.fileUploadContainer {
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.fileInput {
+  display: none;
+}
+
+.fileUploadButton {
+  display: inline-block;
+  padding: 8px 15px;
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.fileUploadButton:hover {
+  background-color: #e0e0e0;
+}
+
+.profileImagePreview {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid #ddd;
+}
+
+.profileImagePlaceholder {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px dashed #ccc;
+}
+
+.profileImagePlaceholder span {
+  font-size: 0.8rem;
+  color: #777;
+  text-align: center;
 }
 
 /* Preferance modal */
@@ -387,7 +487,6 @@ form {
 }
 
 input:focus::placeholder {
-    background: rgb(244, 244, 244);
     color: var(--primary-color);
 }
 
@@ -395,7 +494,8 @@ input:focus::placeholder {
     cursor: pointer;
     position: absolute;
     right: 10px;
-    top: 20px;
+    top: 50%;
+    transform: translateY(-50%);
     cursor: pointer;
     z-index: 5;
 }
@@ -496,7 +596,113 @@ input:focus::placeholder {
 .inputGroupText.visible {
     color: #0d6efd;
 }
+/* end of password */
+/* start of 2FA */
+/* Toggle Switch Styles */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 24px;
+}
 
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  background-color: #ccc;
+  border-radius: 24px;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  transition: 0.3s;
+}
+
+.slider:before {
+  position: absolute;
+  content: '';
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  border-radius: 50%;
+  transition: 0.3s;
+}
+
+input:checked + .slider {
+  background-color: #4caf50;
+}
+
+input:checked + .slider:before {
+  transform: translateX(20px);
+}
+.steps {
+    font-weight: 600;
+    font-size: 1.8rem;
+    line-height: 2.4rem;
+    letter-spacing: 0.06px;
+}
+
+.steps svg {
+    height: 100%;
+}
+.step {
+    padding-left: 22px;
+    display: flex;
+    flex-flow: column wrap;
+    width: 100%;
+}
+.stepText,
+.scan {
+        margin: 0px;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 22px;
+    letter-spacing: 0.05px;
+    color: rgb(43, 48, 58);
+    text-transform: capitalize;
+    margin-bottom: 24px;
+}
+
+.qrcodeContainer {
+    display: flex;
+    flex-flow: wrap;
+    width: 100%;
+    margin: 48px 0px 30px;
+    max-width: 530px;
+    background-color: rgb(238, 238, 238);
+    border-radius: 10px;
+    padding: 16px;
+    justify-content: space-around;
+    -webkit-box-align: center;
+    align-items: center;
+    text-align: center;
+}
+
+.qrcode {
+    flex-basis: 33.3333%;
+        -webkit-box-flex: 0;
+        flex-grow: 0;
+        max-width: 33.3333%;
+}
+.qrcode img {
+        height: 137px;
+    width: 137px;
+    aspect-ratio: auto 137 / 137;
+}
+
+.qrcode .googlelogo {
+        height: 93px;
+    width: 117px;
+    aspect-ratio: auto 117 / 93;
+}
 /* responsive */
 @media (max-width: 992px) {
     .settingsContainer {
@@ -533,6 +739,24 @@ input:focus::placeholder {
     }
 }
 
+@media (max-width: 510px) {
+    .qrcodeContainer {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .qrcode {
+        flex-basis: 100%;
+        max-width: 100%;
+    }
+
+    .qrcode img {
+        width: 100%;
+        aspect-ratio: auto 147 / 137;
+        height: 200px;
+    }
+}
+
 @media (max-width: 480px) {
     .settingsHeader {
         flex-direction: column;
@@ -542,6 +766,16 @@ input:focus::placeholder {
     .personinfoText {
         font-size: 1.4rem;
         line-height: 2rem;
+    }
+
+    .stepText {
+        margin-bottom: 8px;
+        font-size: 14px;
+    }
+
+    .settingsContainer h4 {
+        font-size: 2.6rem;
+        letter-spacing: 0.5px
     }
 }
 

@@ -16,18 +16,24 @@ import EquityNeg from './pages/EquityNeg';
 import { UserProvider } from './context/AuthContext';
 import Security from './pages/Security';
 import UpdatePassword from './pages/UpdatePassword';
+import Blogs from './pages/Blogs';
+import BlogPost from './pages/BlogPost';
 
 function App() {
 
   return (
     <Router>
-<UserProvider>
+      <UserProvider>
         <Routes>
           <Route element={<Layout />}>
             <Route path="/" element={<Home />} />
             <Route path="/explore" element={<Explore />} />
-              <Route path="/offering/:slug" element={<ProjectDetails />} />
-              <Route path='/:slug/equity' element={<EquityNeg />} />
+            <Route path="/offering/:slug" element={<ProjectDetails />} />
+            <Route path='/:slug/equity' element={<EquityNeg />} />
+            <Route path="/blog" element={<Blogs />} />
+            <Route path="/blog/:slug" element={<BlogPost />} />
+            <Route path="/blog/category/:category" element={<Blogs />} />
+            <Route path="/blog/tag/:tag" element={<Blogs />} />
           </Route>
           <Route>
           </Route>
@@ -42,7 +48,7 @@ function App() {
           <Route path="/settings/security" element={<Security />} />
           <Route path="/settings/update-password" element={<UpdatePassword />} />
         </Routes>
-</UserProvider>
+      </UserProvider>
     </Router>
   )
 }

@@ -25,14 +25,25 @@ export const UserProvider = ({ children }) => {
         })
         .finally(() => setLoading(false));
     } else {
+      setCurrentUser(null);
       setLoading(false);
     }
   }, []);
 
-  // console.log('Current user:', currentUser);
-
+  /* ── PUT /profile helper ── */
+const updateUser = async (payload) => {
+    setLoading(true);
+    try {
+      const { data } = await axiosInstance.put('/profile', payload);
+      setCurrentUser(data);
+      localStorage.setItem('user', JSON.stringify(data));
+      return data;
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
-    <AuthContext.Provider value={{ currentUser, loading }}>
+    <AuthContext.Provider value={{ currentUser, updateUser, loading, setLoading }}>
       {!loading && children}
     </AuthContext.Provider>
   );
