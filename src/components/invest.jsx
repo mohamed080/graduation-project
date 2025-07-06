@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import styles from './EquityNegotiation.module.css';
+// import { projects } from '../../data/startups';
 import { slugify } from '../../utils/slugify';
 import { FaExchangeAlt, FaChartLine, FaHistory, FaCheck, FaTimes, FaUserTie } from 'react-icons/fa';
 import { FaArrowLeftLong } from 'react-icons/fa6';
@@ -12,97 +13,78 @@ const EquityNegotiation = () => {
     const { slug } = useParams();
     const navigate = useNavigate();
     const { projects } = useBusinesses();
+    const project = projects.find((p) => slugify(p.title) === slug);
     const { currentUser } = useAuth();
     const { addNotification } = useNotification();
-    const project = projects.find((p) => slugify(p.title) === slug);
-
     // State management
     const [userOffer, setUserOffer] = useState({ equity: '', amount: '', note: '' });
-    const [offers, setOffers] = useState([]); // Always initialize as array
+    const [offers, setOffers] = useState([]);
     const [status, setStatus] = useState('pending'); // pending, countered, accepted, rejected
     const [ownerCounter, setOwnerCounter] = useState(null);
-    const [isOwner, setIsOwner] = useState(false);
+    const [isOwner, setIsOwner] = useState(false); // Track if current user is the owner
     const [ownerOffer, setOwnerOffer] = useState({ equity: '', amount: '', note: '' });
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
-    const [fetchError, setFetchError] = useState('');
+    const [lastOfferId, setLastOfferId] = useState(null);
     const [canInvestorMakeOffer, setCanInvestorMakeOffer] = useState(true);
-    const [ownerAction, setOwnerAction] = useState('counter'); // counter, accept, reject
-
+    const [ownerAction, setOwnerAction] = useState('counter');
     useEffect(() => {
         window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
     }, [slug]);
 
+    // Check if investor can make a new offer
     useEffect(() => {
         if (!isOwner && offers.length > 0) {
             const lastOffer = offers[offers.length - 1];
-            const isInvestorOfferPending = 
-                lastOffer.type === 'investor' && 
+            const isInvestorOfferPending =
+                lastOffer.type === 'investor' &&
                 status === 'pending' &&
                 lastOffer.user_id === currentUser.id;
+
             setCanInvestorMakeOffer(!isInvestorOfferPending);
-        } else if (!isOwner && status === 'countered') {
-            setCanInvestorMakeOffer(true); // Allow investor to respond to counter offer
-        } else if (!isOwner && (status === 'accepted' || status === 'rejected')) {
-            setCanInvestorMakeOffer(false); // No new offers after accept/reject
-        } else {
-            setCanInvestorMakeOffer(true); // Allow initial offer
         }
     }, [offers, status, isOwner, currentUser]);
 
     useEffect(() => {
-        if (!project || !currentUser) {
-            setFetchError('Project or user not found');
-            return;
-        }
+        if (!project || !currentUser || !lastOfferId) return;
 
+        // Check if current user is the owner
         setIsOwner(currentUser.id === project.ownerID);
 
+        // Load offers from API instead of localStorage
         const fetchOffers = async () => {
-            setLoading(true);
-            setFetchError('');
             try {
-                const response = await axiosInstance.get(`/offers/${project.id}`);
-                console.log('API response for offers:', response.data); // Debug log
-                const fetchedOffers = Array.isArray(response.data) ? response.data : [];
-                setOffers(fetchedOffers);
-                const lastOffer = fetchedOffers[fetchedOffers.length - 1];
+                const response = await axiosInstance.get(`/offers/${lastOfferId}`);
+                setOffers(response.data);
+
+                // Determine negotiation status
+                const lastOffer = response.data[response.data.length - 1];
                 if (lastOffer) {
                     setStatus(lastOffer.status || 'pending');
-                    if (lastOffer.type === 'owner') setOwnerCounter(lastOffer);
-                } else {
-                    setStatus('pending');
-                    setOwnerCounter(null);
-                    if (isOwner) setFetchError('No offers have been made for this project yet.');
                 }
             } catch (error) {
-                console.error('Error fetching offers:', error);
-                setFetchError(error.response?.data?.message || 'Failed to load offers. Please try again.');
-                setOffers([]); // Ensure offers is an array on error
-            } finally {
-                setLoading(false);
+                console.error('Error loading offers:', error);
             }
         };
 
         fetchOffers();
-    }, [project, currentUser, isOwner]);
+    }, [project, currentUser, lastOfferId]);
 
+    // Load saved negotiation if exists
     useEffect(() => {
         const savedNegotiation = localStorage.getItem(`negotiation-${slug}`);
         if (savedNegotiation) {
-            try {
-                const { offers: savedOffers, status: savedStatus, counter } = JSON.parse(savedNegotiation);
-                setOffers(Array.isArray(savedOffers) ? savedOffers : []);
-                setStatus(savedStatus || 'pending');
-                setOwnerCounter(counter || null);
-            } catch (error) {
-                console.error('Error parsing localStorage data:', error);
-                setOffers([]);
-                setFetchError('Failed to load saved negotiation data.');
-            }
+            const { offers: savedOffers, status: savedStatus, counter } = JSON.parse(savedNegotiation);
+            setOffers(savedOffers);
+            setStatus(savedStatus);
+            if (counter) setOwnerCounter(counter);
         }
+
+        // Check if user is owner (for demo purposes)
+        setIsOwner(Math.random() > 0.7); // 30% chance of being owner for demo
     }, [slug]);
 
+    // Save negotiation progress
     const saveNegotiation = () => {
         const negotiationData = {
             offers,
@@ -121,11 +103,11 @@ const EquityNegotiation = () => {
 
     const handleOwnerInputChange = (e) => {
         const { name, value } = e.target;
-        setOwnerOffer(prev => ({ ... prev, [name]: value }));
+        setOwnerOffer(prev => ({ ...prev, [name]: value }));
     };
 
     const submitInvestorOffer = async () => {
-        if (!currentUser || !project || !canInvestorMakeOffer) return;
+        if (!currentUser || !project) return;
 
         setLoading(true);
         setError('');
@@ -133,6 +115,7 @@ const EquityNegotiation = () => {
         const equity = parseFloat(userOffer.equity);
         const amount = parseFloat(userOffer.amount);
 
+        // Validation
         if (isNaN(equity) || isNaN(amount)) {
             setError('Please enter valid numbers for equity and amount');
             setLoading(false);
@@ -150,23 +133,27 @@ const EquityNegotiation = () => {
             requested_percentage: equity,
             offered_amount: amount,
             message: userOffer.note,
-            parent_offer_id: ownerCounter ? ownerCounter.offerid : null
+            parent_offer_id: null
         };
 
         try {
             const response = await axiosInstance.post('/offers', payload);
+
+            // Update local state with new offer
             const newOffer = {
                 ...response.data,
                 type: 'investor',
-                timestamp: new Date().toISOString(),
-                offerid: response.data.offer.id,
-                user_id: currentUser.id
+                timestamp: new Date().toISOString(
+                ),
+                offerid: response.data.offer.id
             };
+            setCanInvestorMakeOffer(false);
+
             setOffers(prev => [...prev, newOffer]);
             setStatus('pending');
             setUserOffer({ equity: '', amount: '', note: '' });
-            setCanInvestorMakeOffer(false); // Block new offers until owner responds
 
+            // Add notifications
             addNotification({
                 type: 'offer',
                 projectTitle: project.title,
@@ -174,6 +161,7 @@ const EquityNegotiation = () => {
                 message: `You offered ${equity}% equity for ${formatCurrency(amount)}`
             });
 
+            // Simulate notification to owner
             addNotification({
                 type: 'offer',
                 projectTitle: project.title,
@@ -182,7 +170,6 @@ const EquityNegotiation = () => {
                 recipientId: project.ownerID
             });
 
-            saveNegotiation();
         } catch (error) {
             console.error('Failed to submit offer:', error);
             setError(error.response?.data?.message || 'Failed to submit offer. Please try again.');
@@ -190,6 +177,69 @@ const EquityNegotiation = () => {
             setLoading(false);
         }
     };
+
+    // const submitOwnerCounter = async () => {
+    //     setLoading(true);
+    //     setError('');
+
+    //     const equity = parseFloat(ownerOffer.equity);
+    //     const amount = parseFloat(ownerOffer.amount);
+
+    //     // Validation
+    //     if (isNaN(equity) || isNaN(amount)) {
+    //         setError('Please enter valid numbers for equity and amount');
+    //         setLoading(false);
+    //         return;
+    //     }
+
+    //     if (equity <= 0 || amount <= 0) {
+    //         setError('Values must be greater than zero');
+    //         setLoading(false);
+    //         return;
+    //     }
+
+    //     try {
+    //         const reponse = await axiosInstance.post(`/offers/${offerid}/accept`, {
+    //             Headers: {
+    //                 'Content-Type': 'application/json'
+    //             },
+    //         })
+
+    //     }
+    //     // Create new counter offer object
+    //     const counterOffer = {
+    //         id: Date.now(),
+    //         equity,
+    //         amount,
+    //         note: ownerOffer.note,
+    //         timestamp: new Date().toISOString(),
+    //         type: 'owner'
+    //     };
+
+    //     setStatus('countered');
+    //     setOwnerCounter(counterOffer);
+    //     setOffers(prev => [...prev, counterOffer]);
+
+    //     // Add notification for owner
+    //     addNotification({
+    //         type: 'counter',
+    //         projectTitle: project.title,
+    //         link: `/${slug}/equity`,
+    //         message: `You countered with ${ownerOffer.equity}% equity for ${formatCurrency(ownerOffer.amount)}`
+    //     });
+
+    //     // Add notification for investor
+    //     addNotification({
+    //         type: 'counter',
+    //         projectTitle: project.title,
+    //         link: `/${slug}/equity`,
+    //         message: `Counter offer received for ${project.title}`
+    //     });
+
+    //     setLoading(false);
+    //     setOwnerOffer({ equity: '', amount: '', note: '' });
+    //     saveNegotiation();
+    // };
 
     const submitOwnerCounter = async () => {
         if (!currentUser || !project || !latestOffer) return;
@@ -203,7 +253,6 @@ const EquityNegotiation = () => {
             try {
                 await axiosInstance.post(`/offers/${latestOffer.offerid}/accept`, {});
                 setStatus('accepted');
-                setCanInvestorMakeOffer(false); // No new offers after accept
                 saveNegotiation();
 
                 addNotification({
@@ -230,7 +279,6 @@ const EquityNegotiation = () => {
             try {
                 await axiosInstance.post(`/offers/${latestOffer.offerid}/reject`, {});
                 setStatus('rejected');
-                setCanInvestorMakeOffer(false); // No new offers after reject
                 saveNegotiation();
 
                 addNotification({
@@ -296,7 +344,6 @@ const EquityNegotiation = () => {
                 setStatus('countered');
                 setOwnerCounter(counterOffer);
                 setOwnerOffer({ equity: '', amount: '', note: '' });
-                setCanInvestorMakeOffer(true); // Allow investor to respond to counter offer
 
                 addNotification({
                     type: 'counter',
@@ -323,25 +370,25 @@ const EquityNegotiation = () => {
         }
     };
 
-    const withdrawOffer = async (offerId) => {
-        try {
-            await axiosInstance.delete(`/offers/${offerId}`);
-            setOffers(prev => prev.filter(offer => offer.offerid !== offerId));
-            setStatus('pending');
-            setCanInvestorMakeOffer(true); // Allow new offers after withdrawal
-            saveNegotiation();
-            addNotification({
-                type: 'withdrawn',
-                projectTitle: project.title,
-                link: `/${slug}/equity`,
-                message: `Offer withdrawn for ${project.title}`
-            });
-        } catch (error) {
-            console.error('Failed to withdraw offer:', error);
-            setError(error.response?.data?.message || 'Failed to withdraw offer. Please try again.');
-        }
+
+    const handleComplete = () => {
+        localStorage.removeItem(`negotiation-${slug}`);
+        navigate(`/offering/${slug}`);
     };
 
+    const withdrawOffer = (offerId) => {
+        setOffers(prev => prev.filter(offer => offer.id !== offerId));
+        setStatus('pending');
+        saveNegotiation();
+        addNotification({
+            type: 'withdrawn',
+            projectTitle: project.title,
+            link: `/${slug}/equity`,
+            message: `Offer withdrawn for ${project.title}`
+        });
+    };
+
+    // Format currency
     const formatCurrency = (amount) => {
         return new Intl.NumberFormat('en-US', {
             style: 'currency',
@@ -350,6 +397,7 @@ const EquityNegotiation = () => {
         }).format(amount);
     };
 
+    // Get the latest offer
     const latestOffer = offers.length > 0 ? offers[offers.length - 1] : null;
 
     return (
@@ -371,15 +419,16 @@ const EquityNegotiation = () => {
                 <div className="row">
                     <div className="col-12 col-lg-8">
                         <div className={styles.negotiationContainer}>
-                            {fetchError && <div className={styles.errorMsg}>{fetchError}</div>}
-                            {loading && <div className={styles.spinner}>Loading offers...</div>}
-
+                            {/* Negotiation Status Banner */}
                             <div className={`${styles.statusBanner} ${status === 'accepted' ? styles.accepted : ''} ${status === 'rejected' ? styles.rejected : ''}`}>
                                 {status === 'pending' && (
                                     <div className="d-flex align-items-center">
                                         <div className={styles.statusIndicator}></div>
                                         <span>
-                                            {isOwner ? "Waiting for investor offers" : "Negotiation in progress"}
+                                            {isOwner
+                                                ? "Waiting for investor offers"
+                                                : "Negotiation in progress"
+                                            }
                                         </span>
                                     </div>
                                 )}
@@ -387,7 +436,10 @@ const EquityNegotiation = () => {
                                     <div className="d-flex align-items-center">
                                         <FaHistory className="me-2" />
                                         <span>
-                                            {isOwner ? "Your counter offer has been sent" : "Owner made a counter offer"}
+                                            {isOwner
+                                                ? "Your counter offer has been sent"
+                                                : "Owner made a counter offer"
+                                            }
                                         </span>
                                     </div>
                                 )}
@@ -405,6 +457,7 @@ const EquityNegotiation = () => {
                                 )}
                             </div>
 
+                            {/* Owner's Terms */}
                             <div className={styles.termsCard}>
                                 <h4>
                                     <FaChartLine className="me-2" />
@@ -428,20 +481,22 @@ const EquityNegotiation = () => {
                                 </div>
                             </div>
 
-                            <div className={styles.historySection}>
-                                <h5>Negotiation History</h5>
-                                {offers.length === 0 ? (
-                                    <p className={styles.noOffers}>No offers have been made yet.</p>
-                                ) : (
+                            {/* Negotiation History */}
+                            {offers.length > 0 && (
+                                <div className={styles.historySection}>
+                                    <h5>Negotiation History</h5>
                                     <div className={styles.timeline}>
                                         {offers.map((offer) => (
                                             <div
-                                                key={offer.offerid}
+                                                key={offer.offer}
                                                 className={`${styles.timelineItem} ${offer.type === 'investor' ? styles.investorOffer : styles.ownerOffer}`}
                                             >
                                                 <div className={styles.timelineHeader}>
                                                     <span className={styles.offerType}>
-                                                        {offer.type === 'investor' ? 'Investor Offer' : "Owner's Offer"}
+                                                        {offer.type === 'investor'
+                                                            ? 'Investor Offer'
+                                                            : "Owner's Offer"
+                                                        }
                                                     </span>
                                                     <span className={styles.offerDate}>
                                                         {new Date(offer.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
@@ -452,16 +507,80 @@ const EquityNegotiation = () => {
                                                     <span className={styles.divider}>•</span>
                                                     <span>{formatCurrency(offer.offered_amount)}</span>
                                                 </div>
-                                                {offer.message && (
+                                                {offer.note && (
                                                     <div className={styles.offerNote}>
                                                         <p>"{offer.message}"</p>
                                                     </div>
                                                 )}
-                                                {(status === 'pending' || status === 'countered') && offer.user_id === currentUser.id && (
+
+                                                {/* Action buttons for owner */}
+                                                {isOwner && offer.type === 'investor' && status === 'pending' && (
+                                                    <div className={styles.offerActions}>
+                                                        <button
+                                                            className={styles.actionBtnAccept}
+                                                            onClick={() => acceptOffer(offer)}
+                                                        >
+                                                            Accept
+                                                        </button>
+                                                        <button
+                                                            className={styles.actionBtnCounter}
+                                                            onClick={() => {
+                                                                // Pre-fill counter form with current offer
+                                                                setOwnerOffer({
+                                                                    equity: offer.equity,
+                                                                    amount: offer.amount,
+                                                                    note: ''
+                                                                });
+                                                            }}
+                                                        >
+                                                            Counter
+                                                        </button>
+                                                        <button
+                                                            className={styles.actionBtnReject}
+                                                            onClick={() => rejectOffer()}
+                                                        >
+                                                            Reject
+                                                        </button>
+                                                    </div>
+                                                )}
+
+                                                {/* Action buttons for investor */}
+                                                {!isOwner && offer.type === 'owner' && status === 'countered' && (
+                                                    <div className={styles.offerActions}>
+                                                        <button
+                                                            className={styles.actionBtnAccept}
+                                                            onClick={() => acceptOffer(offer)}
+                                                        >
+                                                            Accept
+                                                        </button>
+                                                        <button
+                                                            className={styles.actionBtnCounter}
+                                                            onClick={() => {
+                                                                // Pre-fill investor form with counter offer
+                                                                setUserOffer({
+                                                                    equity: offer.equity,
+                                                                    amount: offer.amount,
+                                                                    note: ''
+                                                                });
+                                                            }}
+                                                        >
+                                                            Counter
+                                                        </button>
+                                                        <button
+                                                            className={styles.actionBtnReject}
+                                                            onClick={() => rejectOffer()}
+                                                        >
+                                                            Reject
+                                                        </button>
+                                                    </div>
+                                                )}
+
+                                                {/* Withdraw button for offer creator */}
+                                                {(status === 'pending' || status === 'countered') && (
                                                     <div className={styles.withdrawContainer}>
                                                         <button
                                                             className={styles.withdrawBtn}
-                                                            onClick={() => withdrawOffer(offer.offerid)}
+                                                            onClick={() => withdrawOffer(offer.id)}
                                                         >
                                                             Withdraw Offer
                                                         </button>
@@ -470,27 +589,25 @@ const EquityNegotiation = () => {
                                             </div>
                                         ))}
                                     </div>
-                                )}
-                            </div>
+                                </div>
+                            )}
 
+                            {/* Investor Offer Form */}
                             {!isOwner && status !== 'accepted' && status !== 'rejected' && (
                                 <div className={styles.offerForm}>
                                     <h5>Make Your Investment Offer</h5>
+
                                     {ownerCounter && (
                                         <div className={styles.counterOffer}>
                                             <p>Owner countered with:</p>
                                             <div className={styles.counterValues}>
-                                                <span>{ownerCounter.requested_percentage}% Equity</span>
+                                                <span>{ownerCounter.equity}% Equity</span>
                                                 <span className={styles.divider}>•</span>
-                                                <span>{formatCurrency(ownerCounter.offered_amount)}</span>
+                                                <span>{formatCurrency(ownerCounter.amount)}</span>
                                             </div>
                                         </div>
                                     )}
-                                    {!canInvestorMakeOffer && status === 'pending' && (
-                                        <div className={styles.errorMsg}>
-                                            You must wait for the owner's response before making another offer.
-                                        </div>
-                                    )}
+
                                     <div className={styles.inputGroup}>
                                         <label htmlFor="equityInput">Equity Percentage (%)</label>
                                         <input
@@ -504,9 +621,9 @@ const EquityNegotiation = () => {
                                             step="0.1"
                                             max="100"
                                             className={styles.input}
-                                            disabled={!canInvestorMakeOffer}
                                         />
                                     </div>
+
                                     <div className={styles.inputGroup}>
                                         <label htmlFor="amountInput">Investment Amount</label>
                                         <input
@@ -519,9 +636,9 @@ const EquityNegotiation = () => {
                                             min="1"
                                             step="1000"
                                             className={styles.input}
-                                            disabled={!canInvestorMakeOffer}
                                         />
                                     </div>
+
                                     <div className={styles.inputGroup}>
                                         <label htmlFor="noteInput">Your Message to Owner</label>
                                         <textarea
@@ -533,18 +650,19 @@ const EquityNegotiation = () => {
                                             rows="3"
                                             className={styles.input}
                                             maxLength={200}
-                                            disabled={!canInvestorMakeOffer}
                                         />
                                         <div className={styles.charCount}>
                                             {userOffer.note.length}/200
                                         </div>
                                     </div>
+
                                     {error && <div className={styles.errorMsg}>{error}</div>}
+
                                     <div className="d-flex justify-content-end mt-4">
                                         <button
                                             className={styles.submitOfferBtn}
                                             onClick={submitInvestorOffer}
-                                            disabled={loading || !canInvestorMakeOffer || !userOffer.equity || !userOffer.amount}
+                                            disabled={loading || !userOffer.equity || !userOffer.amount}
                                         >
                                             {loading ? (
                                                 <span className={styles.spinner}></span>
@@ -556,103 +674,94 @@ const EquityNegotiation = () => {
                                 </div>
                             )}
 
-                            {isOwner && status !== 'accepted' && status !== 'rejected' && latestOffer && latestOffer.type === 'investor' && (
+                            {/* Owner Counter Offer Form */}
+                            {isOwner && status !== 'accepted' && status !== 'rejected' && (
                                 <div className={styles.offerForm}>
                                     <div className={styles.ownerBadge}>
                                         <FaUserTie className="me-2" />
                                         You are the project owner
                                     </div>
-                                    <h5>Respond to Investor Offer</h5>
-                                    <div className={styles.currentOffer}>
-                                        <p>Current Investor Offer:</p>
-                                        <div className={styles.counterValues}>
-                                            <span>{latestOffer.requested_percentage}% Equity</span>
-                                            <span className={styles.divider}>•</span>
-                                            <span>{formatCurrency(latestOffer.offered_amount)}</span>
+
+                                    <h5>Make a Counter Offer</h5>
+
+                                    {latestOffer && latestOffer.type === 'investor' && (
+                                        <div className={styles.currentOffer}>
+                                            <p>Current Investor Offer:</p>
+                                            <div className={styles.counterValues}>
+                                                <span>{latestOffer.equity}% Equity</span>
+                                                <span className={styles.divider}>•</span>
+                                                <span>{formatCurrency(latestOffer.amount)}</span>
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    <div className={styles.inputGroup}>
+                                        <label htmlFor="ownerEquityInput">Equity Percentage (%)</label>
+                                        <input
+                                            type="number"
+                                            id="ownerEquityInput"
+                                            name="equity"
+                                            value={ownerOffer.equity}
+                                            onChange={handleOwnerInputChange}
+                                            placeholder={`e.g., ${project.equityOffered}`}
+                                            min="0.1"
+                                            step="0.1"
+                                            className={styles.input}
+                                        />
+                                    </div>
+
+                                    <div className={styles.inputGroup}>
+                                        <label htmlFor="ownerAmountInput">Investment Amount</label>
+                                        <input
+                                            type="number"
+                                            id="ownerAmountInput"
+                                            name="amount"
+                                            value={ownerOffer.amount}
+                                            onChange={handleOwnerInputChange}
+                                            placeholder={`e.g., ${project.amountRequested.toLocaleString()}`}
+                                            min="1"
+                                            step="1000"
+                                            className={styles.input}
+                                        />
+                                    </div>
+
+                                    <div className={styles.inputGroup}>
+                                        <label htmlFor="ownerNoteInput">Message to Investor</label>
+                                        <textarea
+                                            id="ownerNoteInput"
+                                            name="note"
+                                            value={ownerOffer.note}
+                                            onChange={handleOwnerInputChange}
+                                            placeholder="Explain your counter offer..."
+                                            rows="3"
+                                            className={styles.input}
+                                            maxLength={200}
+
+                                        />
+                                        <div className={styles.charCount}>
+                                            {ownerOffer.note.length}/200
                                         </div>
                                     </div>
-                                    <div className={styles.inputGroup}>
-                                        <label htmlFor="ownerActionSelect">Your Action</label>
-                                        <select
-                                            id="ownerActionSelect"
-                                            value={ownerAction}
-                                            onChange={(e) => setOwnerAction(e.target.value)}
-                                            className={styles.input}
-                                        >
-                                            <option value="counter">Counter Offer</option>
-                                            <option value="accept">Accept Offer</option>
-                                            <option value="reject">Reject Offer</option>
-                                        </select>
-                                    </div>
-                                    {ownerAction === 'counter' && (
-                                        <>
-                                            <div className={styles.inputGroup}>
-                                                <label htmlFor="ownerEquityInput">Equity Percentage (%)</label>
-                                                <input
-                                                    type="number"
-                                                    id="ownerEquityInput"
-                                                    name="equity"
-                                                    value={ownerOffer.equity}
-                                                    onChange={handleOwnerInputChange}
-                                                    placeholder={`e.g., ${project.equityOffered}`}
-                                                    min="0.1"
-                                                    step="0.1"
-                                                    className={styles.input}
-                                                />
-                                            </div>
-                                            <div className={styles.inputGroup}>
-                                                <label htmlFor="ownerAmountInput">Investment Amount</label>
-                                                <input
-                                                    type="number"
-                                                    id="ownerAmountInput"
-                                                    name="amount"
-                                                    value={ownerOffer.amount}
-                                                    onChange={handleOwnerInputChange}
-                                                    placeholder={`e.g., ${project.amountRequested.toLocaleString()}`}
-                                                    min="1"
-                                                    step="1000"
-                                                    className={styles.input}
-                                                />
-                                            </div>
-                                            <div className={styles.inputGroup}>
-                                                <label htmlFor="ownerNoteInput">Message to Investor</label>
-                                                <textarea
-                                                    id="ownerNoteInput"
-                                                    name="note"
-                                                    value={ownerOffer.note}
-                                                    onChange={handleOwnerInputChange}
-                                                    placeholder="Explain your counter offer..."
-                                                    rows="3"
-                                                    className={styles.input}
-                                                    maxLength={200}
-                                                />
-                                                <div className={styles.charCount}>
-                                                    {ownerOffer.note.length}/200
-                                                </div>
-                                            </div>
-                                        </>
-                                    )}
+
                                     {error && <div className={styles.errorMsg}>{error}</div>}
+
                                     <div className="d-flex justify-content-end mt-4">
                                         <button
                                             className={styles.submitOfferBtn}
                                             onClick={submitOwnerCounter}
-                                            disabled={
-                                                loading ||
-                                                (ownerAction === 'counter' && (!ownerOffer.equity || !ownerOffer.amount))
-                                            }
+                                            disabled={loading || !ownerOffer.equity || !ownerOffer.amount}
                                         >
                                             {loading ? (
                                                 <span className={styles.spinner}></span>
                                             ) : (
-                                                ownerAction === 'counter' ? 'Submit Counter Offer' :
-                                                ownerAction === 'accept' ? 'Accept Offer' : 'Reject Offer'
+                                                "Submit Counter Offer"
                                             )}
                                         </button>
                                     </div>
                                 </div>
                             )}
 
+                            {/* Final Status */}
                             {(status === 'accepted' || status === 'rejected') && (
                                 <div className={styles.finalStatus}>
                                     {status === 'accepted' ? (
@@ -664,7 +773,8 @@ const EquityNegotiation = () => {
                                             <p className={styles.successMsg}>
                                                 {isOwner
                                                     ? `You've accepted an investment offer for ${project.title}.`
-                                                    : `Congratulations! Your investment in ${project.title} has been accepted.`}
+                                                    : `Congratulations! Your investment in ${project.title} has been accepted.`
+                                                }
                                             </p>
                                             <p className={styles.instructions}>
                                                 You'll receive further instructions via email shortly.
@@ -679,7 +789,8 @@ const EquityNegotiation = () => {
                                             <p>
                                                 {isOwner
                                                     ? "You've rejected the investment offer."
-                                                    : "The owner has declined your offer."}
+                                                    : "The owner has declined your offer."
+                                                }
                                             </p>
                                             <p>
                                                 Consider adjusting your terms or exploring other opportunities.
@@ -688,7 +799,7 @@ const EquityNegotiation = () => {
                                     )}
                                     <button
                                         className={styles.completeBtn}
-                                        onClick={() => navigate(`/offering/${slug}`)}
+                                        onClick={handleComplete}
                                     >
                                         {status === 'accepted' ? 'View Investment Details' : 'Back to Project'}
                                     </button>
@@ -697,6 +808,7 @@ const EquityNegotiation = () => {
                         </div>
                     </div>
 
+                    {/* Valuation Sidebar */}
                     <div className="col-12 col-lg-4 mt-4 mt-lg-0">
                         <div className={styles.valuationSidebar}>
                             <h5>Valuation Calculator</h5>
@@ -708,7 +820,8 @@ const EquityNegotiation = () => {
                                             ? formatCurrency(ownerOffer.amount)
                                             : !isOwner && userOffer.amount
                                                 ? formatCurrency(userOffer.amount)
-                                                : '--'}
+                                                : '--'
+                                        }
                                     </span>
                                 </div>
                                 <div className={styles.calcRow}>
@@ -718,7 +831,8 @@ const EquityNegotiation = () => {
                                             ? `${ownerOffer.equity}%`
                                             : !isOwner && userOffer.equity
                                                 ? `${userOffer.equity}%`
-                                                : '--'}
+                                                : '--'
+                                        }
                                     </span>
                                 </div>
                                 <div className={styles.divider}></div>
@@ -729,42 +843,50 @@ const EquityNegotiation = () => {
                                             ? formatCurrency((ownerOffer.amount / ownerOffer.equity) * 100)
                                             : !isOwner && userOffer.amount && userOffer.equity
                                                 ? formatCurrency((userOffer.amount / userOffer.equity) * 100)
-                                                : '--'}
+                                                : '--'
+                                        }
                                     </span>
                                 </div>
                             </div>
+
                             <div className={styles.comparison}>
                                 <h6>Compared to Owner's Valuation:</h6>
                                 <div className={styles.comparisonBar}>
-                                    <div className={styles.ownerValuation} style={{ width: '100%' }}>
+                                    <div
+                                        className={styles.ownerValuation}
+                                        style={{ width: '100%' }}
+                                    >
                                         <span>Owner's Valuation</span>
-                                        <span>{formatCurrency(project.amountRequested / (project.equityOffered / 100))}</span>
+                                        <span>
+                                            {formatCurrency(project.amountRequested / (project.equityOffered / 100))}
+                                        </span>
                                     </div>
                                     {((isOwner && ownerOffer.amount && ownerOffer.equity) ||
                                         (!isOwner && userOffer.amount && userOffer.equity)) && (
-                                        <div
-                                            className={styles.userValuation}
-                                            style={{
-                                                width: `${Math.min(
-                                                    100,
-                                                    ((isOwner ? ownerOffer.amount / ownerOffer.equity : userOffer.amount / userOffer.equity) * 100) /
-                                                    (project.amountRequested / (project.equityOffered / 100)) * 100
-                                                )}%`
-                                            }}
-                                        >
-                                            <span>{isOwner ? "Counter" : "Your"} Valuation</span>
-                                            <span>
-                                                {formatCurrency(
-                                                    (isOwner
-                                                        ? ownerOffer.amount / ownerOffer.equity
-                                                        : userOffer.amount / userOffer.equity
-                                                    ) * 100
-                                                )}
-                                            </span>
-                                        </div>
-                                    )}
+                                            <div
+                                                className={styles.userValuation}
+                                                style={{
+                                                    width: `${Math.min(
+                                                        100,
+                                                        ((isOwner ? ownerOffer.amount / ownerOffer.equity : userOffer.amount / userOffer.equity) * 100) /
+                                                        (project.amountRequested / (project.equityOffered / 100)) * 100
+                                                    )}%`
+                                                }}
+                                            >
+                                                <span>{isOwner ? "Counter" : "Your"} Valuation</span>
+                                                <span>
+                                                    {formatCurrency(
+                                                        (isOwner
+                                                            ? ownerOffer.amount / ownerOffer.equity
+                                                            : userOffer.amount / userOffer.equity
+                                                        ) * 100
+                                                    )}
+                                                </span>
+                                            </div>
+                                        )}
                                 </div>
                             </div>
+
                             <div className={styles.tips}>
                                 <h6>Negotiation Tips:</h6>
                                 <ul>

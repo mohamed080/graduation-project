@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react'
 import styles from './Hero.module.css'
 import { Link, useSearchParams } from 'react-router-dom'
 import ProjectSlider from './ProjectSlider';
-import { projects } from '../../data/startups';
+// import { projects } from '../../data/startups';
 import { slugify } from '../../utils/slugify';
 import axiosInstance from '../../utils/axiosInstance';
-
+import  useBusinesses  from '../../hooks/useBusinesses';
 
 const Hero = () => {
     const [activeTab, setActiveTab] = useState('overview');
@@ -16,6 +16,10 @@ const Hero = () => {
     const [error, setError] = useState(null);
     const [searchParams] = useSearchParams();
     const showAllStartups = searchParams.get('startups') === 'all';
+
+        const { projects } = useBusinesses();
+    
+
     const handleTabClick = (tab) => {
         setActiveTab(tab);
     };
@@ -29,11 +33,10 @@ const Hero = () => {
                     value: cat.slug,
                     label: cat.name
                 }));
-                console.log(formatted);
                 setCategories([{ value: 'all', label: 'All Categories' }, ...formatted]);
             } catch (error) {
                 console.error('Failed to fetch categories:', error);
-                  setError(error.message || 'Failed to load');
+                setError(error.message || 'Failed to load');
             } finally {
                 setLoading(false);
             }
@@ -80,6 +83,10 @@ const Hero = () => {
                                         />
                                     </div>
                                     <h3>{project.title}</h3>
+                                    <p className={styles.desc}>
+                                        {project.desc.split(' ').slice(0, 9).join(' ')}…
+                                    </p>
+
                                     <div className={styles.projectDetails}>
                                         <svg width="100%" height="2" fill="none" xmlns="http://www.w3.org/2000/svg"><line x1="0.5" y1="0.5" x2="100%" y2="0.5" stroke="#999999" strokeLinecap="round" strokeDasharray="0.5 8"></line></svg>
                                         <div className='d-flex justify-content-between mt-3'>
@@ -133,7 +140,7 @@ const Hero = () => {
                                             <option>Loading categories...</option>
                                         ) : error ? (
                                             <option>Error: {error}</option>
-                                        ) : 
+                                        ) :
                                             categories.map((cat) => (
                                                 <option key={cat.value} value={cat.value}>
                                                     {cat.label}

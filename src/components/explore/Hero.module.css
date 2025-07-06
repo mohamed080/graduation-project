@@ -191,16 +191,25 @@
 
 .hero .projectCard h3 {
     color: #000e0b;
-    margin-block: 17px;
+    margin-top: 8px;
     font-weight: 600;
     font-size: 1.9rem;
     line-height: 24px;
     letter-spacing: 0.05px;
 }
 
+.hero .projectCard .desc {
+    margin-bottom: 0;
+    font-size: 13px;
+    line-height: 16px;
+    letter-spacing: -0.0095em;
+    text-wrap: wrap;
+    color: rgb(86, 86, 86);
+}
+
 .hero .projectCard .projectDetails {
     width: 90%;
-    margin-top: 3rem;
+    margin-top: 1rem;
 }
 
 .hero .projectCard .projectDetails h4 {

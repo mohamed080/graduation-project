@@ -53,7 +53,7 @@ export const projects = [
         ],
         equityOffered: 10,
         amountRequested: 100000,
-        ownerID: 3,
+        ownerID: 1,
     },
     {
         id: 2,
@@ -68,12 +68,13 @@ export const projects = [
         desc: 'After xAI acquired X in an all-stock deal, Elon Musk’s AI venture now carries an $80B valuation, with a combined post-merger value of $113B (including $12B of debt from X).³ The move follows a $6B Series C⁴ that helped xAI expand its Colossus supercomputer, “one of the most powerful AI clusters to date.”⁵ Now you can gain exposure to the company innovating at the intersection of GenAI and social media. Limited to 100 spots for accredited investors.',
         period: 30,
         equityOffered: 30, // Percentage
-    amountRequested: 150000, // USD
+        amountRequested: 150000, // USD
+        ownerID: 1,
     },
     {
         id: 3,
-        title: "Series spaceX-2",
-        slug: "series-spacex-2",
+        title: "Series spaceX-1",
+        slug: "series-spacex-1",
         img: project3,
         raised: '$6.10M',
         minInvestment: '$20,2K',
@@ -84,6 +85,7 @@ export const projects = [
         period: 14,
         equityOffered: 5,
         amountRequested: 30000,
+        ownerID: 4,
     },
     {
         id: 4,
@@ -99,6 +101,7 @@ export const projects = [
         period: 7,
         equityOffered: 5,
         amountRequested: 15000,
+        ownerID: 4,
     },
     {
         id: 5,
@@ -114,5 +117,6 @@ export const projects = [
         period: 0,
         equityOffered: 60,
         amountRequested: 60000,
+        ownerID: 4,
     },
 ];

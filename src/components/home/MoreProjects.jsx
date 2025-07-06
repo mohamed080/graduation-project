@@ -7,13 +7,17 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { projects } from '../../data/startups';
+// import { projects } from '../../data/startups';
 import { slugify } from '../../utils/slugify';
+import  useBusinesses  from '../../hooks/useBusinesses';
 
 const MoreProjects = () => {
     const [swiper, setSwiper] = useState(null);
     const [isFirstSlide, setIsFirstSlide] = useState(true);
     const [isLastSlide, setIsLastSlide] = useState(false);
+
+    const { projects, loading, error } = useBusinesses();
+
     const navigate = useNavigate();
     const { search } = useLocation();
     useEffect(() => {
@@ -35,6 +39,12 @@ const MoreProjects = () => {
             });
         }
     }, [swiper]);
+
+     if (loading) return <p className="text-center">Loading…</p>;
+  if (error)   return <p className="text-danger">{error}</p>;
+  if (!projects.length) return null; 
+
+  console.log(projects)
 
     return (
         <div className={styles.moreProjects}>
@@ -90,7 +100,7 @@ const MoreProjects = () => {
                                     <div className="img-container">
                                         <img
                                             src={project.img}
-                                            alt="Thumbnail"
+                                            alt={project.title}
                                             className={styles.projectImg}
                                         />
                                     </div>

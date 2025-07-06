@@ -6,9 +6,10 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
-import { projects } from '../../data/startups';
+// import { projects } from '../../data/startups';
 import { Link, useSearchParams } from 'react-router-dom';
 import { slugify } from '../../utils/slugify';
+import  useBusinesses  from '../../hooks/useBusinesses';
 
 
 
@@ -16,6 +17,9 @@ const ProjectSlider = () => {
     const [swiper, setSwiper] = useState(null);
     const [isFirstSlide, setIsFirstSlide] = useState(true);
     const [isLastSlide, setIsLastSlide] = useState(false);
+
+        const { projects, loading, error } = useBusinesses();
+
     const [searchParams] = useSearchParams();
 
     useEffect(() => {
@@ -86,7 +90,8 @@ const ProjectSlider = () => {
                                     className={styles.projectImg}
                                 />
                             </div>
-                            <h3>{project.title}</h3>
+                            <h3 className='mb-0'>{project.title}</h3>
+                            <p className={styles.projectCategory}>{project.category}</p>
                             <div className={styles.projectDetails}>
                                 <svg width="100%" height="2" fill="none" xmlns="http://www.w3.org/2000/svg"><line x1="0.5" y1="0.5" x2="100%" y2="0.5" stroke="#999999" strokeLinecap="round" strokeDasharray="0.5 8"></line></svg>
                                 <div className='d-flex justify-content-between mt-3'>

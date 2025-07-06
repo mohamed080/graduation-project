@@ -71,7 +71,6 @@ const AuthRegister = () => {
             try {
                 await axiosInstance.post('/register', payload);
                 setShowModal(true);
-                localStorage.setItem('isLoggedIn', 'true');
             } catch (err) {
                 const data = err.response?.data;
 
@@ -285,7 +284,7 @@ const AuthRegister = () => {
                                     className={`${styles.loginBtn} ${styles.continueModalBtn}`}
                                     onClick={() => {
                                         setShowModal(false);
-                                        navigate('/')
+                                        navigate('/login')
                                     }}
                                 >
                                     Continue

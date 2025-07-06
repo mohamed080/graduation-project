@@ -43,15 +43,15 @@ const InvestingWork = () => {
             <div className={styles.timelineContainer}>
                 <picture>
                     <source media="(max-width: 576px)" srcSet={verticalTimeLine} />
-                    <img 
-                        alt="FAQ Timeline" 
-                        loading="lazy" 
-                        width="772" 
-                        height="112" 
-                        decoding="async" 
-                        data-nimg="1" 
-                        src={timeline} 
-                        className={styles.timelineImage} 
+                    <img
+                        alt="FAQ Timeline"
+                        loading="lazy"
+                        width="772"
+                        height="112"
+                        decoding="async"
+                        data-nimg="1"
+                        src={timeline}
+                        className={styles.timelineImage}
                     />
 
                 </picture>

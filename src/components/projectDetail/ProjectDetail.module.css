@@ -180,6 +180,7 @@
     padding-right: 1px ;
     display: inline-block;
     text-align: left;
+    max-width: 100%;
 }
 
 .boxMeeting {
@@ -319,6 +320,24 @@
     overflow: hidden;
     transition: max-height 0.3s ease-in-out;
     /* Smooth height transition for bio */
+}
+
+.ownerAlert {
+  margin-top: 2rem;
+  padding: 0.9rem 1.2rem;
+
+  /* color scheme */
+  --alert-bg: rgb(255 235 238 / 85%);     /* soft red‑ish background   */
+  --alert-text: #c62828;                  /* strong red for text       */
+  --alert-border: #ef9a9a;                /* lighter red border        */
+
+  background: var(--alert-bg);
+  color: var(--alert-text);
+  border: 1px solid var(--alert-border);
+  border-radius: 6px;
+
+  font-size: 1.1rem;
+  line-height: 1.45;
 }
 
 /* Expanded state for bio */
@@ -536,6 +555,10 @@
 .marginBottom_80 {
     margin-bottom: 80px;
 }
+
+.timelineImage {
+    width: 100%;
+} 
 
 @media (max-width: 1060px) {
     .logoContainer {

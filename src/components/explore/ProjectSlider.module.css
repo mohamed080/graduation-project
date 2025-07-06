@@ -116,12 +116,16 @@
     margin-bottom: 0;
 }
 
-.moreProjects .projectCard .projectDetails p {
+.moreProjects .projectCard .projectDetails p,
+.projectCategory {
     font-weight: 400;
     font-size: 12px;
     line-height: 16px;
     color: #999999;
     text-wrap: nowrap;
+}
+.projectCategory {
+    font-size: 14px;
 }
 
 @media (max-width: 992px) {

@@ -18,6 +18,8 @@ import Security from './pages/Security';
 import UpdatePassword from './pages/UpdatePassword';
 import Blogs from './pages/Blogs';
 import BlogPost from './pages/BlogPost';
+import WatchList from './pages/WatchList';
+import MyInvestments from './pages/MyInvestments';
 
 function App() {
 
@@ -34,6 +36,8 @@ function App() {
             <Route path="/blog/:slug" element={<BlogPost />} />
             <Route path="/blog/category/:category" element={<Blogs />} />
             <Route path="/blog/tag/:tag" element={<Blogs />} />
+            <Route path='watchlist' element={<WatchList />} />
+            <Route path='investments' element={<MyInvestments />} />
           </Route>
           <Route>
           </Route>

@@ -6,6 +6,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import facebooklogo from '../../assets/logos_facebook.png';
 import googlelogo from '../../assets/google-original.png';
 import axiosInstance from '../../utils/axiosInstance';
+import { useAuth } from '../../context/AuthContext';
 
 const AuthLogin = () => {
     const [email, setEmail] = useState('');
@@ -14,6 +15,7 @@ const AuthLogin = () => {
     const [error, setError] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
+    const {login} = useAuth();
 
     const validateEmail = (email) => {
         return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -38,8 +40,7 @@ const AuthLogin = () => {
 
             try {
                 const response = await axiosInstance.post('/login', { email, password });
-                localStorage.setItem('accessToken', response.data.access_token);
-                localStorage.setItem('isLoggedIn', 'true');
+                login(response.data.access_token); 
                 setIsLoading(false);
                 navigate('/');
             } catch (err) {
@@ -53,7 +54,7 @@ const AuthLogin = () => {
                 setIsLoading(false);
             }
         },
-        [email, password, navigate]
+        [email, password, navigate, login]
     );
 
 const handleSocialLogin = (provider) => {

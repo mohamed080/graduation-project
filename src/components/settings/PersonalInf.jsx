@@ -4,12 +4,12 @@ import { FaArrowLeftLong } from 'react-icons/fa6'
 import { CiEdit } from 'react-icons/ci'
 import { useNavigate } from 'react-router-dom'
 import { IoClose } from 'react-icons/io5'
-import { useUser } from '../../context/AuthContext'
+import { useAuth } from '../../context/AuthContext'
 import axiosInstance from '../../utils/axiosInstance'
 
 const PersonalInf = () => {
   const navigate = useNavigate();
-  const { currentUser, updateUser, loading, setLoading } = useUser();
+  const { currentUser, updateUser, loading, setLoading } = useAuth();
   console.log(currentUser)
   const [profile, setProfile] = useState(null);
   // const [profile, setProfile] = useState({
@@ -573,7 +573,7 @@ const PersonalInf = () => {
         {/* Email */}
         <div className={`${styles.settingsItem} pt-4 pb-4`}>
           <div>
-            <p className='fw-bold'>Email: <span style={{color: 'var(--primary-color)'}}>Verified</span></p>
+            <p className='fw-bold'>Email: <span style={{ color: 'var(--primary-color)' }}>Verified</span></p>
             <p className='text-muted'>{profile.email}</p>
           </div>
           <div

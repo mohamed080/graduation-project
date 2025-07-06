@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import { projects } from '../../data/startups';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+// import { projects } from '../../data/startups';
 import { slugify } from '../../utils/slugify';
 import styles from './ProjectDetail.module.css';
 import { TfiHeadphoneAlt } from 'react-icons/tfi';
 import InvestingWork from './InvestingWork';
+import { useAuth } from '../../context/AuthContext';
+import useBusinesses from '../../hooks/useBusinesses';
+
 
 const ProjectDetail = () => {
     const [expandedIds, setExpandedIds] = useState({});
@@ -12,7 +15,14 @@ const ProjectDetail = () => {
     const [showAllTeam, setShowAllTeam] = useState(false);
     const [activeTab, setActiveTab] = useState('overview');
     const [text, setText] = useState('');
+    const navigate = useNavigate();
+    const { currentUser, token } = useAuth();
+    const [loginAlert, setLoginAlert] = useState(false);
+    const [ownerAlert, setOwnerAlert] = useState(false);
     const { slug } = useParams();
+
+    const { projects, loading, error } = useBusinesses();
+
 
     useEffect(() => {
         window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
@@ -34,6 +44,23 @@ const ProjectDetail = () => {
 
     const handleTabClick = (tab) => {
         setActiveTab(tab);
+    };
+
+    const handleGetEquity = (e) => {
+        e.preventDefault();
+        if (!token) {
+            setLoginAlert(true);
+            navigate('/login');
+            return;
+        }
+        const userIsOwner = currentUser?.type === 'owner';
+        const ownThisProject = project?.ownerID === currentUser?.id;
+        if (userIsOwner && !ownThisProject) {
+            setOwnerAlert(true);
+            return;
+        }
+
+        navigate(`/${slug}/equity`);
     };
 
     return (
@@ -58,9 +85,20 @@ const ProjectDetail = () => {
                                     {expanded ? 'Show less' : 'Show more'}
                                 </p>
                             )}
-                            <Link role="button" to={`/${slug}/equity`} className={styles.projectBtn} aria-label="Negotiate equity for this project">
+                            <Link role="button" to="" onClick={handleGetEquity} className={styles.projectBtn} aria-label="Negotiate equity for this project">
                                 Get Equity
                             </Link>
+                            {loginAlert && (
+                                <p className={styles.ownerAlert} role="alert">
+                                    You must&nbsp;<strong>log in with an investor account</strong>&nbsp;to invest.
+                                </p>
+                            )}
+                            {ownerAlert && (
+                                <p className={styles.ownerAlert} role="alert">
+                                    Founders can’t invest in other raises.&nbsp;
+                                    <Link to="/register?as=investor">Create an investor account</Link>.
+                                </p>
+                            )}
                         </div>
                         <div className="col-12 col-md-6 order-first order-md-last mb-5 mb-md-0">
                             <div className={styles.logoContainer}>
@@ -160,7 +198,7 @@ const ProjectDetail = () => {
                                 </button>
                             )}
                             <h4 className={styles.reasonsTitle}>ABOUT </h4>
-                                <h6 className={styles.headquarters}>HEADQUARTERS</h6>
+                            <h6 className={styles.headquarters}>HEADQUARTERS</h6>
                             <svg width="100%" height="2" fill="none" xmlns="http://www.w3.org/2000/svg"><line x1="0.5" y1="0.5" x2="100%" y2="0.5" stroke="#999999" strokeLinecap="round" strokeDasharray="0.5 8"></line></svg>
                             <h4 className={`mb-4 ${styles.reasonsTitle}`}>TERMS</h4>
                             <p className={styles.overview}>Overview</p>

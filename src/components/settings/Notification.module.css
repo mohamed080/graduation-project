@@ -1,0 +1,123 @@
+.notificationsPage {
+    padding-top: 80px;
+    min-height: 100vh;
+    background-color: #f9f9f9;
+}
+
+.title {
+    font-size: 2rem;
+    font-weight: 600;
+    color: #333;
+}
+
+.actionBtn {
+    background: #f0f0f0;
+    border: 1px solid #ddd;
+    padding: 8px 15px;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.actionBtn:hover {
+    background: #e0e0e0;
+    border-color: #ccc;
+}
+
+.emptyState {
+    text-align: center;
+    padding: 50px 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.emptyIcon {
+    color: #ddd;
+    margin-bottom: 20px;
+}
+
+.notificationsList {
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.notificationItem {
+    display: flex;
+    padding: 20px;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.notificationItem:hover {
+    background-color: #f9f9f9;
+}
+
+.notificationItem.unread {
+    background-color: #f0f7ff;
+}
+
+.notificationIcon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: #f0f0f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+    flex-shrink: 0;
+}
+
+.notificationIcon svg {
+    font-size: 20px;
+}
+
+.offerIcon {
+    color: #2c83eb;
+}
+
+.acceptedIcon {
+    color: #27ae60;
+}
+
+.rejectedIcon {
+    color: #e74c3c;
+}
+
+.counterIcon {
+    color: #f39c12;
+}
+
+.notificationContent {
+    flex: 1;
+}
+
+.notificationTitle {
+    margin: 0 0 5px 0;
+    font-size: 1.6rem;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+.notificationTime {
+    margin: 0 0 10px 0;
+    font-size: 1.2rem;
+    color: #666;
+}
+
+.notificationLink {
+    color: var(--primary-color);
+    font-size: 1.2rem;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.3s ease-in-out;
+}
+
+.notificationLink:hover {
+    color: var(--darkPrimary-color);
+}
