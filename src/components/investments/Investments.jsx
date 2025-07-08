@@ -18,6 +18,7 @@ import useBusinesses from '../../hooks/useBusinesses';
 
 const Investments = () => {
   const { currentUser } = useAuth();
+  console.log(currentUser);
   const { projects, loading: projectsLoading, refetch } = useBusinesses();
   const { investments: userInvestments, loading: invLoading } = useAcceptedOffers({ currentUserId: currentUser?.id });
   const navigate = useNavigate();
@@ -71,6 +72,32 @@ const Investments = () => {
     setActiveTab('offers');
   };
 
+
+  if (!currentUser) {
+    return (
+      <div className={styles.loginPromptContainer}>
+        <div className={styles.loginPrompt}>
+          <h2>View Your Investment Portfolio</h2>
+          <p>Login to track your investments, monitor performance, and manage your projects</p>
+          <button 
+            className={styles.loginButton}
+            onClick={() => navigate('/login')}
+          >
+            Login to Continue
+          </button>
+          <p className={styles.signupPrompt}>
+            Don't have an account? 
+            <span 
+              className={styles.signupLink}
+              onClick={() => navigate('/register')}
+            >
+              Sign up now
+            </span>
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.investments}>

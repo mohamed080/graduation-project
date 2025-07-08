@@ -681,9 +681,84 @@
 .closeModalButton:hover {
     background-color: #e2e8f0;
 }
+
 .toastBody {
     font-size: 1.4rem;
 }
+
+/* !current user */
+.loginPromptContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    /* background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); */
+}
+
+.loginPrompt {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+    padding: 40px 20px;
+    text-align: center;
+    max-width: 500px;
+    width: 90%;
+}
+
+.loginPrompt h2 {
+    color: #2d3748;
+    margin-bottom: 16px;
+    font-size: 2rem;
+    font-weight: 600;
+    letter-spacing: .7px;
+}
+
+.loginPrompt p {
+    color: #4a5568;
+    margin-bottom: 32px;
+    line-height: 1.6;
+    font-size: 1.4rem;
+    letter-spacing: .4px;
+}
+
+.loginButton {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 7px 25px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 24px;
+}
+
+.loginButton:hover {
+    background: var(--darkPrimary-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(66, 153, 225, 0.4);
+}
+
+.signupPrompt {
+    color: #718096;
+    font-size: 14px;
+}
+
+.signupLink {
+    color: #4299e1;
+    margin-left: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: color 0.2s;
+    font-size: 1.4rem;
+}
+
+.signupLink:hover {
+    color: var(--darkPrimary-color);
+    text-decoration: underline;
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
 

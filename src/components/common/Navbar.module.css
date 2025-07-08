@@ -120,6 +120,11 @@ nav li:not(:last-child):hover::after {
 .btn a {
     color: #fff;
     font-weight: 400;
+    font-size: 17px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2px 0px;
 }
 
 .userMenuItem {
