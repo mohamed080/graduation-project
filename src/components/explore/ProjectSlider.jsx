@@ -9,7 +9,7 @@ import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 // import { projects } from '../../data/startups';
 import { Link, useSearchParams } from 'react-router-dom';
 import { slugify } from '../../utils/slugify';
-import  useBusinesses  from '../../hooks/useBusinesses';
+import useBusinesses from '../../hooks/useBusinesses';
 
 
 
@@ -18,7 +18,7 @@ const ProjectSlider = () => {
     const [isFirstSlide, setIsFirstSlide] = useState(true);
     const [isLastSlide, setIsLastSlide] = useState(false);
 
-        const { projects, loading, error } = useBusinesses();
+    const { projects, loading, error } = useBusinesses();
 
     const [searchParams] = useSearchParams();
 

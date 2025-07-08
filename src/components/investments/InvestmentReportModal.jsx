@@ -20,6 +20,11 @@ const InvestmentReportModal = ({ investment, project, onClose }) => {
         return investment.amount * 0.15;
     };
 
+    const calculateValuation = () => {
+        if (!investment.equity) return 0;
+        return (investment.amount * 100) / investment.equity;
+    };
+
     const handleDownloadPDF = () => {
         const input = reportRef.current;
 
@@ -88,7 +93,7 @@ const InvestmentReportModal = ({ investment, project, onClose }) => {
                             <h4>Investment Terms</h4>
                             <ul className={styles.termsList}>
                                 <li>Equity: <strong>{investment.equity}%</strong></li>
-                                <li>Valuation Cap: <strong>{formatCurrency(project.valuationCap)}</strong></li>
+                                <li>Valuation Cap: <strong>{formatCurrency(calculateValuation())}</strong></li>
                                 <li>Discount: <strong>{project.discount}%</strong></li>
                                 <li>Projected IRR: <strong>{project.irr}%</strong></li>
                             </ul>

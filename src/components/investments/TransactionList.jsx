@@ -16,6 +16,7 @@ const TransactionList = ({ investments, projects, isOwner, onPromoteClick }) => 
         }
     };
 
+
     const formatDate = (dateString) => {
         try {
             const date = new Date(dateString);
@@ -45,6 +46,7 @@ const TransactionList = ({ investments, projects, isOwner, onPromoteClick }) => 
                         <th scope="col">Project</th>
                         <th scope="col">Type</th>
                         <th scope="col">Amount</th>
+                        <th scope="col">Equity</th>
                         <th scope="col">Date</th>
                         <th scope="col">Status</th>
                     </tr>
@@ -52,7 +54,7 @@ const TransactionList = ({ investments, projects, isOwner, onPromoteClick }) => 
                 <tbody>
                     {investments.length > 0 ? (
                         investments.map((investment) => {
-                            const project = projects.find((p) => p.id === investment.projectId);
+                            const project = investment.project || projects.find((p) => p.id === investment.projectId);
                             if (!project) {
                                 console.warn(`Project not found for investment ID: ${investment.id}`);
                                 return null;
@@ -77,8 +79,9 @@ const TransactionList = ({ investments, projects, isOwner, onPromoteClick }) => 
                                         </div>
                                         <span>{project.title}</span>
                                     </td>
-                                    <td>Investment</td>
+                                    <td>{project.category}</td>
                                     <td className={styles.amountCell}>{formatCurrency(investment.amount)}</td>
+                                    <td className={styles.equityCell}>{investment.equity}%</td>
                                     <td>{formatDate(investment.date)}</td>
                                     <td>
                                         <span

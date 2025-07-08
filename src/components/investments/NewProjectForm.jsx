@@ -69,7 +69,6 @@ const NewProjectForm = ({ onSave, onCancel }) => {
     }, []);
     const pickImage = (e) => {
         const file = e.target.files?.[0];
-        console.log(file);
         if (!file) return;
 
         setForm((f) => ({ ...f, imageFile: file }));
@@ -106,19 +105,20 @@ const NewProjectForm = ({ onSave, onCancel }) => {
         }
 
         try {
-                       const access_token = localStorage.getItem('accessToken');
+            const access_token = localStorage.getItem('accessToken');
             if (!access_token) {
                 console.error('Access token is missing');
                 return;
             }
             await axiosInstance.post('/businesses', payload, {
-  headers: {
+                headers: {
                     Authorization: `Bearer ${access_token}`,
                     'Content-Type': 'multipart/form-data'
                 }
             });
 
             onSave({ ...form, img: preview });   // keep UI instant
+            
         } catch (err) {
             if (err.response?.data) {
                 // Map server errors to form fields

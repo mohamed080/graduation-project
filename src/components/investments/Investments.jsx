@@ -7,38 +7,42 @@ import PerformanceChart from './PerformanceChart';
 import DashboardHeader from './DashboardHeader';
 import { useAuth } from '../../context/AuthContext';
 // import { projects } from '../../data/startups';
-import { investments } from '../../data/investments';
+import { useNavigate } from 'react-router-dom';
+import useAcceptedOffers from '../../hooks/useAcceptedOffers';
+import useDeals from '../../hooks/useDeals';
 import NewProjectForm from './NewProjectForm';
+import ViewOffers from './ViewOffers';
 import useBusinesses from '../../hooks/useBusinesses';
+
 
 
 const Investments = () => {
   const { currentUser } = useAuth();
-  const [activeTab, setActiveTab] = useState('portfolio');
-  const [userProjects, setUserProjects] = useState([]);
-  const [userInvestments, setUserInvestments] = useState([]);
-  const [isOwner, setIsOwner] = useState(false);
-  const [showNewProjectForm, setShowNewProjectForm] = useState(false)
-  const { projects, loading, error } = useBusinesses();
+  const { projects, loading: projectsLoading, refetch } = useBusinesses();
+  const { investments: userInvestments, loading: invLoading } = useAcceptedOffers({ currentUserId: currentUser?.id });
+  const navigate = useNavigate();
 
-  console.log('projects', projects)
-  console.log('current user', currentUser);
+  const [isOwner, setIsOwner] = useState(() => {
+    const storedUser = JSON.parse(localStorage.getItem('user'));
+    return storedUser?.type === 'owner';     // adjust if the field is called `role`
+  });
+  const { deals, loading: dealLoading } = useDeals(isOwner);
+  const [activeTab, setActiveTab] = useState(isOwner ? 'projects' : 'portfolio');
+  const [userProjects, setUserProjects] = useState([]);
+  const [showNewProjectForm, setShowNewProjectForm] = useState(false)
+  const [selectedProjectId, setSelectedProjectId] = useState(null);
+
   useEffect(() => {
     if (!currentUser) return;
+    if (!projectsLoading && !projects.length) return;
 
     // Check if user is an owner
     const ownerProjects = projects.filter(p => p.ownerID === currentUser?.id);
-    setIsOwner(ownerProjects.length > 0);
+    setIsOwner(ownerProjects && ownerProjects.length > 0);
     setUserProjects(ownerProjects);
 
-    console.log('owner projects', ownerProjects)
+  }, [currentUser, projects, projectsLoading]);
 
-    // Load user's investments
-    const userInvests = investments.filter(i => i.userId === currentUser?.id);
-    setUserInvestments(userInvests);
-  }, [currentUser, projects]);
-
-  console.log(userInvestments)
 
   // Calculate portfolio value
   const portfolioValue = userInvestments.reduce(
@@ -51,6 +55,22 @@ const Investments = () => {
     0
   );
 
+  const ownerTransactions = deals.map(deal => ({
+  id: deal.id,
+  amount: deal.amount,
+  equity: deal.equity,
+  date: deal.date,
+  status: deal.status,
+  project: projects.find(p => p.id === deal.projectId),
+}));
+
+// console.log(ownerTransactions);
+  // Handle project click to show offers tab
+  const handleProjectClick = (projectId) => {
+    setSelectedProjectId(projectId);
+    setActiveTab('offers');
+  };
+
 
   return (
     <div className={styles.investments}>
@@ -60,6 +80,8 @@ const Investments = () => {
         setActiveTab={setActiveTab}
         portfolioValue={portfolioValue}
         portfolioReturns={portfolioReturns}
+        selectedProjectId={selectedProjectId}
+        activeInvestments={userInvestments.length}
       />
 
       <div className='container'>
@@ -67,30 +89,33 @@ const Investments = () => {
           {activeTab === 'portfolio' && (
             <div className={styles.portfolioSection}>
               <h2>Your Investment Portfolio</h2>
-              <div className={styles.portfolioGrid}>
-                {userInvestments.length > 0 ? (
-                  userInvestments.map(investment => {
-                    const project = projects.find(p => p.id === investment.projectId);
-                    return (
-                      <PortfolioCard
-                        key={investment.id}
-                        investment={investment}
-                        project={project}
-                      />
-                    );
-                  })
-                ) : (
-                  <div className={styles.emptyState}>
-                    <p>You haven't made any investments yet</p>
-                    <button
-                      className={styles.exploreBtn}
-                      onClick={() => setActiveTab('discover')}
-                    >
-                      Discover Investment Opportunities
-                    </button>
-                  </div>
-                )}
-              </div>
+              {invLoading ? <p>Loading your investments...</p> :
+                <div className={styles.portfolioGrid}>
+                  {userInvestments.length > 0 ? (
+                    userInvestments.map(investment => {
+                      const project = projects.find(p => p.id === investment.projectId);
+                      return (
+                        <PortfolioCard
+                          key={investment.id}
+                          investment={investment}
+                          project={project}
+                        />
+                      );
+                    })
+                  ) : (
+                    <div className={styles.emptyState}>
+                      <p>You haven't made any investments yet</p>
+                      <button
+                        className={styles.exploreBtn}
+                        onClick={() => navigate('/explore')}
+                      >
+                        Discover Investment Opportunities
+                      </button>
+                    </div>
+                  )}
+                </div>
+              }
+
 
               {userInvestments.length > 0 && (
                 <div className={styles.portfolioCharts}>
@@ -111,6 +136,7 @@ const Investments = () => {
                 <NewProjectForm
                   onSave={() => {
                     setShowNewProjectForm(false);
+                    refetch();
                   }}
                   onCancel={() => setShowNewProjectForm(false)}
                 />
@@ -123,32 +149,42 @@ const Investments = () => {
                       key={project.id}
                       project={project}
                       isOwner={true}
+                      onViewOffers={handleProjectClick}
                     />
                   ))
                 ) : (
                   <div className={styles.emptyState}>
                     <p>You haven't created any projects yet</p>
-                    <button className={styles.newProjectBtn}>Create Your First Project</button>
+                    <button className={styles.newProjectBtn} onClick={() => setShowNewProjectForm(true)}>Create Your First Project</button>
                   </div>
                 )}
               </div>
             </div>
           )}
+          {activeTab === 'offers' && isOwner && (
+            <ViewOffers
+              selectedProjectId={selectedProjectId}
+              project={projects.find(p => p.id === selectedProjectId)}
+            />
+          )}
 
           {activeTab === 'transactions' && (
             <div className={styles.transactionsSection}>
               <h2>Transaction History</h2>
-              <TransactionList
-                investments={userInvestments}
-                projects={userProjects}
-                isOwner={isOwner}
-              />
+              {(isOwner ? dealLoading : invLoading) ? (
+                <p>Loading transactions…</p>
+              ) : (
+                <TransactionList
+                  investments={isOwner ? ownerTransactions : userInvestments}
+                  projects={projects}
+                  isOwner={isOwner}
+                />
+              )}
             </div>
           )}
 
         </div>
       </div>
-
     </div>
   );
 };

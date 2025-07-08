@@ -2,6 +2,7 @@
     padding-block: 80px;
     background: #FDFDFB;
 }
+
 .reasonsTitle {
     font-size: 22px;
     font-weight: 500;
@@ -9,6 +10,7 @@
     letter-spacing: 1.5px;
     text-transform: capitalize;
 }
+
 .negotiationContainer {
     padding: 25px;
     border-radius: 12px;
@@ -53,6 +55,11 @@
 .statusBanner.rejected {
     background-color: #fce8e6;
     color: #c5221f;
+}
+
+.statusBanner.countered {
+    background-color: #fff8e1;
+    color: #fbbc05;
 }
 
 .statusIndicator {
@@ -182,6 +189,10 @@
     font-weight: 500;
 }
 
+.offerDetails span {
+    font-size: 1.1rem;
+}
+
 .divider {
     margin: 0 10px;
     color: #dadce0;
@@ -233,6 +244,7 @@
 textarea {
     height: 120px;
 }
+
 .input:focus {
     border-color: #1a73e8;
     outline: none;
@@ -306,13 +318,31 @@ textarea {
     border-left: 3px solid #fbbc05;
 }
 
+.statusBadge {
+    margin-inline-start: auto;
+    background: #f1be24;
+    font-weight: 500;
+}
+.statusBadgeAccepted {
+    margin-inline-start: auto;
+    background: #34a853;
+    font-weight: 500;
+}
 
-.counterOffer, .currentOffer {
-  background: #fff8e1;
-  border-radius: 8px;
-  padding: 15px;
-  margin-bottom: 20px;
-  border-left: 3px solid #fbbc05;
+.statusBadgeRejected {
+    margin-inline-start: auto;
+    background: #c5221f;
+    font-weight: 500;
+}
+
+
+.counterOffer,
+.currentOffer {
+    background: #fff8e1;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-left: 3px solid #fbbc05;
 }
 
 .counterValues {
@@ -322,66 +352,25 @@ textarea {
     font-weight: 500;
     margin: 10px 0;
 }
-.offerActions {
-    display: flex;
-    gap: 10px;
-    margin-top: 15px;
-}
-
-.actionBtnAccept, .actionBtnCounter, .actionBtnReject {
-  padding: 8px 16px;
-  border-radius: 6px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s;
-  border: none;
-}
-
-.actionBtnAccept {
-  background: #e6f4ea;
-  color: #0d652d;
-}
-
-.actionBtnAccept:hover {
-  background: #c7e6d1;
-}
-
-.actionBtnCounter {
-  background: #e8f0fe;
-  color: #1a73e8;
-}
-
-.actionBtnCounter:hover {
-  background: #d2e3fc;
-}
-
-.actionBtnReject {
-  background: #fce8e6;
-  color: #c5221f;
-}
-
-.actionBtnReject:hover {
-  background: #f9d2ce;
-}
 
 .withdrawContainer {
-  margin-top: 10px;
-  padding-top: 10px;
-  border-top: 1px dashed #eaeaea;
-  text-align: right;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px dashed #eaeaea;
+    text-align: right;
 }
 
 .withdrawBtn {
-  background: none;
-  border: none;
-  color: #5f6368;
-  font-size: 1.2rem;
-  cursor: pointer;
-  text-decoration: underline;
+    background: none;
+    border: none;
+    color: #5f6368;
+    font-size: 1.2rem;
+    cursor: pointer;
+    text-decoration: underline;
 }
 
 .withdrawBtn:hover {
-  color: #1a73e8;
+    color: #1a73e8;
 }
 
 .finalStatus {
@@ -412,20 +401,19 @@ textarea {
 }
 
 .completeBtn {
-    background: #1a73e8;
+    background: var(--primary-color);
     color: white;
     border: none;
-    padding: 12px 30px;
+    padding: 8px 20px;
     border-radius: 8px;
-    font-weight: 600;
+    font-weight: 500;
     cursor: pointer;
-    margin-top: 20px;
-    transition: background 0.2s;
-    font-size: 1.6rem;
+    transition: background 0.2s ease-in-out;
+    font-size: 1.3rem;
 }
 
 .completeBtn:hover {
-    background: #1669d6;
+    background: var(--darkPrimary-color);
 }
 
 .valuationSidebar {
@@ -551,6 +539,7 @@ textarea {
     color: #202124;
     font-size: 1.4rem;
 }
+
 
 /* Spinner animation */
 @keyframes spin {

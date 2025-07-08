@@ -21,36 +21,6 @@ export const projects = [
         status: 'active',
         desc: 'Follow‑on round backing SpaceX’s next‑gen launch system. Capital will scale Starlink production, expand reusable booster research, and accelerate Mars‑bound Starship testing.',
         period: 14,
-        team: [
-            {
-                id: 1,
-                name: 'Arthur Erickson',
-                role: 'CEO',
-                bio: 'Arthurs interest in UAS began at UT Austin while studying aerospace engineering. As a researcher there, he optimized UAS controls. Seeing the potential of UAS, Arthur and his co-founders founded Hylio in 2015. Arthur has led many successful product launches and the company’s rapid growth. As Hylio co-founder and CEO, Arthur focuses on business and product development, strategy, and scaling.',
-                img: team1,
-            },
-            {
-                id: 2,
-                name: 'Nikhil Dixit',
-                role: 'CTO',
-                bio: 'Nikhil Dixit received degrees in electrical engineering and computer science from UT Austin and went on to receive a masters in computer architecture. As a gifted software engineer, Nikhil joined NVIDIA while in school and was chosen to lead an AI project there. Now as Hylio co-founder and CTO, he leads dozens of engineers and programmers as they develop Hylio’s groundbreaking products and technologies.',
-                img: team2,
-            },
-            {
-                id: 3,
-                name: 'Nick Nawratil',
-                role: 'COO',
-                bio: 'Nick Nawratil first began working with UAS while studying aerospace engineering at UT Austin. With experience as the founder of an Austin-based utilities company, he adds supply chain, logistics, and personnel management expertise to the Hylio team. As co-founder and COO of Hylio, he now leads the scaling of Hylio’s manufacturing, fleet operations, support infrastructure, and regulatory compliance.',
-                img: team3,
-            },
-            {
-                id: 4,
-                name: 'Mike Oda',
-                role: 'CFO',
-                bio: 'A lifelong entrepreneur, Mike Oda began managing many of his familys businesses at a young age including: distribution of engineering products, housing development, a restaurant, and a Wagyu cattle ranch. While juggling those responsibilities, he received a degree in Finance UT Austin. As Hylio co-founder and CFO, he leads its finance and accounting teams to help guide the company’s aggressive expansion.',
-                img: team4,
-            }
-        ],
         equityOffered: 10,
         amountRequested: 100000,
         ownerID: 1,
@@ -120,3 +90,34 @@ export const projects = [
         ownerID: 4,
     },
 ];
+
+export const teams =[
+            {
+                id: 1,
+                name: 'Arthur Erickson',
+                role: 'CEO',
+                bio: 'Arthurs interest in UAS began at UT Austin while studying aerospace engineering. As a researcher there, he optimized UAS controls. Seeing the potential of UAS, Arthur and his co-founders founded Hylio in 2015. Arthur has led many successful product launches and the company’s rapid growth. As Hylio co-founder and CEO, Arthur focuses on business and product development, strategy, and scaling.',
+                img: team1,
+            },
+            {
+                id: 2,
+                name: 'Nikhil Dixit',
+                role: 'CTO',
+                bio: 'Nikhil Dixit received degrees in electrical engineering and computer science from UT Austin and went on to receive a masters in computer architecture. As a gifted software engineer, Nikhil joined NVIDIA while in school and was chosen to lead an AI project there. Now as Hylio co-founder and CTO, he leads dozens of engineers and programmers as they develop Hylio’s groundbreaking products and technologies.',
+                img: team2,
+            },
+            {
+                id: 3,
+                name: 'Nick Nawratil',
+                role: 'COO',
+                bio: 'Nick Nawratil first began working with UAS while studying aerospace engineering at UT Austin. With experience as the founder of an Austin-based utilities company, he adds supply chain, logistics, and personnel management expertise to the Hylio team. As co-founder and COO of Hylio, he now leads the scaling of Hylio’s manufacturing, fleet operations, support infrastructure, and regulatory compliance.',
+                img: team3,
+            },
+            {
+                id: 4,
+                name: 'Mike Oda',
+                role: 'CFO',
+                bio: 'A lifelong entrepreneur, Mike Oda began managing many of his familys businesses at a young age including: distribution of engineering products, housing development, a restaurant, and a Wagyu cattle ranch. While juggling those responsibilities, he received a degree in Finance UT Austin. As Hylio co-founder and CFO, he leads its finance and accounting teams to help guide the company’s aggressive expansion.',
+                img: team4,
+            }
+]

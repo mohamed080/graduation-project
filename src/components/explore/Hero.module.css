@@ -111,21 +111,21 @@
     border-color: var(--primary-color, #1F6BA8);
 }
 
-.dropdowns  .resetButton  {
-  padding: 0.5rem 1.7rem;
-  font-weight: 500;
-  font-size: 16px;
-  border: none;
-  color: #fff;
-  background: var(--darkPrimary-color);
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background 0.2s ease;
-  margin-inline-start: auto;
+.dropdowns .resetButton {
+    padding: 0.5rem 1.7rem;
+    font-weight: 500;
+    font-size: 16px;
+    border: none;
+    color: #fff;
+    background: var(--darkPrimary-color);
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    margin-inline-start: auto;
 }
 
-.dropdowns  .resetButton:hover {
-  background: var(--primary-color, #1F6BA8);
+.dropdowns .resetButton:hover {
+    background: var(--primary-color, #1F6BA8);
 }
 
 /* news */
@@ -308,17 +308,19 @@
         font-size: 14px;
         height: 35px;
     }
+
     .dropdowns {
         flex-direction: column;
         gap: 10px;
     }
+
     .dropdown {
         width: 100%;
     }
 
-    .dropdowns  .resetButton {
-        margin-inline-start: 0;  
-        max-width:  80px; 
+    .dropdowns .resetButton {
+        margin-inline-start: 0;
+        max-width: 80px;
     }
 }
 

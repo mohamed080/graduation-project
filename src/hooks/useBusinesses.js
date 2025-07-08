@@ -1,65 +1,71 @@
 // hooks/useBusinesses.js
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import axiosInstance from "../utils/axiosInstance";
 import { slugify } from "../utils/slugify";
-import img from '../assets/bg.jpg'
+import img from '../assets/bg.jpg';
 
-export default function useBusinesses(page = 1, perPage = 12) {
-    const [projects, setProjects] = useState([]); // mapped objects
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-    const [meta, setMeta] = useState({}); // pagination info
 const baseURL = import.meta.env.VITE_API_IMAGE;
 
-    useEffect(() => {
-        let mounted = true;
+export default function useBusinesses(page = 1, perPage = 12) {
+    const queryKey = ['businesses', page, perPage];
 
-        async function fetchPage() {
-            try {
-                setLoading(true);
-                const { data } = await axiosInstance.get("/businesses", {
-                    params: { page, per_page: perPage },
-                });
+    const queryFn = async () => {
+        const { data } = await axiosInstance.get("/businesses", {
+            params: { page, per_page: perPage },
+        });
 
-                if (!mounted) return;
+        const projects = data.data.map((b) => ({
+            id: b.id,
+            title: b.business_name,
+            slug: slugify(b.business_name),
+            img: b.business_photo
+                ? `${baseURL}storage/${b.business_photo}`
+                : img,
+            raised: `$${Number(b.money_needed).toLocaleString()}`,
+            minInvestment: `$${Number(b.money_needed * 0.9).toLocaleString()}`,
+            category: b.category?.slug ?? "misc",
+            status: b.status,
+            desc: b.description,
+            period: 0,
+            equityOffered: Number(b.percentage_offered),
+            amountRequested: Number(b.money_needed),
+            ownerID: b.user_id,
+            location: b.location,
+            valuation: b.valuation,
+            founded_year: b.founded_year,
+            target_market: b.target_market,
+            employees_count: b.employees_count,
+            competitive_advantages: b.competitive_advantages,
+        }));
 
-                /* ------------  map API shape → UI shape  ------------ */
-                const mapped = data.data.map((b) => ({
-                    id: b.id,
-                    title: b.business_name,
-                    slug: slugify(b.business_name),
-                    img: b.business_photo
-                        ? `${baseURL}storage/${b.business_photo}`   // real file
-                        : img,
-                    raised: `$${Number(b.money_needed).toLocaleString()}`,
-                    minInvestment: `$${Number(b.money_needed * 0.9).toLocaleString()}`,
-                    category: b.category?.slug ?? "misc",
-                    status: b.status,
-                    desc: b.description,
-                    period: 0,
-                    equityOffered: Number(b.percentage_offered),
-                    amountRequested: Number(b.money_needed),
-                    ownerID: b.user_id,
-                }));
-
-                setProjects(mapped);
-                setMeta({
-                    current: data.current_page,
-                    last: data.last_page,
-                });
-            } catch (err) {
-                if (mounted) setError("Could not load businesses");
-                console.error(err);
-            } finally {
-                if (mounted) setLoading(false);
+        return {
+            projects,
+            meta: {
+                current: data.current_page,
+                last: data.last_page,
             }
-        }
-
-        fetchPage();
-        return () => {
-            mounted = false;
         };
-    }, [page, perPage]);
+    };
 
-    return { projects, loading, error, meta };
+    const {
+        data,
+        isLoading,
+        isError,
+        error,
+        refetch,
+    } = useQuery({
+        queryKey,
+        queryFn,
+        keepPreviousData: true, // Smooth pagination UX
+        staleTime: 5 * 60 * 1000, // 5 minutes cache
+        retry: 2, // Retry twice on failure
+    });
+
+    return {
+        projects: data?.projects || [],
+        loading: isLoading,
+        error: isError ? "Could not load businesses" : null,
+        meta: data?.meta || { current: 0, last: 0 },
+        refetch,
+    };
 }

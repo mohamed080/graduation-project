@@ -12,21 +12,6 @@ const PersonalInf = () => {
   const { currentUser, updateUser, loading, setLoading } = useAuth();
   console.log(currentUser)
   const [profile, setProfile] = useState(null);
-  // const [profile, setProfile] = useState({
-  //   firstName: 'Mohamed',
-  //   middleName: '',
-  //   lastName: 'Ayman',
-  //   birth_date: '03-14-2004',          // MM‑DD‑YYYY
-  //   email: 'moayman080@gmail.com',
-  //   phone: '01000000000',       // placeholder, not editable in this example
-  //   country: 'Egypt',
-  //   city: 'dekernes',
-  //   governorat: 'Dakahlia',
-  //   address: 'undefined',
-  //   postalcode: 'undefined',
-  //   citizenshipCountry: 'EG'
-  // });
-
   const [draft, setDraft] = useState(null);   // copy of *current* profile
   const [editingField, setEditingField] = useState(null);
   const [errors, setErrors] = useState({});

@@ -1,0 +1,347 @@
+/* Investments.module.css */
+.viewOffers {
+    margin-block: 1rem;
+}
+
+.title {
+    color: var(--primary-color);
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    font-weight: 600;
+}
+
+/* Terms Grid */
+.termsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+    background: #e8f4ff;
+    padding: 3rem 0;
+    border-radius: 7px;
+    border-left: 4px solid var(--primary-color);
+}
+
+.termItem {
+    text-align: center;
+}
+
+.termLabel {
+    font-size: 1.6rem;
+    font-weight: 500;
+    line-height: 20.8px;
+    letter-spacing: 0.125rem;
+    color: rgb(153, 153, 153);
+}
+
+.termValue {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #202124;
+    margin: 0;
+}
+
+/* Offers Grid */
+.offersGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.8rem;
+}
+
+.offerCard {
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.offerCard:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+}
+
+.cardHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem;
+    background: #f8f9fa;
+    border-bottom: 1px solid #eee;
+}
+
+.investorName {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0;
+    color: #2c3e50;
+}
+
+.status {
+    font-size: 0.8rem;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.status.pending {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.status.accepted {
+    background: #d4edda;
+    color: #155724;
+}
+
+.status.rejected,
+.status.closed {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.status.counter_offered {
+  background: #cce5ff;   /* light‑blue background */
+  color: #004085;        /* dark‑blue text */
+}
+.cardBody {
+    padding: 1.2rem;
+    flex-grow: 1;
+}
+
+.detailRow {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.8rem;
+}
+
+.detailLabel {
+    font-weight: 500;
+    color: #495057;
+}
+
+.detailValue {
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+.message {
+    margin-top: 1.2rem;
+    padding-top: 1rem;
+    border-top: 1px dashed #eee;
+    font-size: 1.1rem;
+}
+
+.message p {
+    margin: 0.5rem 0 0;
+    color: #6c757d;
+    font-size: 1.1rem;
+    line-height: 1.5;
+}
+
+.timestamp {
+    font-size: 1.1rem;
+    color: #6c757d;
+    margin-top: 1rem;
+    text-align: right;
+}
+
+/* Action Buttons */
+.offerActions {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.8rem;
+    padding: 1.2rem;
+    background: #f8f9fa;
+    border-top: 1px solid #eee;
+}
+
+.actionBtn {
+    padding: 1rem;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+    text-align: center;
+}
+
+.actionBtn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.actionBtn:active {
+    transform: translateY(0);
+}
+
+.actionBtn.accept {
+    background: #d4edda;
+    color: #155724;
+}
+
+.actionBtn.accept:hover {
+    background: #c3e6cb;
+}
+
+.actionBtn.counter {
+    background: #cce5ff;
+    color: #004085;
+}
+
+.actionBtn.counter:hover {
+    background: #b8daff;
+}
+
+.actionBtn.reject {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.actionBtn.reject:hover {
+    background: #f5c6cb;
+}
+
+/* Status messages */
+.loading,
+.error,
+.empty {
+    text-align: center;
+    padding: 2rem;
+    font-size: 1.2rem;
+}
+
+.error {
+    color: #dc3545;
+}
+
+.empty {
+    color: #6c757d;
+}
+
+.toastMessage {
+    font-size: 1.3rem;
+    letter-spacing: .3px;
+    color: #202124;
+}
+
+/* Add to ViewOffers.module.css */
+
+/* Modal Styles */
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.modal h3 {
+    margin-top: 0;
+    color: #2c3e50;
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+.formGroup {
+    margin-bottom: 1.2rem;
+}
+
+.formGroup label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: #495057;
+    font-size: 1.1rem;
+}
+
+.formGroup input,
+.formGroup textarea {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 1.2rem;
+    transition: border-color 0.2s;
+}
+
+.formGroup input:focus,
+.formGroup textarea:focus {
+    outline: none;
+    border-color: #4285f4;
+}
+
+.formGroup textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.modalActions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.cancelBtn {
+    padding: 0.8rem 1.5rem;
+    background: #f1f3f4;
+    color: #5f6368;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.cancelBtn:hover {
+    background: #e8eaed;
+}
+
+.submitBtn {
+    padding: 0.8rem 1.5rem;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 400;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.2s;
+}
+
+.submitBtn:hover:not(:disabled) {
+    background: var(--darkPrimary-color);
+}
+
+.submitBtn:disabled {
+    background: #b9d1f8;
+    cursor: not-allowed;
+}
+
+
+
+/* Button loading state */
+.actionBtn[disabled] {
+    opacity: 0.7;
+    cursor: not-allowed;
+}

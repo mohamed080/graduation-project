@@ -7,7 +7,7 @@ const BlogCard = ({ post }) => {
         <div className={styles.card}>
             <Link to={`/blog/${post.slug}`}>
                 <div className={styles.image}>
-                    <img src={post.image} alt={post.title} className='img-fluid' loading='lazy'/>
+                    <img src={post.image} alt={post.title} className='img-fluid' loading='eager'/>
                 </div>
             </Link>
 
@@ -34,7 +34,7 @@ const BlogCard = ({ post }) => {
 
                     <div className={styles.author}>
                         <div className={styles.authorImage}>
-                            <img src={post.author.image} alt={post.author.name} className='img-fluid' loading='lazy'/>
+                            <img src={post.author.image} alt={post.author.name} className='img-fluid' loading='eager'/>
                         </div>
                         <div className={styles.authorInfo}>
                             <p className={styles.authorName}>{post.author.name}</p>

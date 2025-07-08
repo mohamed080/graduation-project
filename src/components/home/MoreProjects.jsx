@@ -44,8 +44,6 @@ const MoreProjects = () => {
   if (error)   return <p className="text-danger">{error}</p>;
   if (!projects.length) return null; 
 
-  console.log(projects)
-
     return (
         <div className={styles.moreProjects}>
             <div className={`container ${styles.moreProjectsContainer}`}>

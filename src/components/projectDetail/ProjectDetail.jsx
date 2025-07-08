@@ -1,12 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-// import { projects } from '../../data/startups';
 import { slugify } from '../../utils/slugify';
 import styles from './ProjectDetail.module.css';
 import { TfiHeadphoneAlt } from 'react-icons/tfi';
 import InvestingWork from './InvestingWork';
 import { useAuth } from '../../context/AuthContext';
 import useBusinesses from '../../hooks/useBusinesses';
+import { teams } from '../../data/startups';
+import FullPageLoader from '../common/FullPageLoader';
+import { CiLocationOn } from 'react-icons/ci';
+import { FaBuilding } from 'react-icons/fa';
+import { AiOutlineTeam } from 'react-icons/ai';
 
 
 const ProjectDetail = () => {
@@ -17,19 +21,22 @@ const ProjectDetail = () => {
     const [text, setText] = useState('');
     const navigate = useNavigate();
     const { currentUser, token } = useAuth();
-    const [loginAlert, setLoginAlert] = useState(false);
     const [ownerAlert, setOwnerAlert] = useState(false);
     const { slug } = useParams();
-
-    const { projects, loading, error } = useBusinesses();
-
+    const overviewRef = useRef(null);
+    const aboutRef = useRef(null);
+    const termsRef = useRef(null);
+    const investingRef = useRef(null);
 
     useEffect(() => {
         window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
     }, [slug]);
+    const { projects, loading, error } = useBusinesses();
+    if (loading) return <FullPageLoader />;
+    if (error) return <p className="text-danger text-center my-5 h-100">Failed to load project.</p>;
 
     const project = projects.find((p) => slugify(p.title) === slug);
-    if (!project) return <h2>Project not found</h2>;
+    if (!project) return <h2 className="text-danger text-center my-5 h-100">Project not found.</h2>;
 
     const MAX_CHARS = 140;
     const MAX_BIO_CHARS = 320;
@@ -44,28 +51,37 @@ const ProjectDetail = () => {
 
     const handleTabClick = (tab) => {
         setActiveTab(tab);
+        setTimeout(() => {
+            const map = {
+                'overview': overviewRef,
+                'about': aboutRef,
+                'terms': termsRef,
+                'investing': investingRef
+            };
+            map[tab].current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 0);
     };
 
     const handleGetEquity = (e) => {
         e.preventDefault();
         if (!token) {
-            setLoginAlert(true);
             navigate('/login');
             return;
         }
         const userIsOwner = currentUser?.type === 'owner';
-        const ownThisProject = project?.ownerID === currentUser?.id;
-        if (userIsOwner && !ownThisProject) {
+        if (userIsOwner) {
             setOwnerAlert(true);
             return;
         }
-
         navigate(`/${slug}/equity`);
     };
 
+    const formattedValuation = project.valuation
+        ? `$${parseFloat(project.valuation).toLocaleString('en-US', { maximumFractionDigits: 0 })}`
+        : "N/A";
     return (
         <>
-            <div className={styles.projectDetail}>
+            <div ref={overviewRef} className={styles.projectDetail}>
                 <div className="container">
                     <div className="row">
                         <div className="col-12 col-md-6">
@@ -88,11 +104,6 @@ const ProjectDetail = () => {
                             <Link role="button" to="" onClick={handleGetEquity} className={styles.projectBtn} aria-label="Negotiate equity for this project">
                                 Get Equity
                             </Link>
-                            {loginAlert && (
-                                <p className={styles.ownerAlert} role="alert">
-                                    You must&nbsp;<strong>log in with an investor account</strong>&nbsp;to invest.
-                                </p>
-                            )}
                             {ownerAlert && (
                                 <p className={styles.ownerAlert} role="alert">
                                     Founders can’t invest in other raises.&nbsp;
@@ -139,12 +150,41 @@ const ProjectDetail = () => {
                                 </button>
                             </div>
                             <h4 className={styles.reasonsTitle}>Reasons to Invest</h4>
+                            <div className={styles.reasonsContent}>
+                                {project.competitive_advantages && (
+                                    <div className={styles.reasonItem}>
+                                        <h6 className={`mb-3 ${styles.fullTime}`}>Competitive Advantages</h6>
+                                        <p className={styles.valuation}>{project.competitive_advantages}</p>
+                                    </div>
+                                )}
+
+                                {project.target_market && (
+                                    <div className={styles.reasonItem}>
+                                        <h6 className={`mb-3 ${styles.fullTime}`}>Target Market</h6>
+                                        <p className={styles.valuation}>{project.target_market}</p>
+                                    </div>
+                                )}
+                            </div>
                             <svg width="100%" height="2" fill="none" xmlns="http://www.w3.org/2000/svg"><line x1="0.5" y1="0.5" x2="100%" y2="0.5" stroke="#999999" strokeLinecap="round" strokeDasharray="0.5 8"></line></svg>
 
                             <h4 className={`m-0 py-5 ${styles.reasonsTitle}`}>Team</h4>
+                            <div className={styles.aboutContent}>
+                                {project.founded_year && (
+                                    <div className={styles.aboutItem}>
+                                        <h6 className={`mb-3 ${styles.fullTime}`}>Founded</h6>
+                                        <p className={styles.valuation}><FaBuilding size={20} className='me-2' />{project.founded_year}</p>
+                                    </div>
+                                )}
+                                {project.employees_count && (
+                                    <div className={styles.aboutItem}>
+                                        <h6 className={`mb-3 ${styles.fullTime}`}>Team Size</h6>
+                                        <p className={styles.valuation}><AiOutlineTeam size={20} className='me-2' />{project.employees_count} members</p>
+                                    </div>
+                                )}
+                            </div>
                             <section className={styles.teamSection} aria-live="polite">
-                                {project.team && project.team.length ? (
-                                    project.team.map((member, idx) => {
+                                {teams && teams.length ? (
+                                    teams.map((member, idx) => {
                                         const isLong = member.bio && typeof member.bio === 'string' && member.bio.length > MAX_BIO_CHARS;
                                         const expanded = !!expandedIds[member.id];
                                         const bioText =
@@ -189,8 +229,9 @@ const ProjectDetail = () => {
                                     <p className={styles.valuation}>No team members available</p>
                                 )}
                             </section>
-                            {project.team && project.team.length > 3 && (
+                            {teams.length > 3 && (
                                 <button
+                                    ref={aboutRef}
                                     className={styles.showMoreTeam}
                                     onClick={() => setShowAllTeam((prev) => !prev)}
                                 >
@@ -198,22 +239,63 @@ const ProjectDetail = () => {
                                 </button>
                             )}
                             <h4 className={styles.reasonsTitle}>ABOUT </h4>
-                            <h6 className={styles.headquarters}>HEADQUARTERS</h6>
+                            <div className={styles.aboutContent}>
+                                {project.location && (
+                                    <div className={styles.aboutItem}>
+                                        <h6 className={`mb-3 ${styles.fullTime}`}>Loction</h6>
+                                        <p className={styles.valuation}><CiLocationOn size={20} className='me-2' />{project.location}</p>
+                                    </div>
+                                )}
+
+                                {project.category && (
+                                    <div className={styles.aboutItem}>
+                                        <h6 className={`mb-3 ${styles.fullTime}`}>Category</h6>
+                                        <p className={styles.valuation}>{project.category}</p>
+                                    </div>
+                                )}
+                            </div>
+                            <h6 ref={termsRef} className={styles.headquarters}>HEADQUARTERS</h6>
                             <svg width="100%" height="2" fill="none" xmlns="http://www.w3.org/2000/svg"><line x1="0.5" y1="0.5" x2="100%" y2="0.5" stroke="#999999" strokeLinecap="round" strokeDasharray="0.5 8"></line></svg>
                             <h4 className={`mb-4 ${styles.reasonsTitle}`}>TERMS</h4>
-                            <p className={styles.overview}>Overview</p>
-                            <div className='d-flex justify-content-between align-items-center mb-3'>
-                                <h6 className={styles.valuation}>PRICE PER SHARE</h6>
-                                <h6 className={styles.valuation}>VALUATION</h6>
+                            <div className={styles.termsContainer}>
+                                <div className={styles.termsColumn}>
+                                    <div className={styles.termsGroup}>
+                                        <p className={styles.overview}>Overview</p>
+                                        <div className={styles.termItem}>
+                                            <span>Amount Requested</span>
+                                            <strong>{project.amountRequested ? `$${project.amountRequested.toLocaleString()}` : 'N/A'}</strong>
+                                        </div>
+                                        <div className={styles.termItem}>
+                                            <span>Equity Offered</span>
+                                            <strong>{project.equityOffered ? `${project.equityOffered}%` : 'N/A'}</strong>
+                                        </div>
+                                        <div className={styles.termItem}>
+                                            <span>Valuation</span>
+                                            <strong>{project.valuation ? formattedValuation : 'N/A'}</strong>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className={styles.termsColumn}>
+                                    <div className={styles.termsGroup}>
+                                        <p className={styles.overview}>Investment Details</p>
+                                        <div className={styles.termItem}>
+                                            <span>Min Investment</span>
+                                            <strong>{project.minInvestment || 'N/A'}</strong>
+                                        </div>
+                                        <div className={styles.termItem}>
+                                            <span>Amount Raised</span>
+                                            <strong>{project.raised || 'N/A'}</strong>
+                                        </div>
+                                        <div className={styles.termItem}>
+                                            <span>Status</span>
+                                            <strong className={project.status === 'active' ? styles.statusActive : styles.statusClosed}>
+                                                {project.status || 'N/A'}
+                                            </strong>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <h6 className={`mb-0 ${styles.valuation}`}>DEADLINE</h6>
-                            <h6 className={styles.fullTime}>Jun. 30, 2025 at 6:53 PM GMT+3</h6>
-                            <p className={styles.overview}>Breakdown</p>
-                            <div className='d-flex justify-content-between align-items-center mb-3'>
-                                <h6 className={styles.valuation}>MIN INVESTMENT</h6>
-                                <h6 className={styles.valuation}>OFFERING TYPE</h6>
-                            </div>
-                            <h6 className={`mb-5 ${styles.valuation}`}>MAX INVESTMENT</h6>
                             <svg width="100%" height="2" fill="none" xmlns="http://www.w3.org/2000/svg"><line x1="0.5" y1="0.5" x2="100%" y2="0.5" stroke="#999999" strokeLinecap="round" strokeDasharray="0.5 8"></line></svg>
                             {/* start discussion */}
                             <h4 className={styles.reasonsTitle}>JOIN THE DISCUSSION</h4>
@@ -234,7 +316,7 @@ const ProjectDetail = () => {
                             <button className={`w-100 mb-5 ${styles.postBtn}`}>Show More Comments</button>
                             {/* end discussion */}
 
-                            <InvestingWork />
+                            <InvestingWork ref={investingRef} />
                         </div>
                         <div className="col-12 col-md-4 offset-md-1 text-md-end order-first order-md-last">
                             <div className={styles.boxContainer}>

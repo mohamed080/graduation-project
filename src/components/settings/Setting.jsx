@@ -1,37 +1,21 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import styles from './Settings.module.css'
 import { FaRegUser } from 'react-icons/fa'
 import { FaArrowRightLong } from 'react-icons/fa6'
 import { IoClose, IoNotifications } from 'react-icons/io5'
-import axiosInstance from '../../utils/axiosInstance'
 import { TiLockClosedOutline } from 'react-icons/ti'
+import useCategories from '../../hooks/useCategories'
 
 const Setting = () => {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
-  const [categories, setCategories] = useState([]);
+  // const [categories, setCategories] = useState([]);
   const [selectedPreferences, setSelectedPreferences] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const [saveError, setSaveError] = useState('');
 
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        setLoading(true);
-        const response = await axiosInstance.get('/categories');
-        setCategories(response.data);
-      } catch (error) {
-        setError('Failed to load categories. Please try again.');
-        console.error('Failed to fetch categories:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const { categories, loading, error } = useCategories();
 
-    fetchCategories();
-  }, []);
   // Handle checkbox changes
   const togglePreference = (id) => {
     setSaveError('');

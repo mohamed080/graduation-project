@@ -5,20 +5,20 @@ import blogPosts from '../../data/blogPosts';
 
 const BlogSidebar = () => {
     const [email, setEmail] = useState('');
- const [searchQuery, setSearchQuery] = useState('');
+    const [searchQuery, setSearchQuery] = useState('');
     const navigate = useNavigate();
     const searchInputRef = useRef(null);
 
-        // Function to handle search
+    // Function to handle search
     const handleSearch = (e) => {
         e.preventDefault();
         if (searchQuery.trim()) {
             // Navigate to blog page with search query
             navigate(`/blog?search=${encodeURIComponent(searchQuery)}`);
-            
+
             // Clear search input
             setSearchQuery('');
-            
+
             // Optional: Focus back on input
             searchInputRef.current.blur();
         }
@@ -70,7 +70,7 @@ const BlogSidebar = () => {
         <div className={styles.sidebarContainer}>
             <div className={styles.section}>
                 <h3 className={styles.sectionTitle}>Search Articles</h3>
- <form onSubmit={handleSearch} className={styles.searchContainer}>
+                <form onSubmit={handleSearch} className={styles.searchContainer}>
                     <input
                         ref={searchInputRef}
                         type="text"
@@ -95,8 +95,8 @@ const BlogSidebar = () => {
                                 </svg>
                             </button>
                         )}
-                        <button 
-                            type="submit" 
+                        <button
+                            type="submit"
                             className={styles.searchButton}
                             disabled={!searchQuery.trim()}
                         >
@@ -141,7 +141,7 @@ const BlogSidebar = () => {
                                         src={post.image}
                                         alt={post.title}
                                         className='img-fluid'
-                                        loading='lazy'
+                                        loading='eager'
                                     />
                                 </div>
                                 <div>

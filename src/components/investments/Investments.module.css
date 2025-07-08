@@ -159,7 +159,9 @@
 /* portfolioCard */
 
 .portfolioCard {
-    border: 1px solid #6c757d;
+    /* border: 1px solid #6c757d; */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e0e0e0;
     border-radius: 12px;
     padding: 20px;
     transition: all 0.3s ease-in-out;
@@ -318,7 +320,7 @@
 }
 
 .statusCompleted {
-    background-color: #28a745;
+    background-color: var(--primary-color);
     color: #ffffff;
 }
 
@@ -679,7 +681,9 @@
 .closeModalButton:hover {
     background-color: #e2e8f0;
 }
-
+.toastBody {
+    font-size: 1.4rem;
+}
 /* Responsive adjustments */
 @media (max-width: 768px) {
 

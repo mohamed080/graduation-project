@@ -27,49 +27,49 @@ ChartJS.register(
 
 const PerformanceChart = ({ investments }) => {
   const [timeRange, setTimeRange] = useState("1Y");
-  
+
   // Generate mock performance data based on investments
   const { labels, portfolioValue, benchmark } = useMemo(() => {
     const months = [
-      "Jan", "Feb", "Mar", "Apr", "May", "Jun", 
+      "Jan", "Feb", "Mar", "Apr", "May", "Jun",
       "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
     ];
-    
+
     // Determine how many months to show based on time range
     let monthsToShow = 12;
     if (timeRange === "6M") monthsToShow = 6;
     if (timeRange === "3M") monthsToShow = 3;
     if (timeRange === "1M") monthsToShow = 1;
-    
+
     const currentMonth = new Date().getMonth();
     const startMonth = monthsToShow === 12 ? 0 : currentMonth - monthsToShow + 1;
     const labels = months.slice(startMonth, startMonth + monthsToShow);
-    
+
     // Calculate cumulative value over time
     const portfolioValue = Array(monthsToShow).fill(0);
     const benchmark = Array(monthsToShow).fill(0);
-    
+
     // Apply investments
     investments.forEach(investment => {
       const monthIndex = new Date(investment.date).getMonth();
       if (monthIndex >= startMonth && monthIndex < startMonth + monthsToShow) {
         const relativeIndex = monthIndex - startMonth;
         portfolioValue[relativeIndex] += investment.amount;
-        
+
         // Apply growth to subsequent months
         for (let i = relativeIndex; i < monthsToShow; i++) {
           portfolioValue[i] = (portfolioValue[i] || 0) + investment.amount * (1 + 0.015 * (i - relativeIndex));
         }
       }
     });
-    
+
     // Fill in gaps and calculate benchmark
     for (let i = 1; i < monthsToShow; i++) {
       portfolioValue[i] = portfolioValue[i] || portfolioValue[i - 1] * 1.015;
-      benchmark[i] = benchmark[i - 1] * 1.008 + 
-                     (portfolioValue[i] - portfolioValue[i - 1] || 0);
+      benchmark[i] = benchmark[i - 1] * 1.008 +
+        (portfolioValue[i] - portfolioValue[i - 1] || 0);
     }
-    
+
     // If we're showing less than full year, fill in previous months
     if (monthsToShow < 12) {
       for (let i = 0; i < portfolioValue.length; i++) {
@@ -77,7 +77,7 @@ const PerformanceChart = ({ investments }) => {
         benchmark[i] = benchmark[i] || 0;
       }
     }
-    
+
     return {
       labels,
       portfolioValue,
@@ -140,12 +140,11 @@ const PerformanceChart = ({ investments }) => {
         displayColors: false,
         callbacks: {
           label: function (context) {
-            return `${
-              context.dataset.label
-            }: $${context.parsed.y.toLocaleString(undefined, {
-              minimumFractionDigits: 0,
-              maximumFractionDigits: 0
-            })}`;
+            return `${context.dataset.label
+              }: $${context.parsed.y.toLocaleString(undefined, {
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+              })}`;
           },
           title: function (context) {
             return `${context[0].label} 2023`;
@@ -219,9 +218,8 @@ const PerformanceChart = ({ investments }) => {
             {timeFilters.map(filter => (
               <button
                 key={filter}
-                className={`${styles.timeFilter} ${
-                  timeRange === filter ? styles.timeFilterActive : ""
-                }`}
+                className={`${styles.timeFilter} ${timeRange === filter ? styles.timeFilterActive : ""
+                  }`}
                 onClick={() => setTimeRange(filter)}
               >
                 {filter}
@@ -230,7 +228,7 @@ const PerformanceChart = ({ investments }) => {
           </div>
         </div>
       </div>
-      
+
       <div className={styles.chartContainer}>
         <div className={styles.metricsGrid}>
           <div className={`${styles.metricCard} ${styles.metricCardPrimary}`}>
@@ -246,25 +244,23 @@ const PerformanceChart = ({ investments }) => {
               <span className={styles.metricBadgeText}>Updated just now</span>
             </div>
           </div>
-          
+
           <div className={`${styles.metricCard} ${styles.metricCardNeutral}`}>
             <div className={styles.metricLabel}>Growth</div>
-            <div className={`${styles.metricValue} ${
-              growth >= 0 ? styles.metricGrowthPositive : styles.metricGrowthNegative
-            }`}>
+            <div className={`${styles.metricValue} ${growth >= 0 ? styles.metricGrowthPositive : styles.metricGrowthNegative
+              }`}>
               {growth >= 0 ? "+" : "-"}${Math.abs(growth).toLocaleString(undefined, {
                 minimumFractionDigits: 0,
                 maximumFractionDigits: 0
               })} <span className={styles.metricPercentage}>({growthPercentage}%)</span>
             </div>
             <div className={styles.metricTrend}>
-              <svg 
-                className={`${styles.trendIcon} ${
-                  growth < 0 ? styles.trendIconNegative : ""
-                }`} 
-                fill="none" 
-                stroke="currentColor" 
-                viewBox="0 0 24 24" 
+              <svg
+                className={`${styles.trendIcon} ${growth < 0 ? styles.trendIconNegative : ""
+                  }`}
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 15l7-7 7 7"></path>
@@ -275,12 +271,12 @@ const PerformanceChart = ({ investments }) => {
             </div>
           </div>
         </div>
-        
+
         <div className={styles.chartWrapper}>
           <Line data={data} options={options} />
         </div>
       </div>
-      
+
       <div className={styles.chartFooter}>
         <div className={styles.footerContent}>
           <div className={styles.legendContainer}>
@@ -293,7 +289,7 @@ const PerformanceChart = ({ investments }) => {
               <span className={styles.legendLabel}>Market Benchmark</span>
             </div>
           </div>
-          
+
           <div className={styles.footerNote}>
             Performance calculated since first investment
           </div>

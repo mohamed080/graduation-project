@@ -4,46 +4,25 @@ import { Link, useSearchParams } from 'react-router-dom'
 import ProjectSlider from './ProjectSlider';
 // import { projects } from '../../data/startups';
 import { slugify } from '../../utils/slugify';
-import axiosInstance from '../../utils/axiosInstance';
-import  useBusinesses  from '../../hooks/useBusinesses';
+import useCategories from '../../hooks/useCategories';
+import useBusinesses from '../../hooks/useBusinesses';
+import AllStartups from './AllStartups';
 
 const Hero = () => {
     const [activeTab, setActiveTab] = useState('overview');
     const [category, setCategory] = useState('all');
     const [status, setStatus] = useState('all');
-    const [categories, setCategories] = useState([{ value: 'all', label: 'All Categories' }]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
     const [searchParams] = useSearchParams();
     const showAllStartups = searchParams.get('startups') === 'all';
+    const { categories, isLoading: catLoading, isError: catError } = useCategories();
 
-        const { projects } = useBusinesses();
-    
+    const { projects } = useBusinesses();
+
 
     const handleTabClick = (tab) => {
         setActiveTab(tab);
     };
 
-    useEffect(() => {
-        const fetchCategories = async () => {
-            try {
-                setLoading(true);
-                const response = await axiosInstance.get('/categories');
-                const formatted = response.data.map(cat => ({
-                    value: cat.slug,
-                    label: cat.name
-                }));
-                setCategories([{ value: 'all', label: 'All Categories' }, ...formatted]);
-            } catch (error) {
-                console.error('Failed to fetch categories:', error);
-                setError(error.message || 'Failed to load');
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchCategories();
-    }, []);
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -66,44 +45,7 @@ const Hero = () => {
         <div className={styles.hero}>
             <div className="container">
                 {showAllStartups ? (
-                    <div className="row mb-5" id='top'>
-                        <h3 className={styles.heroTitle}>{projects.length} Currently Raising</h3>
-                        {projects.map((project) => (
-                            <div className="col-12 col-sm-6 col-md-4 mb-5" key={project.id}>
-                                <Link to={{
-                                    pathname: `/offering/${slugify(project.title)}`,
-                                    search: searchParams.toString(), // keeps ?startups=all
-                                }}
-                                    className={styles.projectCard}>
-                                    <div className="img-container">
-                                        <img
-                                            src={project.img}
-                                            alt="Thumbnail"
-                                            className={styles.projectImg}
-                                        />
-                                    </div>
-                                    <h3>{project.title}</h3>
-                                    <p className={styles.desc}>
-                                        {project.desc.split(' ').slice(0, 9).join(' ')}…
-                                    </p>
-
-                                    <div className={styles.projectDetails}>
-                                        <svg width="100%" height="2" fill="none" xmlns="http://www.w3.org/2000/svg"><line x1="0.5" y1="0.5" x2="100%" y2="0.5" stroke="#999999" strokeLinecap="round" strokeDasharray="0.5 8"></line></svg>
-                                        <div className='d-flex justify-content-between mt-3'>
-                                            <div className='d-flex flex-column gap-0'>
-                                                <h4>{project.raised}</h4>
-                                                <p>Raised</p>
-                                            </div>
-                                            <div className='d-flex flex-column'>
-                                                <h4>{project.minInvestment}</h4>
-                                                <p>Min Investment</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </Link>
-                            </div>
-                        ))}
-                    </div>
+                    <AllStartups searchParams={searchParams} />
                 ) : <>
                     <div className={styles.heroText}>
                         <h1>RAISE YOUR ROUND WITH THE BEST</h1>
@@ -136,14 +78,15 @@ const Hero = () => {
                                         className={styles.dropdown}
                                         aria-label="Select Category"
                                     >
-                                        {loading ? (
+                                        <option value="all">All Categories</option>
+                                        {catLoading ? (
                                             <option>Loading categories...</option>
-                                        ) : error ? (
-                                            <option>Error: {error}</option>
+                                        ) : catError ? (
+                                            <option>Error: {catError}</option>
                                         ) :
                                             categories.map((cat) => (
-                                                <option key={cat.value} value={cat.value}>
-                                                    {cat.label}
+                                                <option key={cat.name} value={cat.slug}>
+                                                    {cat.name}
                                                 </option>
                                             ))
                                         }

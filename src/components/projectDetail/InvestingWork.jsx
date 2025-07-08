@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { forwardRef } from 'react'
 import styles from './ProjectDetail.module.css';
 import timeline from '../../assets/faq-timeline.svg';
 import verticalTimeLine from '../../assets/faq-timeline-vertical.svg';
@@ -6,7 +6,7 @@ import { FiLoader } from 'react-icons/fi';
 import { HiOutlineLockClosed } from 'react-icons/hi';
 import { VscSettings } from 'react-icons/vsc';
 import style from '../home/Questions.module.css';
-const InvestingWork = () => {
+const InvestingWork = forwardRef((props, ref) => {
     const FreqQuestions = [
         {
             question: 'What is FundX?',
@@ -73,7 +73,7 @@ const InvestingWork = () => {
                         <p>Your info is your info. We take pride in keeping it that way!</p>
                     </div>
                 </div>
-                <div className={styles.whyFundxText}>
+                <div className={styles.whyFundxText} ref={ref}>
                     <VscSettings />
                     <div>
                         <h6>DIVERSE INVESTMENTS</h6>
@@ -81,7 +81,7 @@ const InvestingWork = () => {
                     </div>
                 </div>
             </div>
-            <h5 className={styles.faqTitle}>FAQS</h5>
+            <h5 className={styles.faqTitle} >FAQS</h5>
             <div className={`accordion ${style.accordion}`} id="faqAccordion">
                 {FreqQuestions.map((item, index) => (
                     <div className={style.accordionItem} key={index}>
@@ -114,6 +114,6 @@ const InvestingWork = () => {
             <div className={styles.marginBottom_80}></div>
         </div>
     )
-}
+});
 
 export default InvestingWork

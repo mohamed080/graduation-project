@@ -2,8 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styles from "./Investments.module.css";
 
-const ProjectCard = ({ project, isOwner }) => {
-
+const ProjectCard = ({ project, isOwner, onViewOffers }) => {
     return (
         <div className={styles.projectCard}>
             <div className={styles.cardImage}>
@@ -41,7 +40,7 @@ const ProjectCard = ({ project, isOwner }) => {
                             >
                                 Manage
                             </Link>
-                            <button className={styles.reportBtn}>Analytics</button>
+                            <button className={styles.reportBtn} onClick={() => onViewOffers(project.id)}>View Offers</button>
                         </>
                     ) : (
                         <Link to={`/offering/${project.slug}`} className={styles.viewBtn}>

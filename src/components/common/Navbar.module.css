@@ -452,6 +452,10 @@ display: flex;
     nav .navLinks li {
         margin: 15px 20px;
     }
+
+    .watchBtn {
+        width: 160px;
+    }
 }
 
 @media (max-width: 390px) {
@@ -465,5 +469,10 @@ display: flex;
 
     nav .logo {
         height: 50px;
+    }
+    .watchBtn {
+        font-size: 12px;
+        width: 140px;
+        height: 29px;
     }
 }

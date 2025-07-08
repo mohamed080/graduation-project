@@ -91,6 +91,7 @@ const Blog = () => {
                           src={featuredPost.author.image}
                           alt="Author"
                           className={styles.authorAvatar}
+                          loading='eager'
                         />
                       </div>
                       <div className={styles.authorInfo}>

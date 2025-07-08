@@ -1,0 +1,53 @@
+.pgl {
+    position: fixed;
+    inset: 0;
+    background: hsl(0 0% 100% / 0.8);
+    backdrop-filter: blur(2px);
+    display: grid;
+    place-items: center;
+    z-index: 9999;
+}
+
+.fpl__spinner {
+    width: 64px;
+    height: 64px;
+    animation: fpl-spin 1s linear infinite;
+}
+
+.fpl__path {
+    stroke: var(--primary-color, #0ea5e9);
+    stroke-linecap: round;
+    animation: fpl-dash 1.5s ease-in-out infinite;
+}
+
+.fpl__text {
+    margin-top: 1rem;
+    font-weight: 500;
+    font-size: 1.4rem;
+    color: #555;
+}
+
+@keyframes fpl-spin {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes fpl-dash {
+    0% {
+        stroke-dasharray: 1, 150;
+        stroke-dashoffset: 0;
+    }
+
+    50% {
+        stroke-dasharray: 90, 150;
+        stroke-dashoffset: -35;
+    }
+
+    100% {
+        stroke-dasharray: 90, 150;
+        stroke-dashoffset: -124;
+    }
+}
+
+

@@ -4,7 +4,7 @@ import styles from './Investments.module.css';
 import InvestmentReportModal from './InvestmentReportModal';
 
 const PortfolioCard = ({ investment, project }) => {
-        const [showReport, setShowReport] = useState(false);
+    const [showReport, setShowReport] = useState(false);
 
     if (!project) return null;
 
@@ -55,12 +55,12 @@ const PortfolioCard = ({ investment, project }) => {
                     View Project
                 </Link>
                 <button className={styles.reportBtn}
-                onClick={() => setShowReport(true)}>View Report</button>
+                    onClick={() => setShowReport(true)}>View Report</button>
             </div>
             {showReport && (
-                <InvestmentReportModal 
-                    investment={investment} 
-                    project={project} 
+                <InvestmentReportModal
+                    investment={investment}
+                    project={project}
                     onClose={() => setShowReport(false)}
                 />
             )}

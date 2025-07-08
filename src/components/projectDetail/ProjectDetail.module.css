@@ -120,7 +120,6 @@
 /* overview */
 .heroBtns {
     margin-top: 2rem;
-    position: relative;
     margin-bottom: 3rem;
     display: flex;
     white-space: nowrap;
@@ -130,6 +129,10 @@
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
     -ms-overflow-style: none;
+    position: sticky;
+    width: 100%;
+    z-index: 10000;
+    top: 16px;
 }
 
 .heroBtns::-webkit-scrollbar {
@@ -172,12 +175,12 @@
 
 /* meeting */
 .boxContainer {
-    margin-top: -51px ;
+    margin-top: -51px;
     position: sticky;
     top: 160px;
     z-index: 999;
     width: 360px;
-    padding-right: 1px ;
+    padding-right: 1px;
     display: inline-block;
     text-align: left;
     max-width: 100%;
@@ -243,7 +246,7 @@
 }
 
 .reasonsTitle {
-    margin: 50px 0;
+    margin: 50px 0 20px; 
     font-size: 32px;
     font-weight: 500;
     line-height: 36px;
@@ -323,21 +326,24 @@
 }
 
 .ownerAlert {
-  margin-top: 2rem;
-  padding: 0.9rem 1.2rem;
+    margin-top: 2rem;
+    padding: 0.9rem 1.2rem;
 
-  /* color scheme */
-  --alert-bg: rgb(255 235 238 / 85%);     /* soft red‑ish background   */
-  --alert-text: #c62828;                  /* strong red for text       */
-  --alert-border: #ef9a9a;                /* lighter red border        */
+    /* color scheme */
+    --alert-bg: rgb(255 235 238 / 85%);
+    /* soft red‑ish background   */
+    --alert-text: #c62828;
+    /* strong red for text       */
+    --alert-border: #ef9a9a;
+    /* lighter red border        */
 
-  background: var(--alert-bg);
-  color: var(--alert-text);
-  border: 1px solid var(--alert-border);
-  border-radius: 6px;
+    background: var(--alert-bg);
+    color: var(--alert-text);
+    border: 1px solid var(--alert-border);
+    border-radius: 6px;
 
-  font-size: 1.1rem;
-  line-height: 1.45;
+    font-size: 1.1rem;
+    line-height: 1.45;
 }
 
 /* Expanded state for bio */
@@ -558,7 +564,137 @@
 
 .timelineImage {
     width: 100%;
-} 
+}
+
+/* Add these to existing styles */
+
+/* Days left indicator */
+.daysLeft {
+    color: #4CAF50;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+.closed {
+    color: #F44336;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+/* Reasons to Invest */
+.reasonsContent {
+    margin-bottom: 2rem;
+}
+
+.reasonItem {
+    margin-bottom: 1.5rem;
+}
+
+
+/* Team info */
+/* Team Info Summary */
+.teamInfoSummary {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+}
+
+.infoCard {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: transparent;
+    padding: 1rem 1.5rem;
+    border-radius: 12px;
+    /* border: 1px solid #eaeaea; */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    min-width: 200px;
+}
+
+.infoCard:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    border-color: #d0d0d0;
+}
+
+.infoIcon {
+    font-size: 1.8rem;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.infoLabel {
+    font-size: 1.4rem;
+    color: #666;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-bottom: 0.25rem;
+}
+
+.infoValue {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #333;
+}
+
+/* About section */
+.aboutContent {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+/* Terms section */
+.termsContainer {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+}
+
+.termsColumn {
+    flex: 1;
+    min-width: 250px;
+}
+
+.termsGroup {
+    background: #f9f9f9;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+}
+
+.termItem {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid #eee;
+}
+
+.termItem:last-child {
+    border-bottom: none;
+}
+
+.termItem span {
+    color: #666;
+}
+
+.statusActive {
+    color: #4CAF50;
+}
+
+.statusClosed {
+    color: #F44336;
+}
 
 @media (max-width: 1060px) {
     .logoContainer {
@@ -574,6 +710,11 @@
         width: 90%;
         margin-inline: auto;
         height: 400px;
+    }
+
+    .heroBtns {
+        position: relative;
+        z-index: 1;
     }
 
     .projectLeft p {
@@ -675,7 +816,8 @@
         font-size: 14px;
     }
 
-    .fullTime {
+    .fullTime,
+    .teamInfoSummary p {
         font-size: 16px;
     }
 
@@ -695,6 +837,7 @@
         font-size: 16px;
         margin: 0 auto;
     }
+
     .disccussion {
         padding: 10px;
         min-height: 150px;
@@ -705,11 +848,14 @@
         line-height: 22px;
         height: 120px;
     }
+
     .postBtn {
-    height: 43px; /* Shorter button */
-  }
-  .timelineImage {
-    max-width: 300px;
-    height: 340px;
-  }
+        height: 43px;
+        /* Shorter button */
+    }
+
+    .timelineImage {
+        max-width: 300px;
+        height: 340px;
+    }
 }

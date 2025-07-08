@@ -25,43 +25,57 @@ ChartJS.register(
     Filler
 );
 
-const InvestmentGrowthChart = ({ investment, project }) => {
+const InvestmentGrowthChart = ({ investment }) => {
     // Calculate growth data points
     const investmentDate = new Date(investment.date);
     const today = new Date();
-    const monthsDiff = Math.floor(
-        (today.getFullYear() - investmentDate.getFullYear()) * 12 +
-        (today.getMonth() - investmentDate.getMonth())
-    );
+
+    const isSameMonth = investmentDate.getMonth() === today.getMonth() &&
+        investmentDate.getFullYear() === today.getFullYear();
 
     // Generate labels and data
     const labels = [];
     const investmentData = [];
     const benchmarkData = [];
 
-    // Monthly growth rates
-    const investmentMonthlyGrowth = 1.17; // 15% annual ≈ 1.17% monthly
-    const benchmarkMonthlyGrowth = 0.64; // 8% annual ≈ 0.64% monthly
+    // CORRECTED: Use decimal multipliers (not percentages)
+    const investmentMonthlyRate = 1.15 ** (1 / 12); // 15% annual
+    const benchmarkMonthlyRate = 1.08 ** (1 / 12); // 8% annual
 
-    for (let i = 0; i <= monthsDiff; i++) {
-        const date = new Date(investmentDate);
-        date.setMonth(investmentDate.getMonth() + i);
+    if (isSameMonth) {
+        // Handle same-month investment (use days)
+        const daysDiff = Math.ceil((today - investmentDate) / (1000 * 60 * 60 * 24));
 
-        labels.push(date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' }));
+        for (let i = 0; i <= daysDiff; i++) {
+            const date = new Date(investmentDate);
+            date.setDate(investmentDate.getDate() + i);
+            labels.push(date.toLocaleDateString('en-US', { day: 'numeric', month: 'short' }));
 
-        // Calculate investment growth
-        const investmentValue = investment.amount * Math.pow(1 + investmentMonthlyGrowth / 100, i);
-        investmentData.push(investmentValue);
+            // Daily growth (approximate)
+            const dailyMultiplier = 1 + (1.15 - 1) / 365;
+            investmentData.push(investment.amount * dailyMultiplier ** i);
+            benchmarkData.push(investment.amount * (1 + (1.08 - 1) / 365) ** i);
+        }
+    } else {
+        // Handle multi-month investment
+        const monthsDiff = (today.getFullYear() - investmentDate.getFullYear()) * 12 +
+            (today.getMonth() - investmentDate.getMonth());
 
-        // Calculate benchmark growth
-        const benchmarkValue = investment.amount * Math.pow(1 + benchmarkMonthlyGrowth / 100, i);
-        benchmarkData.push(benchmarkValue);
+        for (let i = 0; i <= monthsDiff; i++) {
+            const date = new Date(investmentDate);
+            date.setMonth(investmentDate.getMonth() + i);
+            labels.push(date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' }));
+
+            investmentData.push(investment.amount * investmentMonthlyRate ** i);
+            benchmarkData.push(investment.amount * benchmarkMonthlyRate ** i);
+        }
     }
 
     const currentValue = investmentData[investmentData.length - 1];
     const benchmarkValue = benchmarkData[benchmarkData.length - 1];
-    const growthPercentage = ((currentValue - investment.amount) / investment.amount * 100).toFixed(1);
-    const benchmarkPercentage = ((benchmarkValue - investment.amount) / investment.amount * 100).toFixed(1);
+    const growthPercentage = ((currentValue - investment.amount) / investment.amount * 100).toFixed(2);
+    const benchmarkPercentage = ((benchmarkValue - investment.amount) / investment.amount * 100).toFixed(2);
+  const isSmallDataset = investmentData.length <= 2;
 
     const chartData = {
         labels,
@@ -72,7 +86,8 @@ const InvestmentGrowthChart = ({ investment, project }) => {
                 borderColor: '#0ea5e9',
                 backgroundColor: 'rgba(14, 165, 233, 0.05)',
                 borderWidth: 3,
-                pointRadius: 0,
+                pointRadius: isSmallDataset ? 4 : 0,
+                pointHoverRadius: 6,
                 tension: 0.4,
                 fill: true,
             },
@@ -82,7 +97,8 @@ const InvestmentGrowthChart = ({ investment, project }) => {
                 borderColor: '#94a3b8',
                 borderWidth: 2,
                 borderDash: [5, 5],
-                pointRadius: 0,
+                pointRadius: isSmallDataset ? 4 : 0,
+                pointHoverRadius: 6,
                 tension: 0.4,
             },
         ],

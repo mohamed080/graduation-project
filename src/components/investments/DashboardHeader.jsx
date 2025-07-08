@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './Investments.module.css';
 
-const DashboardHeader = ({ isOwner, activeTab, setActiveTab, portfolioValue, portfolioReturns }) => {
+const DashboardHeader = ({ isOwner, activeTab, setActiveTab, portfolioValue, portfolioReturns, selectedProjectId, activeInvestments }) => {
     const formatCurrency = (amount) => {
         return new Intl.NumberFormat('en-US', {
             style: 'currency',
@@ -20,7 +20,6 @@ const DashboardHeader = ({ isOwner, activeTab, setActiveTab, portfolioValue, por
                         <h1>Investment Dashboard</h1>
                         <h4>{isOwner ? 'Project Owner' : 'Investor'}</h4>
                     </div>
-
                     <div className={styles.tabs}>
                         {!isOwner && (
                             <button
@@ -31,12 +30,20 @@ const DashboardHeader = ({ isOwner, activeTab, setActiveTab, portfolioValue, por
                             </button>
                         )}
                         {isOwner && (
-                            <button
-                                className={`${styles.tab} ${activeTab === 'projects' ? styles.active : ''}`}
-                                onClick={() => setActiveTab('projects')}
-                            >
-                                My Projects
-                            </button>
+                            <>
+                                {selectedProjectId && <button
+                                    className={`${styles.tab} ${activeTab === 'offers' ? styles.active : ''}`}
+                                    onClick={() => setActiveTab('offers')}
+                                >
+                                    Offers
+                                </button>}
+                                <button
+                                    className={`${styles.tab} ${activeTab === 'projects' ? styles.active : ''}`}
+                                    onClick={() => setActiveTab('projects')}
+                                >
+                                    My Projects
+                                </button>
+                            </>
                         )}
                         <button
                             className={`${styles.tab} ${activeTab === 'transactions' ? styles.active : ''}`}
@@ -60,7 +67,7 @@ const DashboardHeader = ({ isOwner, activeTab, setActiveTab, portfolioValue, por
                         </div>
                         <div className={styles.summaryCard}>
                             <h3>Active Investments</h3>
-                            <p className={styles.summaryValue}>5</p>
+                            <p className={styles.summaryValue}>{activeInvestments}</p>
                         </div>
                     </div>
                 )}

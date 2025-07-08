@@ -51,7 +51,7 @@ const Blogpost = () => {
                             </Link>
                         </div>
                         <div className={styles.image}>
-                            <img src={blogPost.image} alt={blogPost.title} className='img-fluid' loading='lazy' />
+                            <img src={blogPost.image} alt={blogPost.title} className='img-fluid' loading='eager' />
                         </div>
                     </header>
 
@@ -92,7 +92,7 @@ const Blogpost = () => {
 
                     <div className={styles.authorSection}>
                         <div className={styles.authorImage}>
-                            <img src={blogPost.author.image} alt={blogPost.author.name} className='img-fluid' loading='lazy' />
+                            <img src={blogPost.author.image} alt={blogPost.author.name} className='img-fluid' loading='eager' />
                         </div>
                         <div className={styles.authorInfo}>
                             <h3 className={styles.authorName}>{blogPost.author.name}</h3>
@@ -107,7 +107,7 @@ const Blogpost = () => {
                             {relatedPosts.map(post => (
                                 <div key={post.id} className={styles.relatedCard}>
                                     <div className={styles.relatedImage}>
-                                        <img src={post.image} alt={post.title} className='img-fluid' loading='lazy' />
+                                        <img src={post.image} alt={post.title} className='img-fluid' loading='eager' />
                                     </div>
                                     <div className={styles.relatedContent}>
                                         <p className={styles.relatedDate}>{post.date}</p>
