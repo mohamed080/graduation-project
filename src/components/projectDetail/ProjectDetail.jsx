@@ -11,7 +11,7 @@ import FullPageLoader from '../common/FullPageLoader';
 import { CiLocationOn } from 'react-icons/ci';
 import { FaBuilding } from 'react-icons/fa';
 import { AiOutlineTeam } from 'react-icons/ai';
-
+import axiosInstance from '../../utils/axiosInstance';
 
 const ProjectDetail = () => {
     const [expandedIds, setExpandedIds] = useState({});
@@ -19,6 +19,8 @@ const ProjectDetail = () => {
     const [showAllTeam, setShowAllTeam] = useState(false);
     const [activeTab, setActiveTab] = useState('overview');
     const [text, setText] = useState('');
+    const [meetingLoading, setMeetingLoading] = useState(false);
+    const [meetingError, setMeetingError] = useState('');
     const navigate = useNavigate();
     const { currentUser, token } = useAuth();
     const [ownerAlert, setOwnerAlert] = useState(false);
@@ -40,6 +42,8 @@ const ProjectDetail = () => {
 
     const MAX_CHARS = 140;
     const MAX_BIO_CHARS = 320;
+
+    // console.log(project);
 
     const shortText =
         project.desc && typeof project.desc === 'string' && project.desc.length > MAX_CHARS
@@ -75,10 +79,44 @@ const ProjectDetail = () => {
         }
         navigate(`/${slug}/equity`);
     };
+    const handleBookMeeting = async (e) => {
+        e.preventDefault();
+        if (!token) {
+setMeetingError('Please log in to book a meeting.');
+            return;
+        }
+
+        setMeetingLoading(true);
+        setMeetingError('');
+
+        try {
+            const response = await axiosInstance.post('/zoom/meetings', {
+                topic: `${project.title} Investment Discussion`,
+                start_time: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(), // Schedule for tomorrow
+                duration: 30,
+                agenda: `Discuss investment opportunities for ${project.title}`,
+            });
+
+            const { data } = response.data;
+
+            window.open(data.zoom_join_url, '_blank');
+        } catch (err) {
+            const errorMessage = err.response?.data?.message || 'Failed to create Zoom meeting';
+            setMeetingError(errorMessage);
+        } finally {
+            setMeetingLoading(false);
+        }
+    };
 
     const formattedValuation = project.valuation
         ? `$${parseFloat(project.valuation).toLocaleString('en-US', { maximumFractionDigits: 0 })}`
         : "N/A";
+
+    const getRiskColor = (rate) => {
+        if (rate <= 30) return '#4CAF50'; // Green for low risk
+        if (rate <= 70) return '#FFC107'; // Amber for medium risk
+        return '#F44336'; // Red for high risk
+    };
     return (
         <>
             <div ref={overviewRef} className={styles.projectDetail}>
@@ -90,6 +128,24 @@ const ProjectDetail = () => {
                             </div>
                             <p className={styles.projectSubTitle}>Get A PIECE OF {project.title}</p>
                             <h3 className={styles.projectTitle}>{project.title}</h3>
+                            {/* Add Risk Indicator - NEW SECTION */}
+                            <div className={styles.riskIndicator}>
+                                <div className={styles.riskLabel}>
+                                    Risk Level:
+                                    <span style={{ color: getRiskColor(project.riskRate) }}>
+                                        {project.riskRate}%
+                                    </span>
+                                </div>
+                                <div className={styles.riskBar}>
+                                    <div
+                                        className={styles.riskFill}
+                                        style={{
+                                            width: `${project.riskRate}%`,
+                                            backgroundColor: getRiskColor(project.riskRate)
+                                        }}
+                                    />
+                                </div>
+                            </div>
                             <div className={styles.projectDesc}>
                                 <p>{expanded ? project.desc || '' : shortText}</p>
                             </div>
@@ -110,6 +166,11 @@ const ProjectDetail = () => {
                                     <Link to="/register?as=investor">Create an investor account</Link>.
                                 </p>
                             )}
+                            {meetingError && 
+                                <p className={styles.ownerAlert} role="alert">
+                                    {meetingError}
+                                </p>
+                            }
                         </div>
                         <div className="col-12 col-md-6 order-first order-md-last mb-5 mb-md-0">
                             <div className={styles.logoContainer}>
@@ -327,8 +388,8 @@ const ProjectDetail = () => {
                                         </span>
                                         <div className={styles.textContainer}>
                                             <p className={styles.title}>FUNDX Private Questions?</p>
-                                            <Link role="button" className={styles.bookMeeting}>
-                                                Book a meeting here
+                                            <Link role="button" className={styles.bookMeeting} onClick={handleBookMeeting} disabled={meetingLoading}>
+                                                {meetingLoading ? 'Scheduling...' : 'Book a meeting here'}
                                             </Link>
                                             <p className={styles.time}>9AM - 5PM PST • Mon - Fri</p>
                                         </div>

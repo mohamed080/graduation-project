@@ -14,6 +14,15 @@ export default function useBusinesses(page = 1, perPage = 12) {
             params: { page, per_page: perPage },
         });
 
+        const getStableRiskRate = (id) => {
+            const key = `riskRate-${id}`;
+            const stored = localStorage.getItem(key);
+            if (stored) return Number(stored);
+            const rate = Math.floor(Math.random() * 71) + 20; // 20–90 range
+            localStorage.setItem(key, rate);
+            return rate;
+        };
+
         const projects = data.data.map((b) => ({
             id: b.id,
             title: b.business_name,
@@ -36,6 +45,7 @@ export default function useBusinesses(page = 1, perPage = 12) {
             target_market: b.target_market,
             employees_count: b.employees_count,
             competitive_advantages: b.competitive_advantages,
+            riskRate: getStableRiskRate(b.id),
         }));
 
         return {

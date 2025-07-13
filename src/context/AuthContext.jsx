@@ -7,7 +7,9 @@ const NotificationContext = createContext();
 export const UserProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [token, setToken] = useState(localStorage.getItem('accessToken'));
+  const [token, setToken] = useState(() => {
+    return localStorage.getItem('accessToken') || sessionStorage.getItem('accessToken');
+  });
 
   // Notification state
   const [notifications, setNotifications] = useState(() => {
@@ -16,7 +18,7 @@ export const UserProvider = ({ children }) => {
   });
   const [unreadCount, setUnreadCount] = useState(0);
 
-  useEffect(() => {                                                                                                                             
+  useEffect(() => {
 
     if (token) {
       axiosInstance.get('/profile', {
@@ -84,7 +86,7 @@ export const UserProvider = ({ children }) => {
     setNotifications([]);
   };
 
-    // ------- helper to log in ----------
+  // ------- helper to log in ----------
   const login = (access_token) => {
     localStorage.setItem('accessToken', access_token);
     setToken(access_token);              // <—  triggers the /profile fetch
@@ -94,6 +96,7 @@ export const UserProvider = ({ children }) => {
   const logout = () => {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('user');
+    // localStorage.removeItem('userPreferences');
     setToken(null);
     setCurrentUser(null);
   };
@@ -116,7 +119,7 @@ export const UserProvider = ({ children }) => {
     markAllAsRead,
     clearAll: clearAllNotifications
   };
-  
+
   return (
     <AuthContext.Provider value={authValue}>
       <NotificationContext.Provider value={notificationValue}>

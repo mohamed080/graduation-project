@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import styles from './Settings.module.css'
 import { FaRegUser } from 'react-icons/fa'
@@ -6,6 +6,7 @@ import { FaArrowRightLong } from 'react-icons/fa6'
 import { IoClose, IoNotifications } from 'react-icons/io5'
 import { TiLockClosedOutline } from 'react-icons/ti'
 import useCategories from '../../hooks/useCategories'
+import PreferencesModal from './PreferencesModal'
 
 const Setting = () => {
   const navigate = useNavigate();
@@ -15,6 +16,13 @@ const Setting = () => {
   const [saveError, setSaveError] = useState('');
 
   const { categories, loading, error } = useCategories();
+
+  useEffect(() => {
+    const savedPreferences = localStorage.getItem('userPreferences');
+    if (savedPreferences) {
+      setSelectedPreferences(JSON.parse(savedPreferences));
+    }
+  }, []);
 
   // Handle checkbox changes
   const togglePreference = (id) => {
@@ -32,8 +40,9 @@ const Setting = () => {
       alert('Please select at least three categories for the best experience.');
       return;
     }
-    // TODO: Save preferences to backend or local storage
-    console.log('Saved preferences:', selectedPreferences);
+    
+    localStorage.setItem('userPreferences', JSON.stringify(selectedPreferences));
+    console.log('Updated preferences:', selectedPreferences);
     setShowModal(false);
   };
 
@@ -108,81 +117,17 @@ const Setting = () => {
         <svg width="100%" height="2" fill="none" xmlns="http://www.w3.org/2000/svg"><line x1="0.5" y1="0.5" x2="100%" y2="0.5" stroke="#999999" strokeLinecap="round" strokeDasharray="0.5 8"></line></svg>
       </div>
       {/* Modal Overlay */}
-      {showModal && (
-        <div className={styles.modalOverlay}>
-          <div className={styles.modalContent}>
-            <button
-              className={styles.closeButton}
-              onClick={() => setShowModal(false)}
-            >
-              <IoClose size={24} />
-            </button>
-
-            <div className={styles.modalBody}>
-              <p className={styles.modalTitle}>Preferences</p>
-              <p className={styles.modalDescription}>
-                We want to provide an experience that fits your investment needs.
-                <br />
-                Choose at least three categories for best experience.
-              </p>
-
-              {loading ? (
-                <div className={styles.loadingMessage}>
-                  Loading categories...
-                </div>
-              ) : error ? (
-                <div className={styles.errorMessage}>
-                  {error}
-                  <button
-                    className={styles.retryButton}
-                    onClick={() => window.location.reload()}
-                  >
-                    Retry
-                  </button>
-                </div>
-              ) : (
-                <div className={styles.preferencesGrid}>
-                  {categories.map(category => (
-                    <button
-                      key={category.id}
-                      className={`${styles.preferenceButton} ${selectedPreferences.includes(category.id)
-                        ? styles.selected
-                        : ''
-                        }`}
-                      onClick={() => togglePreference(category.id)}
-                      type="button"
-                    >
-
-                      {category.name}
-                      {selectedPreferences.includes(category.id) && (
-                        <span className={styles.selectedIndicator}>✓</span>
-                      )}
-                    </button>
-                  ))}
-                </div>
-              )}
-
-              {saveError && (
-                <div className={styles.saveErrorMessage}>
-                  {saveError}
-                </div>
-              )}
-            </div>
-
-            <div className={styles.modalFooter}>
-              <div className={styles.saveButtonContainer}>
-                <button
-                  className={styles.saveButton}
-                  onClick={handleSavePreferences}
-                  disabled={selectedPreferences.length <= 0 || loading}
-                >
-                  {loading ? 'Saving...' : 'update and see Offering'}
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+      <PreferencesModal
+        showModal={showModal}
+        onClose={() => setShowModal(false)}
+        categories={categories}
+        selectedPreferences={selectedPreferences}
+        togglePreference={togglePreference}
+        loading={loading}
+        error={error}
+        saveError={saveError}
+        onSavePreferences={handleSavePreferences}
+      />
     </div>
   )
 }

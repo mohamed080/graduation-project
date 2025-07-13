@@ -75,7 +75,7 @@ const MoreProjects = () => {
                         grabCursor={true}
                         navigation={{ nextEl: ".nav-next", prevEl: ".nav-prev" }}
                         pagination={{ clickable: true }}
-                        autoplay={{ delay: 5000 }}
+                        autoplay={{ delay: 3000 }}
                         breakpoints={{
                             480: { slidesPerView: 1 },
                             768: { slidesPerView: 2 },
