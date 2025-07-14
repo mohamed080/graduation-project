@@ -55,7 +55,8 @@ const PortfolioCard = ({ investment, project }) => {
                     View Project
                 </Link>
                 <button className={styles.reportBtn}
-                    onClick={() => setShowReport(true)}>View Report</button>
+                    onClick={() => setShowReport(true)}>View Report
+                </button>
             </div>
             {showReport && (
                 <InvestmentReportModal

@@ -18,14 +18,13 @@ import useBusinesses from '../../hooks/useBusinesses';
 
 const Investments = () => {
   const { currentUser } = useAuth();
-  console.log(currentUser);
   const { projects, loading: projectsLoading, refetch } = useBusinesses();
   const { investments: userInvestments, loading: invLoading } = useAcceptedOffers({ currentUserId: currentUser?.id });
   const navigate = useNavigate();
 
   const [isOwner, setIsOwner] = useState(() => {
     const storedUser = JSON.parse(localStorage.getItem('user'));
-    return storedUser?.type === 'owner';     // adjust if the field is called `role`
+    return storedUser?.type === 'owner' || storedUser?.role === 'owner';     // adjust if the field is called `role`
   });
   const { deals, loading: dealLoading } = useDeals(isOwner);
   const [activeTab, setActiveTab] = useState(isOwner ? 'projects' : 'portfolio');
@@ -34,15 +33,15 @@ const Investments = () => {
   const [selectedProjectId, setSelectedProjectId] = useState(null);
 
   useEffect(() => {
-    if (!currentUser) return;
-    if (!projectsLoading && !projects.length) return;
+    if (!projectsLoading && !currentUser) return;
 
     // Check if user is an owner
     const ownerProjects = projects.filter(p => p.ownerID === currentUser?.id);
-    setIsOwner(ownerProjects && ownerProjects.length > 0);
     setUserProjects(ownerProjects);
 
-  }, [currentUser, projects, projectsLoading]);
+    if(!isOwner && ownerProjects.length > 0) setIsOwner(true);
+    
+  }, [currentUser, projects, projectsLoading, isOwner]);
 
 
   // Calculate portfolio value
@@ -65,7 +64,6 @@ const Investments = () => {
   project: projects.find(p => p.id === deal.projectId),
 }));
 
-// console.log(ownerTransactions);
   // Handle project click to show offers tab
   const handleProjectClick = (projectId) => {
     setSelectedProjectId(projectId);
@@ -98,6 +96,8 @@ const Investments = () => {
       </div>
     );
   }
+
+  console.log(isOwner)
 
   return (
     <div className={styles.investments}>

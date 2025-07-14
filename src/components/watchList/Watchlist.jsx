@@ -39,6 +39,7 @@ const Watchlist = () => {
             setEditMode(false);
         }
     };
+    
 
 
     return (

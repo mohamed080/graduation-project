@@ -246,7 +246,7 @@
 }
 
 .reasonsTitle {
-    margin: 50px 0 20px; 
+    margin: 50px 0 20px;
     font-size: 32px;
     font-weight: 500;
     line-height: 36px;
@@ -698,30 +698,31 @@
 
 /* Risk Indicator Styles */
 .riskIndicator {
-  margin: 15px 0;
-  max-width: 80%;
+    margin: 15px 0;
+    max-width: 80%;
 }
 
 .riskLabel {
-  display: flex;
-  gap: 6px;
-  font-size: 15px;
-  font-weight: 500;
-  margin-bottom: 8px;
-  line-height: 1.5;
+    display: flex;
+    gap: 6px;
+    font-size: 15px;
+    font-weight: 500;
+    margin-bottom: 8px;
+    line-height: 1.5;
+    align-items: center;
 }
 
 .riskBar {
-  height: 8px;
-  background-color: #f0f0f0;
-  border-radius: 4px;
-  overflow: hidden;
+    height: 8px;
+    background-color: #f0f0f0;
+    border-radius: 4px;
+    overflow: hidden;
 }
 
 .riskFill {
-  height: 100%;
-  border-radius: 4px;
-  transition: width 0.3s ease;
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.3s ease;
 }
 
 @media (max-width: 1060px) {

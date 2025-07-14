@@ -82,7 +82,7 @@ const ProjectDetail = () => {
     const handleBookMeeting = async (e) => {
         e.preventDefault();
         if (!token) {
-setMeetingError('Please log in to book a meeting.');
+            setMeetingError('Please log in to book a meeting.');
             return;
         }
 
@@ -166,7 +166,7 @@ setMeetingError('Please log in to book a meeting.');
                                     <Link to="/register?as=investor">Create an investor account</Link>.
                                 </p>
                             )}
-                            {meetingError && 
+                            {meetingError &&
                                 <p className={styles.ownerAlert} role="alert">
                                     {meetingError}
                                 </p>
